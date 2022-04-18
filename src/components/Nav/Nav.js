@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
 function Nav() {
-  return (
-    <div>
-    </div>
-  );
+  return <div></div>;
 }
 
 export default Nav;
