@@ -23,108 +23,106 @@ function Signup() {
   );
 
   return (
-    <div>
-      <WrapSignUp>
-        <SignUpHead>
-          <H2>
-            <strong className="title">
-              뷰티풀코드 통합멤버십
-              <br /> 회원가입을 환영합니다!
-            </strong>
-          </H2>
-        </SignUpHead>
+    <WrapSignUp>
+      <SignUpHead>
+        <H2>
+          <strong className="title">
+            뷰티풀코드 통합멤버십
+            <br /> 회원가입을 환영합니다!
+          </strong>
+        </H2>
+      </SignUpHead>
 
-        <form>
-          <Input type="text" placeholder="이름(실명을 입력해주세요.)" />
-          <Input type="email" placeholder="이메일을 입력해주세요." />
-          <PwSelectBox>
-            <InputChkBox
-              type="radio"
-              id="pwCustom"
-              isCheck="checked"
-              message="비밀번호 직접입력"
-            />
-
-            <InputChkBox
-              id="pwAuto"
-              type="radio"
-              isCheck=""
-              message="비밀번호 자동발급"
-            />
-          </PwSelectBox>
-
-          <Input
-            type="password"
-            placeholder="비밀번호는 8자 이상으로 영문과 숫자, 특수문자를 최소 1자씩 포함해주세요."
+      <form>
+        <Input type="text" placeholder="이름(실명을 입력해주세요.)" />
+        <Input type="email" placeholder="이메일을 입력해주세요." />
+        <PwSelectBox>
+          <InputChkBox
+            type="radio"
+            id="pwCustom"
+            isCheck="checked"
+            message="비밀번호 직접입력"
           />
-          <Input type="password" placeholder="비밀번호 확인" />
-          <AllAgreeBox>
-            <AllAgree>
+
+          <InputChkBox
+            id="pwAuto"
+            type="radio"
+            isCheck=""
+            message="비밀번호 자동발급"
+          />
+        </PwSelectBox>
+
+        <Input
+          type="password"
+          placeholder="비밀번호는 8자 이상으로 영문과 숫자, 특수문자를 최소 1자씩 포함해주세요."
+        />
+        <Input type="password" placeholder="비밀번호 확인" />
+        <AllAgreeBox>
+          <AllAgree>
+            <InputChkBox
+              id="allAgree"
+              type="checkbox"
+              isCheck=""
+              message="모든 약관 동의"
+            />
+            <b onClick={toggleDisplay}>
+              {display === 'block' ? (
+                <BiChevronDown size={25} />
+              ) : (
+                <BiChevronUp size={25} />
+              )}
+            </b>
+          </AllAgree>
+          <AllAgreeCnt style={{ display }}>
+            <small>
+              아래 모든 약관 (필수/선택 포함) 및 광고성 정보수신 동의 내용을
+              확인하고 전체 동의합니다. ※ 선택 항목에 대한 동의를 거부하더라도
+              회원가입에 영향을 미치지 않습니다.
+            </small>
+            <p>뷰티풀코드 통합 멤버십 뷰티포인트 회원약관</p>
+            <InputBoxWrap>
               <InputChkBox
-                id="allAgree"
+                id="agree1"
                 type="checkbox"
                 isCheck=""
-                message="모든 약관 동의"
+                message="[필수] 뷰티포인트 서비스 이용약관"
               />
-              <b onClick={toggleDisplay}>
-                {display === 'block' ? (
-                  <BiChevronDown size={25} />
-                ) : (
-                  <BiChevronUp size={25} />
-                )}
+              <b>
+                <BiChevronRight size={25} />
               </b>
-            </AllAgree>
-            <AllAgreeCnt style={{ display }}>
-              <small>
-                아래 모든 약관 (필수/선택 포함) 및 광고성 정보수신 동의 내용을
-                확인하고 전체 동의합니다. ※ 선택 항목에 대한 동의를 거부하더라도
-                회원가입에 영향을 미치지 않습니다.
-              </small>
-              <p>뷰티풀코드 통합 멤버십 뷰티포인트 회원약관</p>
-              <InputBoxWrap>
-                <InputChkBox
-                  id="agree1"
-                  type="checkbox"
-                  isCheck=""
-                  message="[필수] 뷰티포인트 서비스 이용약관"
-                />
-                <b>
-                  <BiChevronRight size={25} />
-                </b>
-              </InputBoxWrap>
-              <InputBoxWrap>
-                <InputChkBox
-                  id="agree2"
-                  type="checkbox"
-                  isCheck=""
-                  message="[선택] 개인정보 제3자 제공 동의"
-                />
-                <b>
-                  <BiChevronRight size={25} />
-                </b>
-              </InputBoxWrap>
-              <p>
-                광고성 정보 수신 동의
-                <span>쇼핑 혜택, 이벤트 소식을 받아보세요</span>
-              </p>
+            </InputBoxWrap>
+            <InputBoxWrap>
+              <InputChkBox
+                id="agree2"
+                type="checkbox"
+                isCheck=""
+                message="[선택] 개인정보 제3자 제공 동의"
+              />
+              <b>
+                <BiChevronRight size={25} />
+              </b>
+            </InputBoxWrap>
+            <p>
+              광고성 정보 수신 동의
+              <span>쇼핑 혜택, 이벤트 소식을 받아보세요</span>
+            </p>
 
-              <InputBoxWrap>
-                <InputChkBox
-                  id="agree3"
-                  type="checkbox"
-                  isCheck=""
-                  message="[선택] 뷰티포인트 문자 수신 동의"
-                />
-                <b>
-                  <BiChevronRight size={25} />
-                </b>
-              </InputBoxWrap>
-            </AllAgreeCnt>
-          </AllAgreeBox>
-          <Button>회원가입</Button>
-        </form>
-      </WrapSignUp>
-    </div>
+            <InputBoxWrap>
+              <InputChkBox
+                id="agree3"
+                type="checkbox"
+                isCheck=""
+                message="[선택] 뷰티포인트 문자 수신 동의"
+              />
+              <b>
+                <BiChevronRight size={25} />
+              </b>
+            </InputBoxWrap>
+          </AllAgreeCnt>
+        </AllAgreeBox>
+        <Button>회원가입</Button>
+      </form>
+    </WrapSignUp>
   );
 }
 const theme = {
@@ -148,6 +146,8 @@ const WrapSignUp = styled.div`
   max-width: 480px;
   min-width: 375px;
   margin: 0 auto 50px;
+  @media only screen and (max-width: 375px) {
+    padding:0 20px;
 `;
 const SignUpHead = styled.div`
   padding: 50px 0 30px;
