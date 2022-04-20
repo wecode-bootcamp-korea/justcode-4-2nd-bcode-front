@@ -38,6 +38,7 @@ const Price = styled.div`
     font-weight: 700;
   }
   & div > span:first-child {
+    margin-right: 7px;
     color: #ee2d7a;
   }
   & div > span:last-child {
@@ -50,10 +51,13 @@ const Price = styled.div`
 `;
 
 const Rate = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 5px;
   & span {
     display: flex;
     align-items: center;
+    margin-right: 5px;
   }
   & span > span {
     font-size: 13px;
@@ -71,7 +75,7 @@ function Card(products) {
   return (
     <div>
       <Container>
-        <Link style={{ textDecoration: 'none' }} to="/detail">
+        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/detail">
           <ImgContainer>
             <Img src={products.image_url} />
           </ImgContainer>
@@ -82,7 +86,6 @@ function Card(products) {
           <Price>
             <div>
               <span>{discount}</span>
-              &nbsp;&nbsp;
               <span>{priceAfter}</span>
             </div>
             <span>{priceBefore}</span>
@@ -90,8 +93,10 @@ function Card(products) {
           <Rate>
             <span>
               <FaStar color="#ffb33c" />
-              &nbsp; {products.rate} &nbsp;<span>|&nbsp;리뷰()</span>
             </span>
+            <span>{products.rate}</span>
+            <span>|</span>
+            <span>리뷰()</span>
           </Rate>
         </Link>
       </Container>
