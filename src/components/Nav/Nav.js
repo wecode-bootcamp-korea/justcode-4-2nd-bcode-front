@@ -1,56 +1,66 @@
 import styled, { css } from 'styled-components';
-import { FiUser } from 'react-icons/fi';
-import { FiShoppingBag } from 'react-icons/fi';
-import { FiClock } from 'react-icons/fi';
-import { FiSearch } from 'react-icons/fi';
+import { FiUser, FiClock, FiShoppingBag, FiSearch } from 'react-icons/fi';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchList from './searchList';
+import SearchWordList from './searchWordList';
+let arrayKey = 0;
 
 function Nav() {
   const [inputClassName, setInputClassName] = useState('mainInputBox');
-  const [hiddenBox, setHiddenBox] = useState('hidden');
+  const [inputSearchName, setInputSearchName] = useState('inputBox');
+  const [inputState, setInputState] = useState(false);
+  const [searchArray, setSearchArray] = useState([]);
+  const [inputWord, setInputWord] = useState('');
+  const [resultSearch, setResultSearch] = useState([]);
   const [searchWord, setsearchWord] = useState(
     JSON.parse(localStorage.getItem('item')) || []
   );
   const navigate = useNavigate();
-  const [arrayKey, setArrayKey] = useState(0);
   const inputRef = useRef();
 
-  const changeClassName = () => {
-    inputClassName === 'mainInputBox'
-      ? setInputClassName('mainInputBoxChange')
-      : setInputClassName('mainInputBox');
-    hiddenBox === 'hidden' ? setHiddenBox('visible') : setHiddenBox('hidden');
+  useEffect(() => {
+    fetch(`/data/searchData.json`, {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => {
+        setSearchArray(data);
+      });
+  }, []);
+  const changeClassName = e => {
+    setInputClassName('mainInputBoxChange');
+    setInputSearchName('inputBoxChange');
   };
 
-  const pressEnter = e => {
-    let k = 0;
-    if (e.key === 'Enter') {
-      if (!e.target.value == '') {
+  const searchValue = e => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      if (!inputRef.current.value == '') {
+        //최근검색어가 11개 이상되면 마지막 값 삭제 후 추가
+        if (searchWord.length === 11) {
+          searchWord.pop();
+          setsearchWord(searchWord);
+        }
+        //같은 최근 검색어를 또 입력하면 가장 상단으로 옮기고
+        //저장되어 있던 단어 삭제
         for (let i = 0; i < searchWord.length; i++) {
-          if (searchWord[i].item === e.target.value) {
-            k = 1;
+          if (searchWord[i].item === inputRef.current.value) {
+            searchWord.pop();
+            setsearchWord(searchWord);
           }
         }
-        if (k === 1) {
-          goToSearchPage(e.target.value);
-        } else {
-          addSearchWord(e.target.value);
-          e.target.value = '';
-        }
+        addSearchWord(inputRef.current.value);
+        inputRef.current.value = '';
       }
     }
   };
 
   const addSearchWord = item => {
     const items = {
-      id: arrayKey,
+      id: Date.now(),
       item: item,
       expire: Date.now() + 30,
     };
-    setArrayKey(arrayKey + 1);
-    console.log(arrayKey);
     let newSearchword = searchWord;
     newSearchword.unshift(items);
     setsearchWord(newSearchword);
@@ -67,77 +77,118 @@ function Nav() {
     setsearchWord(searchWord.filter(searchWord => searchWord.id !== id));
   };
 
-  const inputFocus = () => {
-    inputRef.current.focus();
+  const noFocus = e => {
+    setInputClassName('mainInputBox');
+    setInputSearchName('inputBox');
   };
 
+  const setInputPage = e => {
+    setInputWord(e.target.value);
+    e.target.value == '' ? setInputState(false) : setInputState(true);
+  };
+  //검색어 자동완성
+  useEffect(() => {
+    if (inputWord !== '') {
+      const result = searchArray.filter(word => {
+        return word.name.includes(inputWord);
+      });
+      setResultSearch(result);
+    }
+  }, [inputWord]);
+
+  //로컬스토리지 저장
   useEffect(() => {
     window.localStorage.setItem('item', JSON.stringify(searchWord));
   }, [searchWord]);
 
   return (
-    <Section>
-      <Header>
-        <Image src="/image/logo.svg" />
-        <div className="Input">
-          <div className="hiddenBox"></div>
-          <InputBox
-            type="text"
-            placeholder="두피도 지구도 편안하게 라보에이치 샴푸 바 출시!"
-            onFocus={changeClassName}
-            onBlur={changeClassName}
-            onKeyUp={pressEnter}
-            ref={inputRef}
-          />
-          <FiSearch className="searchIcon" />
-          <div className={inputClassName} onClick={inputFocus}>
-            <InputHeader>
-              <div className="inputTitle">최근검색어</div>
-            </InputHeader>
-            <ul className="searchDataList">
-              {searchWord == '' && (
-                <NoSearchWord>
-                  <span className="noSearhData">최근 검색어가 없습니다.</span>
-                </NoSearchWord>
-              )}
-              {searchWord.map((comment, index) => {
-                return (
-                  <SearchList
-                    key={index}
-                    id={index}
-                    item={comment.item}
-                    deletedata={deletedata}
-                  />
-                );
-              })}
-            </ul>
-            <span className="maininputfooter">
-              검색어는 최대 30일까지 보관됩니다
-            </span>
-          </div>
-        </div>
-        <div className="font">
-          <div className="fonts">
-            <FiUser
-              className="icon"
-              style={{ stroke: 'black', strokeWidth: '1' }}
-            />
-          </div>
-          <div className="fonts">
-            <FiClock
-              className="icon"
-              style={{ stroke: 'black', strokeWidth: '1' }}
-            />
-          </div>
-          <div className="fonts">
-            <FiShoppingBag
-              className="icon"
-              style={{ stroke: 'black', strokeWidth: '1' }}
-            />
-          </div>
-        </div>
-      </Header>
-    </Section>
+    <ClickModal onClick={noFocus}>
+      <TopSectoion>
+        <Section>
+          <Header>
+            <Image src="/image/logo.svg" />
+            <div className="Input" onClick={e => e.stopPropagation()}>
+              <div className="hiddenBox"></div>
+              <input
+                className={inputSearchName}
+                type="text"
+                placeholder="두피도 지구도 편안하게 라보에이치 샴푸 바 출시!"
+                onFocus={changeClassName}
+                onKeyUp={searchValue}
+                onChange={setInputPage}
+                ref={inputRef}
+              />
+              <FiSearch className="searchIcon" onClick={searchValue} />
+              <div className={inputClassName}>
+                {inputState ? (
+                  <SerchList>
+                    {resultSearch.map((comment, index) => {
+                      if (index < 13) {
+                        return (
+                          <SearchWordList
+                            key={index}
+                            id={comment.id}
+                            name={comment.name}
+                          />
+                        );
+                      }
+                    })}
+                  </SerchList>
+                ) : (
+                  <>
+                    <InputHeader>
+                      <div className="inputTitle">최근검색어</div>
+                    </InputHeader>
+                    <ul className="searchDataList">
+                      {searchWord == '' && (
+                        <NoSearchWord>
+                          <span className="noSearhData">
+                            최근 검색어가 없습니다.
+                          </span>
+                        </NoSearchWord>
+                      )}
+                      {searchWord.map((comment, index) => {
+                        return (
+                          <SearchList
+                            key={index}
+                            id={comment.id}
+                            item={comment.item}
+                            deletedata={deletedata}
+                          />
+                        );
+                      })}
+                    </ul>
+                    <span className="maininputfooter">
+                      검색어는 최대 30일까지 보관됩니다
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="font">
+              <div className="fonts">
+                <FiUser
+                  className="icon"
+                  style={{ stroke: 'black', strokeWidth: '1' }}
+                />
+              </div>
+              <div className="fonts">
+                <FiClock
+                  className="icon"
+                  style={{ stroke: 'black', strokeWidth: '1' }}
+                />
+              </div>
+              <div className="fonts">
+                <FiShoppingBag
+                  className="icon"
+                  style={{ stroke: 'black', strokeWidth: '1' }}
+                />
+              </div>
+            </div>
+          </Header>
+        </Section>
+      </TopSectoion>
+    </ClickModal>
   );
 }
 
@@ -153,12 +204,35 @@ const mainInputBoxItem = css`
   transition: all 0.3s ease-in;
 `;
 
+const inputBoxItem = css`
+  position: relative;
+  width: 380px;
+  height: 45px;
+  border: solid 2px #ee2d7a;
+  border-radius: 30px;
+  padding-left: 20px;
+  outline: none;
+  z-index: 300;
+  transition: all 0.3s ease-in;
+`;
+
+const ClickModal = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+`;
+const TopSectoion = styled.nav`
+  width: 100%;
+  border: 1px solid #f0f0f0;
+`;
+
 const Section = styled.nav`
   width: 1200px;
   height: 80px;
   margin: auto;
-  padding-top: 10px;
+  margin-top: 10px;
 `;
+
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -193,7 +267,8 @@ const Header = styled.div`
       height: 50px;
       font-size: 24px;
       color: #ee2d7a;
-      z-index: 250;
+      cursor: pointer;
+      z-index: 300;
     }
     .maininputfooter {
       position: absolute;
@@ -207,6 +282,14 @@ const Header = styled.div`
       height: 80%;
     }
   }
+  .inputBox {
+    ${inputBoxItem}
+  }
+  .inputBoxChange {
+    ${inputBoxItem}
+    border-bottom: solid 2px #f0f0f0;
+    border-radius: 30px 30px 0 0;
+  }
   .font {
     display: flex;
     font-size: 36px;
@@ -218,31 +301,15 @@ const Header = styled.div`
       justify-content: center;
       width: 100px;
       height: 80px;
-      border: 1px solid #f0f0f0;
     }
     .icon {
       font-size: 38px;
     }
   }
 `;
+
 const Image = styled.img`
   width: 200px;
-`;
-
-const InputBox = styled.input`
-  position: relative;
-  width: 380px;
-  height: 45px;
-  border: solid 2px #ee2d7a;
-  border-radius: 30px;
-  padding-left: 20px;
-  outline: none;
-  z-index: 300;
-  transition: all 0.3s ease-in;
-  &:focus {
-    border-bottom: solid 2px #f0f0f0;
-    border-radius: 30px 30px 0 0;
-  }
 `;
 
 const InputHeader = styled.div`
@@ -258,6 +325,7 @@ const InputHeader = styled.div`
     color: #8c8c8c;
   }
 `;
+
 const NoSearchWord = styled.li`
   display: flex;
   justify-content: center;
@@ -268,6 +336,10 @@ const NoSearchWord = styled.li`
     color: #6b6b6b;
     font-size: 14px;
   }
+`;
+
+const SerchList = styled.ul`
+  padding: 50px 0 0 20px;
 `;
 
 export default Nav;

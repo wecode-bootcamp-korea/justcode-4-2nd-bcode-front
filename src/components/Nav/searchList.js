@@ -12,7 +12,10 @@ function SearchList(props) {
           {todayMonth}.{todayDate}
         </div>
         <div className="searchitemdata">{props.item}</div>
-        <FiX className="fixIcon" onClick={() => props.deletedata(props.id)} />
+        <FiX
+          className="fixIcon"
+          onMouseDown={() => props.deletedata(props.id)}
+        />
       </SearchitemList>
     </>
   );
