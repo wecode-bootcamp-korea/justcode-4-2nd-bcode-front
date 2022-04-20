@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { FiX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 const now = new Date();
@@ -8,8 +8,8 @@ const todayDate = now.getDate();
 function SearchList(props) {
   const navigate = useNavigate();
 
-  const goToSearchPage = item => {
-    navigate(`/search?${item}`);
+  const goToSearchPage = () => {
+    navigate(`/search?${props.item}`);
     window.location.reload();
   };
 
@@ -19,7 +19,7 @@ function SearchList(props) {
         <div className="searchitemday">
           {todayMonth}.{todayDate}
         </div>
-        <div className="searchitemdata" onClick={goToSearchPage(props.item)}>
+        <div className="searchitemdata" onClick={goToSearchPage}>
           {props.item}
         </div>
         <FiX
@@ -43,6 +43,7 @@ const SearchitemList = styled.li`
   .searchitemdata {
     padding: 5px;
     color: #747474;
+    cursor: pointer;
   }
   .fixIcon {
     padding: 5px;

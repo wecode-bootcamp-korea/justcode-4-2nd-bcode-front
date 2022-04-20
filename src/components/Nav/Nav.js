@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchList from './searchList';
 import SearchWordList from './searchWordList';
-let arrayKey = 0;
+import LatelyModal from './LatelyModal';
 
 function Nav() {
   const [inputClassName, setInputClassName] = useState('mainInputBox');
@@ -13,6 +13,7 @@ function Nav() {
   const [searchArray, setSearchArray] = useState([]);
   const [inputWord, setInputWord] = useState('');
   const [resultSearch, setResultSearch] = useState([]);
+  const [latelyClassName, setLatelyClassName] = useState('lateyModal');
   const [searchWord, setsearchWord] = useState(
     JSON.parse(localStorage.getItem('item')) || []
   );
@@ -45,10 +46,10 @@ function Nav() {
         //저장되어 있던 단어 삭제
         for (let i = 0; i < searchWord.length; i++) {
           if (searchWord[i].item === inputRef.current.value) {
-            searchWord.pop();
-            setsearchWord(searchWord);
+            searchWord.splice(i, 1);
           }
         }
+        setsearchWord(searchWord);
         addSearchWord(inputRef.current.value);
         inputRef.current.value = '';
       }
@@ -73,6 +74,16 @@ function Nav() {
     window.location.reload();
   };
 
+  const goToHome = () => {
+    navigate('/');
+    window.location.reload();
+  };
+
+  const goTologin = () => {
+    navigate('/login');
+    window.location.reload();
+  };
+
   const deletedata = id => {
     setsearchWord(searchWord.filter(searchWord => searchWord.id !== id));
   };
@@ -84,8 +95,13 @@ function Nav() {
 
   const setInputPage = e => {
     setInputWord(e.target.value);
-    e.target.value == '' ? setInputState(false) : setInputState(true);
+    e.target.value === '' ? setInputState(false) : setInputState(true);
   };
+
+  const setClassName = name => {
+    setLatelyClassName(name);
+  };
+
   //검색어 자동완성
   useEffect(() => {
     if (inputWord !== '') {
@@ -102,93 +118,106 @@ function Nav() {
   }, [searchWord]);
 
   return (
-    <ClickModal onClick={noFocus}>
-      <TopSectoion>
-        <Section>
-          <Header>
-            <Image src="/image/logo.svg" />
-            <div className="Input" onClick={e => e.stopPropagation()}>
-              <div className="hiddenBox"></div>
-              <input
-                className={inputSearchName}
-                type="text"
-                placeholder="두피도 지구도 편안하게 라보에이치 샴푸 바 출시!"
-                onFocus={changeClassName}
-                onKeyUp={searchValue}
-                onChange={setInputPage}
-                ref={inputRef}
-              />
-              <FiSearch className="searchIcon" onClick={searchValue} />
-              <div className={inputClassName}>
-                {inputState ? (
-                  <SerchList>
-                    {resultSearch.map((comment, index) => {
-                      if (index < 13) {
-                        return (
-                          <SearchWordList
-                            key={index}
-                            id={comment.id}
-                            name={comment.name}
-                          />
-                        );
-                      }
-                    })}
-                  </SerchList>
-                ) : (
-                  <>
-                    <InputHeader>
-                      <div className="inputTitle">최근검색어</div>
-                    </InputHeader>
-                    <ul className="searchDataList">
-                      {searchWord == '' && (
-                        <NoSearchWord>
-                          <span className="noSearhData">
-                            최근 검색어가 없습니다.
-                          </span>
-                        </NoSearchWord>
-                      )}
-                      {searchWord.map((comment, index) => {
-                        return (
-                          <SearchList
-                            key={index}
-                            id={comment.id}
-                            item={comment.item}
-                            deletedata={deletedata}
-                          />
-                        );
+    <>
+      <ClickModal onClick={noFocus}>
+        <TopSectoion>
+          <Section>
+            <Header>
+              <Image src="/image/logo.svg" onClick={goToHome} />
+              <div className="Input" onClick={e => e.stopPropagation()}>
+                <div className="hiddenBox" />
+                <input
+                  className={inputSearchName}
+                  type="text"
+                  placeholder="두피도 지구도 편안하게 라보에이치 샴푸 바 출시!"
+                  onFocus={changeClassName}
+                  onKeyUp={searchValue}
+                  onChange={setInputPage}
+                  ref={inputRef}
+                />
+                <FiSearch className="searchIcon" onClick={searchValue} />
+                <div className={inputClassName}>
+                  {inputState ? (
+                    <SerchList>
+                      {resultSearch.map((comment, index) => {
+                        if (index < 13) {
+                          return (
+                            <SearchWordList
+                              key={index}
+                              id={comment.id}
+                              name={comment.name}
+                            />
+                          );
+                        }
                       })}
-                    </ul>
-                    <span className="maininputfooter">
-                      검색어는 최대 30일까지 보관됩니다
-                    </span>
-                  </>
-                )}
+                    </SerchList>
+                  ) : (
+                    <>
+                      <InputHeader>
+                        <div className="inputTitle">최근검색어</div>
+                      </InputHeader>
+                      <ul className="searchDataList">
+                        {searchWord === '' && (
+                          <NoSearchWord>
+                            <span className="noSearhData">
+                              최근 검색어가 없습니다.
+                            </span>
+                          </NoSearchWord>
+                        )}
+                        {searchWord.map((comment, index) => {
+                          return (
+                            <SearchList
+                              key={index}
+                              id={comment.id}
+                              item={comment.item}
+                              deletedata={deletedata}
+                            />
+                          );
+                        })}
+                      </ul>
+                      <span className="maininputfooter">
+                        검색어는 최대 30일까지 보관됩니다
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="font">
-              <div className="fonts">
-                <FiUser
-                  className="icon"
-                  style={{ stroke: 'black', strokeWidth: '1' }}
-                />
+              <div className="font">
+                <div className="fonts">
+                  <FiUser
+                    className="icon"
+                    style={{ stroke: 'black', strokeWidth: '1' }}
+                    onClick={goTologin}
+                  />
+                </div>
+                <div className="fonts">
+                  <FiClock
+                    className="icon"
+                    style={{ stroke: 'black', strokeWidth: '1' }}
+                    onMouseOver={() => {
+                      setLatelyClassName('lateyModalChange');
+                    }}
+                    onMouseOut={() => {
+                      setLatelyClassName('lateyModal');
+                    }}
+                  />
+                </div>
+                <div className="fonts">
+                  <FiShoppingBag
+                    className="icon"
+                    style={{ stroke: 'black', strokeWidth: '1' }}
+                  />
+                </div>
               </div>
-              <div className="fonts">
-                <FiClock
-                  className="icon"
-                  style={{ stroke: 'black', strokeWidth: '1' }}
-                />
-              </div>
-              <div className="fonts">
-                <FiShoppingBag
-                  className="icon"
-                  style={{ stroke: 'black', strokeWidth: '1' }}
-                />
-              </div>
-            </div>
-          </Header>
-        </Section>
-      </TopSectoion>
-    </ClickModal>
+            </Header>
+          </Section>
+        </TopSectoion>
+      </ClickModal>
+      <LatelyModal
+        latelyClassName={latelyClassName}
+        setClassName={setClassName}
+      />
+    </>
   );
 }
 
@@ -304,12 +333,14 @@ const Header = styled.div`
     }
     .icon {
       font-size: 38px;
+      cursor: pointer;
     }
   }
 `;
 
 const Image = styled.img`
   width: 200px;
+  cursor: pointer;
 `;
 
 const InputHeader = styled.div`
