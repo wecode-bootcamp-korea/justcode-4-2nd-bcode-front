@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled, { css } from 'styled-components';
 import {
   AiTwotoneStar,
@@ -7,9 +7,9 @@ import {
   AiOutlinePaperClip,
   AiOutlineQuestionCircle,
 } from 'react-icons/ai';
-import BenefitModal from './BenefitModal';
-import { ModalContext } from '../Context';
-import CartModal from './CartModal';
+import BenefitModal from './Modals/BenefitModal';
+import { DetailContext, ModalContext } from '../Context';
+import CartModal from './Modals/CartModal';
 
 // css
 const TitleText = css`
@@ -27,6 +27,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 468px;
+  @media screen and (max-width: 1920px) {
+    margin-left: 250px;
+  }
+
+  @media (max-width: 820px) {
+    margin-right: 100px;
+    margin-left: 0px;
+  }
+  @media (max-width: 375px) {
+    width: 100%;
+    margin-top: 100px;
+  }
 `;
 const Brand = styled.span`
   display: flex;
@@ -59,6 +71,10 @@ const Price = styled.span`
     margin-left: 10px;
     align-items: flex-end;
   }
+  @media (max-width: 820px) {
+    font-size: 20px;
+    margin-top: 20px;
+  }
 `;
 
 const Rate = styled.div`
@@ -80,6 +96,9 @@ const Description = styled.div`
   }
   .beautyPoint {
     margin-right: 15px;
+    @media (max-width: 820px) {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -88,16 +107,18 @@ const BuyBenefit = styled.div`
   flex-direction: row;
   .title {
     width: 20%;
+    @media (min-width: 376px) and (max-width: 820px) {
+      width: 15%;
+      margin-right: 5px;
+    }
   }
 `;
 
 const PointBox = styled.div`
   position: relative;
   display: inline;
-  margin-left: 20px;
   opacity: 0.7;
   .question {
-    margin-left: 5px;
     font-size: 18px;
   }
 `;
@@ -108,6 +129,9 @@ const PurchaseBenefit = styled.div`
     width: 20%;
   }
   li {
+    @media (max-width: 820px) {
+      margin-left: 15px;
+    }
     list-style-type: circle;
     &:first-child {
       margin-bottom: 10px;
@@ -120,9 +144,7 @@ const DeliveryPrice = styled.div`
     width: 20%;
   }
 `;
-const DeliveryType = styled.div`
-  ${HeightAndBoredr(20)}
-`;
+
 const Calculator = styled.div`
   background-color: #f4f4f4;
   display: flex;
@@ -170,7 +192,12 @@ const Amount = styled.div`
     font-size: 25px;
   }
 `;
-const ShopNowOrLater = styled.div``;
+const ShopNowOrLater = styled.div`
+  @media (max-width: 820px) {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
 const ShopNow = styled.button`
   background-color: white;
   color: #ee2c7a;
@@ -178,6 +205,11 @@ const ShopNow = styled.button`
   font-size: 20px;
   padding: 15px 60px;
   margin-right: 5px;
+  @media (max-width: 820px) {
+    width: 45%;
+    padding: 0;
+    font-size: 15px;
+  }
 `;
 const ShopLater = styled.button`
   background-color: #ee2c7a;
@@ -185,26 +217,19 @@ const ShopLater = styled.button`
   color: white;
   font-size: 20px;
   padding: 15px 80px;
+  @media (max-width: 820px) {
+    width: 45%;
+    padding: 0;
+    font-size: 15px;
+  }
 `;
 
-function OrderBox({ item }) {
+function OrderBox() {
+  const { item, itemRate } = useContext(DetailContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
-
-  const itemRate = count => {
-    const arr = [];
-    for (let i = 1; i < count + 1; i++) {
-      arr[i] = i;
-    }
-    for (let j = count + 1; j < 6; j++) {
-      arr[j] = 0;
-    }
-    arr.shift();
-    return arr;
-  };
-
   const slicePrice = price => {
     return String(price).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
@@ -231,7 +256,7 @@ function OrderBox({ item }) {
   return (
     <Wrapper>
       <Brand>
-        {item.brand} &gt;
+        {item.brands.name} &gt;
         <button className="clip" onClick={() => doCopy(window.location.href)}>
           <AiOutlinePaperClip />
         </button>
@@ -266,7 +291,9 @@ function OrderBox({ item }) {
           <PointBox>
             <span>
               최대
-              <span style={{ color: 'blue' }}>{item.price_after / 100}p</span>
+              <span style={{ color: '#5F9DE4' }}>
+                {item.price_after / 100}p
+              </span>
               적립
             </span>
             <ModalContext.Provider
@@ -303,7 +330,6 @@ function OrderBox({ item }) {
           </div>
         </Description>
       </DeliveryPrice>
-      <DeliveryType>배송 유형</DeliveryType>
       <Calculator>
         <ItemSummery>
           <span style={{ opacity: 0.7, marginBottom: 7 }}>{item.name}</span>

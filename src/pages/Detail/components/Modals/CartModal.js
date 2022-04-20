@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ModalContext } from '../Context';
+import { ModalContext } from '../../Context';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const Box = styled.div`
@@ -9,13 +9,12 @@ const Box = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 200%;
   z-index: 99999;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const Modal = styled.div`
@@ -29,6 +28,7 @@ const Modal = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 400px;
   .close {
     font-size: 25px;
     position: absolute;
@@ -65,7 +65,7 @@ function CartModal() {
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
-      {cartModalOpen ? (
+      {cartModalOpen && (
         <Box>
           <Modal>
             <AiOutlineClose
@@ -84,7 +84,7 @@ function CartModal() {
             </BtnBox>
           </Modal>
         </Box>
-      ) : null}
+      )}
     </>
   );
 }
