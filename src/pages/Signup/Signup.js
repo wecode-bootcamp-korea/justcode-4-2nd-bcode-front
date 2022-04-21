@@ -1,61 +1,71 @@
 import styled from 'styled-components';
 import { useReducer, useRef, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { VscCheck } from 'react-icons/vsc';
+
+import InputChkBox from './InputChkBox';
 import { BiChevronUp, BiChevronDown, BiChevronRight } from 'react-icons/bi';
 
-function InputChkBox(props) {
-  return (
-    <InputBox>
-      <input
-        id={props.id}
-        type={props.type}
-        defaultChecked={props.isCheck}
-        name={props.name}
-        disable={props.disable}
-        onChange={props.event}
-      />
-      <p className="chk-box">
-        <VscCheck />
-      </p>
-      <label htmlFor={props.id}>{props.message}</label>
-    </InputBox>
-  );
-}
-
 function Signup() {
-  //validation 관련 함수
+  //토글 바 함수
+  const [display, toggleDisplay] = useReducer(
+    val => (val === 'block' ? 'none' : 'block'),
+    'block'
+  );
+  //useRef
+  const inputRef = useRef(null);
+  //navigate
+  const navigate = useNavigate();
+  //validation
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
+  //post
+  const onSubmit = data => {
+    console.log(data);
+    fetch(`http://localhost:8000/user/signup`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then(res => res.json())
+      .then(() => {
+        alert(`회원가입 완료! 로그인 후 이용해주세요.`);
+        navigate('../login');
+      });
+  };
 
-  const onSubmit = data => console.log(data, errors);
+  const onError = errors => console.log(errors);
 
   //체크박스 관련 함수
-  const [checkedList, setCheckedList] = useState([]);
-  const dataLists = [{ id: 'agree1' }, { id: 'agree2' }, { id: 'agree3' }];
 
+  const [checkedList, setCheckedList] = useState([]);
+  const [fillList, setFillList] = useState(Array(4));
+  console.log(fillList);
   //전체 체크 클릭 시 발생
   const onCheckedAll = useCallback(
     checked => {
       if (checked) {
         const checkedListArray = [];
-        console.log(dataLists);
-        dataLists.forEach(list => {
-          checkedListArray.push(list);
+
+        fillList.forEach(list => {
+          checkedListArray.push(true);
         });
+        console.log(checkedListArray);
         setCheckedList(checkedListArray);
-        console.log(checkedList);
       } else {
         // console.log(checkedList);
         setCheckedList([]);
       }
     },
-    [dataLists]
+    [fillList]
   );
   //개별 체크 클릭 시 발생함수
   const onCheckedElement = useCallback(
@@ -71,13 +81,6 @@ function Signup() {
     },
     [checkedList]
   );
-  //토글 바 함수
-  const [display, toggleDisplay] = useReducer(
-    val => (val === 'block' ? 'none' : 'block'),
-    'block'
-  );
-
-  const inputRef = useRef(null);
 
   return (
     <WrapSignUp>
@@ -90,7 +93,7 @@ function Signup() {
         </H2>
       </SignUpHead>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         {errors.username && errors.username?.type === 'required' && (
           <AlertMessage>이름을 입력하세요.</AlertMessage>
         )}
@@ -185,7 +188,7 @@ function Signup() {
               isCheck={
                 checkedList.length === 0
                   ? false
-                  : checkedList.length === dataLists.length
+                  : checkedList.length === fillList.length
                   ? true
                   : false
               }
@@ -209,9 +212,9 @@ function Signup() {
             <p>뷰티풀코드 통합 멤버십 뷰티포인트 회원약관</p>
             <InputBoxWrap>
               <InputChkBox
-                id={dataLists[0].id}
+                id="agree1"
                 type="checkbox"
-                isCheck={checkedList.includes(dataLists[0]) ? true : false}
+                isCheck={checkedList.includes(fillList[0]) ? true : false}
                 message="[필수] 뷰티포인트 서비스 이용약관"
                 event={e => onCheckedElement(e.target.checked)}
               />
@@ -221,7 +224,7 @@ function Signup() {
             </InputBoxWrap>
             <InputBoxWrap>
               <InputChkBox
-                id={dataLists[1].id}
+                id="agree2"
                 type="checkbox"
                 isCheck=""
                 message="[선택] 개인정보 제3자 제공 동의"
@@ -237,7 +240,7 @@ function Signup() {
 
             <InputBoxWrap>
               <InputChkBox
-                id={dataLists[2].id}
+                id="agree3"
                 type="checkbox"
                 isCheck=""
                 message="[선택] 뷰티포인트 문자 수신 동의"
@@ -248,29 +251,14 @@ function Signup() {
             </InputBoxWrap>
           </AllAgreeCnt>
         </AllAgreeBox>
-        <Button type="submit">회원가입</Button>
+        <Button type="submit" disabled={!isDirty || !isValid}>
+          회원가입
+        </Button>
       </form>
     </WrapSignUp>
   );
 }
-const theme = {
-  text: '#333',
-  point: '#f0427d',
-  white: '#fff',
-  defaultInput: '#929292',
-  alert: '#ff0000',
-  lightGray: '#dadada',
-  btnDefault: '#555',
-};
 
-const fontSize = {
-  default: '16px',
-  small: '14px',
-  h6: '15px',
-  h5: '18px',
-  h4: '20px',
-  h2: '30px',
-};
 const WrapSignUp = styled.div`
   max-width:30%;
   min-width: 375px;
@@ -282,7 +270,7 @@ const SignUpHead = styled.div`
   padding: 50px 0 30px;
 `;
 const H2 = styled.h2`
-  font-size: ${fontSize.h2};
+  font-size: ${props => props.theme.fontSize.h2};
   line-height: 1.5;
   .title {
     font-weight: bold;
@@ -301,52 +289,7 @@ const InputBoxWrap = styled.div`
   justify-content: space-between;
   margin: 15px 0;
   & b {
-    color: ${theme.lightGray};
-    cursor: pointer;
-  }
-`;
-const InputBox = styled.label`
-  display: flex;
-  position: relative;
-
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  & input {
-    position: absolute;
-    height: 0;
-    width: 0;
-    opacity: 0;
-    cursor: pointer;
-    &:checked + .chk-box {
-      background: ${theme.white};
-      color: ${theme.point};
-      border: 1px solid ${theme.point};
-    }
-    &:checked ~ label {
-      color: ${theme.point};
-    }
-  }
-  & .chk-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 25px;
-    height: 25px;
-    background: ${theme.white};
-    color: ${theme.white};
-    border: 1px solid ${theme.defaultInput};
-    border-radius: 50%;
-    text-align: center;
-    font-size: ${fontSize.h5};
-    line-height: 1.5;
-  }
-  & label {
-    margin-left: 35px;
-    color: ${theme.text};
-    line-height: 1.4;
+    color: ${props => props.theme.lightGray};
     cursor: pointer;
   }
 `;
@@ -363,7 +306,7 @@ const Input = styled.input`
   outline: none;
   transition: all 0.3s;
   :: placeholder {
-    color: ${theme.defaultInput};
+    color: ${props => props.theme.defaultInput};
   }
   &: focus {
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.14);
@@ -371,8 +314,8 @@ const Input = styled.input`
 `;
 const AlertMessage = styled.span`
   margin-bottom: 5px;
-  color: ${theme.alert};
-  font-size: ${fontSize.small};
+  color: ${props => props.theme.alert};
+  font-size: ${props => props.theme.fontSize.small};
 `;
 const AllAgreeBox = styled.div`
   margin: 30px 0;
@@ -385,7 +328,7 @@ const AllAgree = styled.div`
   & label,
   p,
   b {
-    color: ${theme.point};
+    color: ${props => props.theme.point};
     cursor: pointer;
   }
 
@@ -399,34 +342,37 @@ const AllAgreeCnt = styled.div`
     display: inline-block;
     margin: 10px 10px 30px;
 
-    color: ${theme.defaultInput};
-    font-size: ${fontSize.small};
+    color: ${props => props.theme.defaultInput};
+    font-size: ${props => props.theme.fontSize.small};
     letter-spacing: 1px;
     line-height: 1.2;
   }
   & p {
     margin-bottom: 10px;
-    color: ${theme.text};
-    font-size: ${fontSize.h6};
+    color: ${props => props.theme.text};
+    font-size: ${props => props.theme.fontSize.h6};
     font-weight: 600;
   }
   & span {
     margin-left: 10px;
-    font-size: ${fontSize.small};
-    color: ${theme.defaultInput};
+    font-size: ${props => props.theme.fontSize.small};
+    color: ${props => props.theme.defaultInput};
   }
 `;
 const Button = styled.button`
   width: 100%;
   padding: 20px;
-  background: ${theme.btnDefault};
-  font-size: ${fontSize.h4};
+  background: ${props => props.theme.btnDefault};
+  font-size: ${props => props.theme.fontSize.h4};
   border: none;
   outline: none;
   text-align: center;
-  color: ${theme.white};
+  color: ${props => props.theme.white};
   cursor: pointer;
+  transition: all 0.3s;
+  :disabled {
+    opacity: 0.2;
+  }
 `;
 
-export { InputChkBox };
 export default Signup;
