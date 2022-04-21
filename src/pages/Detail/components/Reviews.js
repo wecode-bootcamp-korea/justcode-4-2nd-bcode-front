@@ -4,7 +4,6 @@ import { AiTwotoneStar } from 'react-icons/ai';
 import { DetailContext, ReviewContext } from '../Context';
 import Line from '../components/Filters/Line';
 import High from '../components/Filters/High';
-import Low from './Filters/Low';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;

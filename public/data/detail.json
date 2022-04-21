@@ -11,6 +11,7 @@
       "content": "쫗아요",
       "image": null,
       "user_id": 1,
+      "username": "name",
       "product_id": 1,
       "Reviews_likes": [
         {
@@ -23,7 +24,8 @@
       "rating": 2,
       "content": "싫음",
       "image": null,
-      "user_id": 1,
+      "user_id": 2,
+      "username": "name111",
       "product_id": 1,
       "Reviews_likes": []
     },
@@ -32,7 +34,8 @@
       "rating": 5,
       "content": "좋음",
       "image": null,
-      "user_id": 1,
+      "user_id": 3,
+      "username": "name222",
       "product_id": 1,
       "Reviews_likes": []
     },
@@ -41,7 +44,8 @@
       "rating": 2,
       "content": "안좋음",
       "image": null,
-      "user_id": 1,
+      "user_id": 4,
+      "username": "name3333",
       "product_id": 1,
       "Reviews_likes": []
     },
@@ -50,7 +54,8 @@
       "rating": 5,
       "content": "좋음",
       "image": null,
-      "user_id": 1,
+      "user_id": 5,
+      "username": "name444",
       "product_id": 1,
       "Reviews_likes": []
     }
