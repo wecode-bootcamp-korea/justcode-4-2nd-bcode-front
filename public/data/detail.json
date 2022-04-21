@@ -1,0 +1,58 @@
+{
+  "name": "트리플 크림",
+  "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/1.jpg",
+  "price_before": "28000",
+  "price_after": "19600",
+  "brands": { "name": "아이소페" },
+  "Reviews": [
+    {
+      "id": 5,
+      "rating": 4,
+      "content": "쫗아요",
+      "image": null,
+      "user_id": 1,
+      "product_id": 1,
+      "Reviews_likes": [
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "rating": 2,
+      "content": "싫음",
+      "image": null,
+      "user_id": 1,
+      "product_id": 1,
+      "Reviews_likes": []
+    },
+    {
+      "id": 7,
+      "rating": 5,
+      "content": "좋음",
+      "image": null,
+      "user_id": 1,
+      "product_id": 1,
+      "Reviews_likes": []
+    },
+    {
+      "id": 8,
+      "rating": 2,
+      "content": "안좋음",
+      "image": null,
+      "user_id": 1,
+      "product_id": 1,
+      "Reviews_likes": []
+    },
+    {
+      "id": 9,
+      "rating": 5,
+      "content": "좋음",
+      "image": null,
+      "user_id": 1,
+      "product_id": 1,
+      "Reviews_likes": []
+    }
+  ]
+}
