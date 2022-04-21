@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { ReviewContext } from '../../Context';
 import High from './High';
 import Low from './Low';
-import Date from './Date';
+import ByDate from './ByDate';
 
 const Wrapper = styled.div``;
 
@@ -25,7 +25,7 @@ function Line() {
         break;
       }
       case 'date': {
-        setFilter(<Date />);
+        setFilter(<ByDate />);
         setNow('date');
         break;
       }

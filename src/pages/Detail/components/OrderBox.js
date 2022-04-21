@@ -26,9 +26,9 @@ const HeightAndBoredr = i => css`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 468px;
+  width: 568px;
   @media screen and (max-width: 1920px) {
-    margin-left: 250px;
+    margin-left: 100px;
   }
 
   @media (max-width: 820px) {
@@ -193,10 +193,8 @@ const Amount = styled.div`
   }
 `;
 const ShopNowOrLater = styled.div`
-  @media (max-width: 820px) {
-    display: flex;
-    justify-content: space-between;
-  }
+  display: flex;
+  justify-content: space-between;
 `;
 const ShopNow = styled.button`
   background-color: white;
@@ -205,8 +203,9 @@ const ShopNow = styled.button`
   font-size: 20px;
   padding: 15px 60px;
   margin-right: 5px;
+  width: 50%;
   @media (max-width: 820px) {
-    width: 45%;
+    width: 50%;
     padding: 0;
     font-size: 15px;
   }
@@ -217,8 +216,9 @@ const ShopLater = styled.button`
   color: white;
   font-size: 20px;
   padding: 15px 80px;
+  width: 50%;
   @media (max-width: 820px) {
-    width: 45%;
+    width: 50%;
     padding: 0;
     font-size: 15px;
   }

@@ -19,7 +19,6 @@ function Router() {
         <Route path="/main" element={<Main />} />
         <Route path="/list" element={<List />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/detail/:id" element={<Detail />} />
       </Routes>
       <Footer />
     </BrowserRouter>

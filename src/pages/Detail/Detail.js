@@ -85,7 +85,13 @@ function Detail() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3000/data/detail.json', {
+    if (loading === false) {
+      localItem(id);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    fetch('/data/detail.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -100,11 +106,6 @@ function Detail() {
       });
   }, []);
 
-  useEffect(() => {
-    if (loading === false) {
-      localItem(id);
-    }
-  }, [loading]);
   return (
     <Wrapper>
       {loading ? (

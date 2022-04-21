@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled, { css } from 'styled-components';
-import { AiTwotoneStar } from 'react-icons/ai';
+import { AiTwotoneStar, AiOutlineEdit } from 'react-icons/ai';
 import { DetailContext, ReviewContext } from '../Context';
 import Line from '../components/Filters/Line';
 import High from '../components/Filters/High';
+import ReviewModal from '../components/Modals/ReviewModal';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
@@ -15,9 +16,14 @@ const Wrapper = styled.div`
     font-size: 25px;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     padding: 40px 0;
     border-bottom: 1px solid #ee2c7a;
+    .writeReview {
+      font-size: 50px;
+      margin-left: 50px;
+    }
   }
 `;
 
@@ -51,13 +57,24 @@ const Filter = styled.div`
 function Reviews() {
   const { reviews, itemRate, item } = useContext(DetailContext);
   const [filter, setFilter] = useState(<High />);
-
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
   return (
     <Wrapper>
-      <div className="reviewBox">상품 리뷰({reviews.length})</div>
+      <div className="reviewBox">
+        상품 리뷰({reviews.length}){' '}
+        <AiOutlineEdit
+          className="writeReview"
+          onClick={() => setReviewModalOpen(true)}
+        />
+        <ReviewModal
+          reviewModalOpen={reviewModalOpen}
+          setReviewModalOpen={setReviewModalOpen}
+        />
+      </div>
+
       <Rate>
         <span>고객 평점</span>
-        {itemRate(Math.round(item.rate)).map(i =>
+        {itemRate(Math.ceil(item.rate)).map(i =>
           i !== 0 ? (
             <AiTwotoneStar style={{ color: '#ffb23a' }} />
           ) : (
