@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BsBagX } from 'react-icons/bs';
 
 function LatelyModal(props) {
   return (
@@ -17,6 +18,7 @@ function LatelyModal(props) {
           <span>전체삭제</span>
         </LatelyHeader>
         <LatelyMain></LatelyMain>
+        <BsBagX className="icon" />
       </div>
     </LatelySection>
   );
