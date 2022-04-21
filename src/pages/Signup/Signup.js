@@ -1,13 +1,21 @@
 import styled from 'styled-components';
-import { useReducer } from 'react';
+import { useReducer, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { VscCheck } from 'react-icons/vsc';
 import { BiChevronUp, BiChevronDown, BiChevronRight } from 'react-icons/bi';
 
 function InputChkBox(props) {
   return (
     <InputBox>
-      <input id={props.id} type={props.type} defaultChecked={props.isCheck} />
+      <input
+        id={props.id}
+        type={props.type}
+        defaultChecked={props.isCheck}
+        name={props.name}
+        disable={props.disable}
+        onChange={props.event}
+      />
       <p className="chk-box">
         <VscCheck />
       </p>
@@ -17,10 +25,59 @@ function InputChkBox(props) {
 }
 
 function Signup() {
+  //validation 관련 함수
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: 'onChange' });
+
+  const onSubmit = data => console.log(data, errors);
+
+  //체크박스 관련 함수
+  const [checkedList, setCheckedList] = useState([]);
+  const dataLists = [{ id: 'agree1' }, { id: 'agree2' }, { id: 'agree3' }];
+
+  //전체 체크 클릭 시 발생
+  const onCheckedAll = useCallback(
+    checked => {
+      if (checked) {
+        const checkedListArray = [];
+        console.log(dataLists);
+        dataLists.forEach(list => {
+          checkedListArray.push(list);
+        });
+        setCheckedList(checkedListArray);
+        console.log(checkedList);
+      } else {
+        // console.log(checkedList);
+        setCheckedList([]);
+      }
+    },
+    [dataLists]
+  );
+  //개별 체크 클릭 시 발생함수
+  const onCheckedElement = useCallback(
+    checked => {
+      console.log(checkedList);
+      if (checked) {
+        setCheckedList([...checkedList]);
+        console.log(checked, checkedList);
+      } else {
+        // setCheckedList(checkedList.filter(el => el !== list));
+        console.log(checked, checkedList);
+      }
+    },
+    [checkedList]
+  );
+  //토글 바 함수
   const [display, toggleDisplay] = useReducer(
     val => (val === 'block' ? 'none' : 'block'),
     'block'
   );
+
+  const inputRef = useRef(null);
 
   return (
     <WrapSignUp>
@@ -33,37 +90,107 @@ function Signup() {
         </H2>
       </SignUpHead>
 
-      <form>
-        <Input type="text" placeholder="이름(실명을 입력해주세요.)" />
-        <Input type="email" placeholder="이메일을 입력해주세요." />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.username && errors.username?.type === 'required' && (
+          <AlertMessage>이름을 입력하세요.</AlertMessage>
+        )}
+        {errors.username && errors.username?.type === 'minLength' && (
+          <AlertMessage>{errors.username.message}</AlertMessage>
+        )}
+
+        <Input
+          type="text"
+          placeholder="이름(실명을 입력해주세요.)"
+          aria-invalid={errors.username ? '#ff0000' : '#dadada'}
+          {...register('username', {
+            required: true,
+            minLength: { value: 2, message: '이름은 2자 이상이어야 합니다.' },
+          })}
+        />
+        {errors.email && errors.email?.type === 'required' && (
+          <AlertMessage>이메일을 입력하세요.</AlertMessage>
+        )}
+        {errors.email && errors.email?.type === 'pattern' && (
+          <AlertMessage>@를 포함한 주소를 적어주세요.</AlertMessage>
+        )}
+        <Input
+          type="text"
+          placeholder="이메일을 입력해주세요."
+          aria-invalid={errors.email ? '#ff0000' : '#dadada'}
+          {...register('email', {
+            required: true,
+            pattern: /@/,
+          })}
+        />
         <PwSelectBox>
           <InputChkBox
             type="radio"
             id="pwCustom"
             isCheck="checked"
             message="비밀번호 직접입력"
+            name="pwRadio"
           />
 
           <InputChkBox
+            fowardRef={inputRef}
             id="pwAuto"
             type="radio"
             isCheck=""
             message="비밀번호 자동발급"
+            name="pwRadio"
           />
         </PwSelectBox>
-
-        <Input
-          type="password"
-          placeholder="비밀번호는 8자 이상으로 영문과 숫자, 특수문자를 최소 1자씩 포함해주세요."
-        />
-        <Input type="password" placeholder="비밀번호 확인" />
+        <PwSelectCnt>
+          {errors.password && errors.password?.type === 'required' && (
+            <AlertMessage>패스워드를 입력하세요.</AlertMessage>
+          )}
+          {errors.password && errors.password?.type === 'pattern' && (
+            <AlertMessage>
+              비밀번호는 8자 이상으로 숫자와 문자를 최소 1자씩 포함해주세요.
+            </AlertMessage>
+          )}
+          <Input
+            type="password"
+            placeholder="비밀번호는 8자 이상으로 숫자와 문자를 최소 1자씩 포함해주세요."
+            aria-invalid={errors.password ? '#ff0000' : '#dadada'}
+            disable="false"
+            {...register('password', {
+              required: true,
+              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            })}
+          />
+          {errors.passwordCheck &&
+            errors.passwordCheck?.type === 'required' && (
+              <AlertMessage>패스워드를 재입력하세요.</AlertMessage>
+            )}
+          {errors.passwordCheck &&
+            errors.passwordCheck?.type === 'validate' && (
+              <AlertMessage>입력한 패스워드와 다릅니다.</AlertMessage>
+            )}
+          <Input
+            type="password"
+            placeholder="비밀번호 확인"
+            aria-invalid={errors.passwordCheck ? '#ff0000' : '#dadada'}
+            {...register('passwordCheck', {
+              required: true,
+              validate: value => value === watch('password'),
+            })}
+          />
+        </PwSelectCnt>
         <AllAgreeBox>
           <AllAgree>
             <InputChkBox
               id="allAgree"
               type="checkbox"
-              isCheck=""
+              isCheck={
+                checkedList.length === 0
+                  ? false
+                  : checkedList.length === dataLists.length
+                  ? true
+                  : false
+              }
               message="모든 약관 동의"
+              event={e => onCheckedAll(e.target.checked)}
             />
             <b onClick={toggleDisplay}>
               {display === 'block' ? (
@@ -82,10 +209,11 @@ function Signup() {
             <p>뷰티풀코드 통합 멤버십 뷰티포인트 회원약관</p>
             <InputBoxWrap>
               <InputChkBox
-                id="agree1"
+                id={dataLists[0].id}
                 type="checkbox"
-                isCheck=""
+                isCheck={checkedList.includes(dataLists[0]) ? true : false}
                 message="[필수] 뷰티포인트 서비스 이용약관"
+                event={e => onCheckedElement(e.target.checked)}
               />
               <b>
                 <BiChevronRight size={25} />
@@ -93,7 +221,7 @@ function Signup() {
             </InputBoxWrap>
             <InputBoxWrap>
               <InputChkBox
-                id="agree2"
+                id={dataLists[1].id}
                 type="checkbox"
                 isCheck=""
                 message="[선택] 개인정보 제3자 제공 동의"
@@ -109,7 +237,7 @@ function Signup() {
 
             <InputBoxWrap>
               <InputChkBox
-                id="agree3"
+                id={dataLists[2].id}
                 type="checkbox"
                 isCheck=""
                 message="[선택] 뷰티포인트 문자 수신 동의"
@@ -120,7 +248,7 @@ function Signup() {
             </InputBoxWrap>
           </AllAgreeCnt>
         </AllAgreeBox>
-        <Button>회원가입</Button>
+        <Button type="submit">회원가입</Button>
       </form>
     </WrapSignUp>
   );
@@ -131,6 +259,7 @@ const theme = {
   white: '#fff',
   defaultInput: '#929292',
   alert: '#ff0000',
+  lightGray: '#dadada',
   btnDefault: '#555',
 };
 
@@ -143,7 +272,7 @@ const fontSize = {
   h2: '30px',
 };
 const WrapSignUp = styled.div`
-  max-width: 480px;
+  max-width:30%;
   min-width: 375px;
   margin: 0 auto 50px;
   @media only screen and (max-width: 375px) {
@@ -164,12 +293,15 @@ const PwSelectBox = styled.div`
   justify-content: space-between;
   margin: 20px 0 10px;
 `;
+const PwSelectCnt = styled.div`
+  display: block;
+`;
 const InputBoxWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 15px 0;
   & b {
-    color: #dadada;
+    color: ${theme.lightGray};
     cursor: pointer;
   }
 `;
@@ -222,7 +354,9 @@ const Input = styled.input`
   width: 100%;
   margin: 10px 0;
   padding: 15px;
-  border: 1px solid #dadada;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props => props['aria-invalid']};
   border-radius: 0;
 
   font-size: 1rem;
@@ -234,6 +368,11 @@ const Input = styled.input`
   &: focus {
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.14);
   }
+`;
+const AlertMessage = styled.span`
+  margin-bottom: 5px;
+  color: ${theme.alert};
+  font-size: ${fontSize.small};
 `;
 const AllAgreeBox = styled.div`
   margin: 30px 0;
