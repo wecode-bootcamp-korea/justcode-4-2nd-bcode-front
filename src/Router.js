@@ -9,19 +9,24 @@ import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
 
+import { ThemeProvider } from 'styled-components';
+import theme from './styles/theme';
+
 function Router() {
   return (
-    <BrowserRouter>
-      <Nav />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Main />} />
-        <Route path="/list" element={<List />} />
-        <Route path="/detail" element={<Detail />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/detail" element={<Detail />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
