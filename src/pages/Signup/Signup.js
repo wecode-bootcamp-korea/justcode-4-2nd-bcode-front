@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useReducer, useRef, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import InputChkBox from './InputChkBox';

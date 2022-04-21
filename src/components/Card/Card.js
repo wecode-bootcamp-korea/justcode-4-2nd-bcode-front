@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const ImgContainer = styled.div`
   max-width: 224px;
