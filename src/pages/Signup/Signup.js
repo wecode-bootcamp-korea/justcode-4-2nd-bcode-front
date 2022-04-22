@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useReducer, useRef, useState, useCallback } from 'react';
+import { useReducer, useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -265,6 +265,7 @@ const WrapSignUp = styled.div`
     padding: 0 20px;
   }
 `;
+
 const SignUpHead = styled.div`
   padding: 50px 0 30px;
 `;
