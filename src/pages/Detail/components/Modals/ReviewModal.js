@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
 
 const Box = styled.div`
   position: absolute;
@@ -68,6 +69,7 @@ const Preview = styled.div`
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
   const [imgPreview, setImgPreview] = useState('');
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
@@ -98,7 +100,19 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
 
   const onSubmit = data => {
     console.log(data);
-    cleanData(file);
+    fetch('http://localhost:8000/review/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: {
+        productId: id,
+        content: data.content,
+        rating: data.rating,
+        image: data.image,
+      },
+    }).then(cleanData(file));
   };
 
   const closeModal = () => {
@@ -114,6 +128,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
             method="POST"
             onSubmit={handleSubmit(onSubmit)}
             enctype="multipart/form-data"
+            name="reviewForm"
           >
             <AiOutlineClose onClick={() => closeModal()} />
 
@@ -132,6 +147,14 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
               className="content"
               {...register('content', { required: true })}
             />
+
+            <select form="reviewForm" {...register('rating')}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
             <input type="submit" value="리뷰 작성 완료" />
           </Modal>
         </Box>

@@ -289,7 +289,7 @@ function OrderBox() {
           )
         )}
         {item.rate}
-        <MoveToReview>{item.reviews}건 리뷰</MoveToReview>
+        <MoveToReview>{item.reviews.length}건 리뷰</MoveToReview>
       </Rate>
       <BuyBenefit>
         <span className="title">구매 혜택</span>

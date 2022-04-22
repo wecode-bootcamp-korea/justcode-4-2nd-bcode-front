@@ -5,6 +5,7 @@ import Review from '../Review';
 
 function Low() {
   const { reviews } = useContext(DetailContext);
+
   const sortedReviews = [...reviews.sort((a, b) => a.rating - b.rating)];
 
   return (

@@ -48,10 +48,9 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   let user = 2;
   const processOnlyItem = res => {
-    res.reviews = res.Reviews.length;
     res.rate =
-      res.Reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
-      res.reviews;
+      res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
+      res.reviews.length;
 
     return res;
   };
@@ -102,7 +101,7 @@ function Detail() {
     })
       .then(res => res.json())
       .then(res => {
-        setReviews(res.Reviews);
+        setReviews(res.reviews);
         setItem(processOnlyItem(res));
         setLoading(false);
       });

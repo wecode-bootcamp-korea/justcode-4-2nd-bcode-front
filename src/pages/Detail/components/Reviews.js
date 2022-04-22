@@ -77,7 +77,7 @@ function Reviews() {
   return (
     <Wrapper>
       <div className="reviewBox">
-        상품 리뷰({reviews.length}){' '}
+        상품 리뷰({reviews.length})
         <AiOutlineEdit
           className="writeReview"
           onClick={() => confirmLoggedIn(true)}

@@ -68,32 +68,19 @@ function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
   const { user } = useContext(UserContext);
 
-  const deleteReview = e => {
-    console.log(review.id);
-    /*
-        fetch('/data/detail.json', {
+  const deleteReview = () => {
+    fetch(`http://localhost:8000/review/${review.id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setReviews(res.Reviews);
-        setItem(processOnlyItem(res));
-        setLoading(false);
-      });
-*/
-    console.log(e);
+    });
   };
 
   const updateReview = () => {};
+
   return (
     <Wrapper>
       <User>
         <AiOutlineUser className="userIcon" />
-        <span>{review.username.slice(0, 4) + '***'}</span>
+        <span>{review.users.username.slice(0, 4) + '***'}</span>
       </User>
       <Content>
         <div>
@@ -110,11 +97,11 @@ function Review({ review }) {
         <div className="heartBox">
           <AiOutlineHeart />
           &nbsp;
-          {review.Reviews_likes.length}
-          {user === review.user_id && (
+          {review.reviews_likes.length}
+          {user === review.users.id && (
             <div className="edit">
               <AiOutlineEdit style={{ marginRight: '10px' }} />
-              <AiOutlineDelete onClick={e => deleteReview(e.target)} />
+              <AiOutlineDelete onClick={() => deleteReview()} />
             </div>
           )}
         </div>
