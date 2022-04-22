@@ -258,11 +258,12 @@ function Signup() {
 }
 
 const WrapSignUp = styled.div`
-  max-width:30%;
+  max-width: 30%;
   min-width: 375px;
   margin: 0 auto 50px;
   @media only screen and (max-width: 375px) {
-    padding:0 20px;
+    padding: 0 20px;
+  }
 `;
 const SignUpHead = styled.div`
   padding: 50px 0 30px;
@@ -303,10 +304,10 @@ const Input = styled.input`
   font-size: 1rem;
   outline: none;
   transition: all 0.3s;
-  :: placeholder {
+  & ::placeholder {
     color: ${props => props.theme.defaultInput};
   }
-  &: focus {
+  &:focus {
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.14);
   }
 `;
