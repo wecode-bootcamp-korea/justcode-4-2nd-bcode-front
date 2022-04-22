@@ -7,10 +7,11 @@ function InputChkBox(props) {
       <input
         id={props.id}
         type={props.type}
-        defaultChecked={props.isCheck}
+        checked={props.id === 'pwCustom' ? true : props.isCheck}
         name={props.name}
         disable={props.disable}
         onChange={props.event}
+        readOnly
       />
       <p className="chk-box">
         <VscCheck />
