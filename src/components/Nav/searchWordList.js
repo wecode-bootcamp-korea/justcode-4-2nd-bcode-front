@@ -5,8 +5,9 @@ function SearchWordList(props) {
   const navigate = useNavigate();
 
   const goToSearchPage = () => {
-    navigate(`/search?${props.name}`);
-    window.location.reload();
+    props.searchValue(props.name);
+    // navigate(`/search?${props.name}`);
+    //  window.location.reload();
   };
 
   return <SearchWord onClick={goToSearchPage}>{props.name}</SearchWord>;
