@@ -6,7 +6,13 @@ import High from './High';
 import Low from './Low';
 import ByDate from './ByDate';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  button {
+    @media (max-width: 375px) {
+      font-size: 15px;
+    }
+  }
+`;
 
 function Line() {
   const { setFilter } = useContext(ReviewContext);

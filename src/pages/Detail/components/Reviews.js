@@ -10,7 +10,9 @@ const Wrapper = styled.div`
   border-top: 1px solid black;
   margin: 0 100px;
   margin-top: 100px;
-
+  @media (max-width: 375px) {
+    margin: 100px 0 0 0;
+  }
   .reviewBox {
     color: #ee2c7a;
     font-size: 25px;
@@ -20,6 +22,7 @@ const Wrapper = styled.div`
     width: 100%;
     padding: 40px 0;
     border-bottom: 1px solid #ee2c7a;
+
     .writeReview {
       font-size: 50px;
       margin-left: 50px;
@@ -43,6 +46,7 @@ const Filter = styled.div`
   background-color: #e8e1e1;
   font-size: 25px;
   padding: 30px 0;
+
   button {
     font-size: 20px;
     border: none;

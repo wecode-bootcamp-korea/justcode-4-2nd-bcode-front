@@ -9,6 +9,9 @@ const Wrapper = styled.div`
   font-size: 20px;
   padding: 70px 0;
   border-bottom: 1px solid silver;
+  @media (max-width: 820px) {
+    font-size: 15px;
+  }
 `;
 const User = styled.div`
   display: flex;
@@ -16,6 +19,7 @@ const User = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 50px;
+
   .userIcon {
     margin-bottom: 10px;
     font-size: 50px;
@@ -29,19 +33,14 @@ const Content = styled.div`
     padding: 10px 0;
     line-height: 30px;
   }
-  textarea {
-    resize: none;
-    width: 70vw;
-    height: 50px;
-    border: none;
-    font-size: 18px;
-    &:focus {
-      outline: none;
-    }
+
+  span {
+    line-height: 150%;
   }
   .heartBox {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 60px;
     border-radius: 10px;
     border: 1px silver solid;
@@ -68,10 +67,10 @@ function Review({ review }) {
           )}
         </div>
 
-        <textarea readOnly>{review.content}</textarea>
-
+        <span>{review.content}</span>
         <div className="heartBox">
           <AiOutlineHeart />
+          &nbsp;
           {review.Reviews_likes.length}
         </div>
       </Content>
