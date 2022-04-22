@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import SearchList from './searchList';
 import SearchWordList from './searchWordList';
 import LatelyModal from './LatelyModal';
+import CartModal from './CartModal';
+import Category from './Category';
 
 function Nav() {
   const [inputClassName, setInputClassName] = useState('mainInputBox');
@@ -13,7 +15,10 @@ function Nav() {
   const [searchArray, setSearchArray] = useState([]);
   const [inputWord, setInputWord] = useState('');
   const [resultSearch, setResultSearch] = useState([]);
-  const [latelyClassName, setLatelyClassName] = useState('lateyModal');
+  const [latelymodalClassName, setLatelyModalClassName] =
+    useState('latelyModal');
+  const [cartModalClassName, setCartModalClassName] = useState('cartModal');
+  const [openModal, setOpenModal] = useState(false);
   const [searchWord, setsearchWord] = useState(
     JSON.parse(localStorage.getItem('item')) || []
   );
@@ -30,6 +35,7 @@ function Nav() {
       });
   }, []);
   const changeClassName = e => {
+    setOpenModal(true);
     setInputClassName('mainInputBoxChange');
     setInputSearchName('inputBoxChange');
   };
@@ -89,6 +95,7 @@ function Nav() {
   };
 
   const noFocus = e => {
+    setOpenModal(false);
     setInputClassName('mainInputBox');
     setInputSearchName('inputBox');
   };
@@ -98,8 +105,12 @@ function Nav() {
     e.target.value === '' ? setInputState(false) : setInputState(true);
   };
 
-  const setClassName = name => {
-    setLatelyClassName(name);
+  const setLatelyClassName = name => {
+    setLatelyModalClassName(name);
+  };
+
+  const setCartClassName = name => {
+    setCartModalClassName(name);
   };
 
   //검색어 자동완성
@@ -119,7 +130,8 @@ function Nav() {
 
   return (
     <>
-      <ClickModal onClick={noFocus}>
+      <NavSection>
+        {openModal ? <ClickModal onClick={noFocus}></ClickModal> : ''}
         <TopSectoion>
           <Section>
             <Header>
@@ -195,10 +207,10 @@ function Nav() {
                     className="icon"
                     style={{ stroke: 'black', strokeWidth: '1' }}
                     onMouseOver={() => {
-                      setLatelyClassName('lateyModalChange');
+                      setLatelyModalClassName('latelyModalChange');
                     }}
                     onMouseOut={() => {
-                      setLatelyClassName('lateyModal');
+                      setLatelyModalClassName('latelyModal');
                     }}
                   />
                 </div>
@@ -206,17 +218,28 @@ function Nav() {
                   <FiShoppingBag
                     className="icon"
                     style={{ stroke: 'black', strokeWidth: '1' }}
+                    onMouseOver={() => {
+                      setCartModalClassName('cartModalChange');
+                    }}
+                    onMouseOut={() => {
+                      setCartModalClassName('cartModal');
+                    }}
                   />
                 </div>
               </div>
             </Header>
           </Section>
         </TopSectoion>
-      </ClickModal>
-      <LatelyModal
-        latelyClassName={latelyClassName}
-        setClassName={setClassName}
-      />
+        <LatelyModal
+          latelymodalClassName={latelymodalClassName}
+          setLatelyClassName={setLatelyClassName}
+        />
+        <CartModal
+          cartModalClassName={cartModalClassName}
+          setCartClassName={setCartClassName}
+        />
+      </NavSection>
+      <Category />
     </>
   );
 }
@@ -229,13 +252,12 @@ const mainInputBoxItem = css`
   border-radius: 0 0 30px 30px;
   background-color: #ffffff;
   top: 20px;
-  left: 20px;
   transition: all 0.3s ease-in;
 `;
 
 const inputBoxItem = css`
   position: relative;
-  width: 380px;
+  width: 402px;
   height: 45px;
   border: solid 2px #ee2d7a;
   border-radius: 30px;
@@ -245,14 +267,22 @@ const inputBoxItem = css`
   transition: all 0.3s ease-in;
 `;
 
+const NavSection = styled.div`
+  position: relative;
+  height: 100px;
+  z-index: 120;
+`;
+
 const ClickModal = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 500;
 `;
 const TopSectoion = styled.nav`
   width: 100%;
-  border: 1px solid #f0f0f0;
+  z-index: 120;
+  background-color: white;
 `;
 
 const Section = styled.nav`
@@ -271,12 +301,13 @@ const Header = styled.div`
   z-index: 1;
   .Input {
     position: relative;
-    padding-left: 20px;
+    padding-left: 70px;
+    padding-top: 10px;
     .hiddenBox {
-      position: fixed;
-      top: 0px;
+      position: absolute;
+      top: -30px;
       width: 420px;
-      height: 50px;
+      height: 70px;
       background-color: white;
       z-index: 250;
     }
@@ -284,16 +315,18 @@ const Header = styled.div`
       ${mainInputBoxItem}
       transform: translateY(-95%);
       visibility: hidden;
+      z-index: 200;
     }
     .mainInputBoxChange {
       ${mainInputBoxItem}
       transition: all 0.3s ease-in;
       visibility: visible;
+      z-index: 200;
     }
     .searchIcon {
       position: absolute;
       right: 30px;
-      height: 50px;
+      height: 42px;
       font-size: 24px;
       color: #ee2d7a;
       cursor: pointer;
@@ -348,7 +381,7 @@ const InputHeader = styled.div`
   align-items: center;
   justify-content: center;
   width: 400px;
-  height: 30px;
+  height: 70px;
   padding-top: 40px;
   border-bottom: 2px solid #f0f0f0;
   .inputTitle {
