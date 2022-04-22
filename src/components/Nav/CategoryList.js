@@ -5,7 +5,7 @@ function CategoryList(props) {
   const navigate = useNavigate();
 
   const goToCategory = () => {
-    navigate(`/category/${props.id}`);
+    navigate(`/list/${props.id}`);
     window.location.reload();
   };
   return (
@@ -16,7 +16,7 @@ function CategoryList(props) {
 const CategoryListCard = styled.li`
   font-size: 14px;
   font-weight: 600;
-  padding: 20px;
+  padding: 22px;
   cursor: pointer;
 `;
 
