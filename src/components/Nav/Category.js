@@ -39,26 +39,25 @@ function Category(props) {
             />
             <span>카테고리</span>
           </CategoryMenu>
+          <div
+            className={categoryClassName}
+            onMouseOver={moveCategoryList}
+            onMouseOut={backCategoryList}
+          >
+            <ul>
+              {categoryData.map((comment, index) => {
+                return (
+                  <CategoryList
+                    key={index}
+                    id={comment.id}
+                    name={comment.name}
+                  />
+                );
+              })}
+            </ul>
+          </div>
         </CategoryMain>
       </CategoryBar>
-      <CategorySection>
-        <div
-          className={categoryClassName}
-          onMouseOver={moveCategoryList}
-          onMouseOut={backCategoryList}
-        >
-          <ul>
-            {categoryData.map((comment, index) => {
-              return (
-                <CategoryList key={index} id={comment.id} name={comment.name} />
-              );
-            })}
-          </ul>
-        </div>
-      </CategorySection>
-      <HiddenSection>
-        <CategoryHidden></CategoryHidden>
-      </HiddenSection>
     </>
   );
 }
@@ -68,30 +67,23 @@ const CategoryCss = css`
   width: 150px;
   height: 350px;
   transition: all 0.3s ease-in;
-  border: 1px solid #b4b4b4;
+  border: 2px solid #ededed;
   background-color: white;
-  z-index: 100;
+  z-index: 120;
 `;
 
 const CategoryBar = styled.section`
-  position: relative;
-  height: 70px;
   width: 100%;
-  border: 2px solid #f0f0f0;
-  background-color: white;
-`;
-
-const CategorySection = styled.div`
-  width: 1200px;
   height: 70px;
-  margin: auto;
+  border-top: 2px solid #ededed;
+  border-bottom: 2px solid #ededed;
   .categoryList {
     ${CategoryCss}
-    transform: translateY(-180%);
+    display: none;
   }
   .categoryListChange {
     ${CategoryCss}
-    transform: translateY(0%);
+    display: block;
   }
 `;
 
@@ -108,7 +100,6 @@ const CategoryMenu = styled.div`
   height: 100%;
   width: 150px;
   padding-left: 15px;
-  z-index: 120;
   .icon {
     font-size: 32px;
   }
