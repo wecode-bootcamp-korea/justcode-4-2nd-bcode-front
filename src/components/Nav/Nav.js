@@ -61,6 +61,22 @@ function Nav() {
       }
     }
   };
+  const searchValueComplete = e => {
+    console.log(e);
+    if (searchWord.length === 11) {
+      searchWord.pop();
+      setsearchWord(searchWord);
+    }
+    //같은 최근 검색어를 또 입력하면 가장 상단으로 옮기고
+    //저장되어 있던 단어 삭제
+    for (let i = 0; i < searchWord.length; i++) {
+      if (searchWord[i].item === e) {
+        searchWord.splice(i, 1);
+      }
+    }
+    setsearchWord(searchWord);
+    addSearchWord(e);
+  };
 
   const addSearchWord = item => {
     const items = {
@@ -158,6 +174,7 @@ function Nav() {
                               key={index}
                               id={comment.id}
                               name={comment.name}
+                              searchValue={searchValueComplete}
                             />
                           );
                         }
@@ -277,7 +294,7 @@ const ClickModal = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  z-index: 500;
+  z-index: 200;
 `;
 const TopSectoion = styled.nav`
   width: 100%;
@@ -290,6 +307,10 @@ const Section = styled.nav`
   height: 80px;
   margin: auto;
   margin-top: 10px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const Header = styled.div`
@@ -303,6 +324,9 @@ const Header = styled.div`
     position: relative;
     padding-left: 70px;
     padding-top: 10px;
+    @media (max-width: 1000px) {
+      display: none;
+    }
     .hiddenBox {
       position: absolute;
       top: -30px;
@@ -357,16 +381,27 @@ const Header = styled.div`
     font-size: 36px;
     width: 300px;
     height: 80px;
+    @media (max-width: 600px) {
+      width: 210px;
+      height: 80px;
+    }
     .fonts {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100px;
       height: 80px;
+      @media (max-width: 600px) {
+        width: 50px;
+        height: 80px;
+      }
     }
     .icon {
       font-size: 38px;
       cursor: pointer;
+      @media (max-width: 600px) {
+        font-size: 26px;
+      }
     }
   }
 `;
@@ -374,6 +409,10 @@ const Header = styled.div`
 const Image = styled.img`
   width: 200px;
   cursor: pointer;
+  @media (max-width: 600px) {
+    width: 100px;
+    padding: 10px;
+  }
 `;
 
 const InputHeader = styled.div`
