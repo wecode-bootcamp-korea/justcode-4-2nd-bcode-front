@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { DetailContext } from '../Context';
+import { DetailContext, UserContext } from '../Context';
 import styled from 'styled-components';
-import { AiTwotoneStar, AiOutlineUser, AiOutlineHeart } from 'react-icons/ai';
+import {
+  AiTwotoneStar,
+  AiOutlineUser,
+  AiOutlineHeart,
+  AiOutlineEdit,
+  AiOutlineDelete,
+} from 'react-icons/ai';
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,6 +15,8 @@ const Wrapper = styled.div`
   font-size: 20px;
   padding: 70px 0;
   border-bottom: 1px solid silver;
+  position: relative;
+
   @media (max-width: 820px) {
     font-size: 15px;
   }
@@ -29,6 +37,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   div {
     padding: 10px 0;
     line-height: 30px;
@@ -46,10 +55,40 @@ const Content = styled.div`
     border: 1px silver solid;
     padding: 5px;
   }
+  .edit {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    right: 0px;
+    font-size: 30px;
+  }
 `;
 
 function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
+  const { user } = useContext(UserContext);
+
+  const deleteReview = e => {
+    console.log(review.id);
+    /*
+        fetch('/data/detail.json', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        setReviews(res.Reviews);
+        setItem(processOnlyItem(res));
+        setLoading(false);
+      });
+*/
+    console.log(e);
+  };
+
+  const updateReview = () => {};
   return (
     <Wrapper>
       <User>
@@ -72,6 +111,12 @@ function Review({ review }) {
           <AiOutlineHeart />
           &nbsp;
           {review.Reviews_likes.length}
+          {user === review.user_id && (
+            <div className="edit">
+              <AiOutlineEdit style={{ marginRight: '10px' }} />
+              <AiOutlineDelete onClick={e => deleteReview(e.target)} />
+            </div>
+          )}
         </div>
       </Content>
     </Wrapper>

@@ -8,8 +8,9 @@ import {
   AiOutlineQuestionCircle,
 } from 'react-icons/ai';
 import BenefitModal from './Modals/BenefitModal';
-import { DetailContext, ModalContext } from '../Context';
+import { DetailContext, ModalContext, UserContext } from '../Context';
 import CartModal from './Modals/CartModal';
+import SignInPlzModal from '../components/Modals/SignInPlzModal';
 
 // css
 const TitleText = css`
@@ -226,10 +227,13 @@ const ShopLater = styled.button`
 
 function OrderBox() {
   const { item, itemRate } = useContext(DetailContext);
+  const { user } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
+
   const slicePrice = price => {
     return String(price).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
@@ -249,8 +253,12 @@ function OrderBox() {
     alert('제품 링크가 복사되었습니다.');
   };
 
-  const addCart = () => {
-    return setCartModalOpen(true);
+  const confirmLoggedIn = () => {
+    if (user) {
+      setCartModalOpen(true);
+    } else {
+      setSignInPlzModalOpen(true);
+    }
   };
 
   return (
@@ -350,10 +358,14 @@ function OrderBox() {
       <ModalContext.Provider value={{ cartModalOpen, setCartModalOpen, item }}>
         <CartModal />
         <ShopNowOrLater>
-          <ShopNow onClick={() => addCart()}>장바구니 담기</ShopNow>
+          <ShopNow onClick={() => confirmLoggedIn()}>장바구니 담기</ShopNow>
           <ShopLater>바로구매</ShopLater>
         </ShopNowOrLater>
       </ModalContext.Provider>
+      <SignInPlzModal
+        signInPlzModalOpen={signInPlzModalOpen}
+        setSignInPlzModalOpen={setSignInPlzModalOpen}
+      />
     </Wrapper>
   );
 }

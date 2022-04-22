@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled, { css } from 'styled-components';
 import { AiTwotoneStar, AiOutlineEdit } from 'react-icons/ai';
-import { DetailContext, ReviewContext } from '../Context';
+import { DetailContext, ReviewContext, UserContext } from '../Context';
 import Line from '../components/Filters/Line';
 import High from '../components/Filters/High';
 import ReviewModal from '../components/Modals/ReviewModal';
+import SignInPlzModal from '../components/Modals/SignInPlzModal';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
@@ -62,17 +63,32 @@ function Reviews() {
   const { reviews, itemRate, item } = useContext(DetailContext);
   const [filter, setFilter] = useState(<High />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
+  const { user } = useContext(UserContext);
+
+  const confirmLoggedIn = () => {
+    if (user) {
+      setReviewModalOpen(true);
+    } else {
+      setSignInPlzModalOpen(true);
+    }
+  };
+
   return (
     <Wrapper>
       <div className="reviewBox">
         상품 리뷰({reviews.length}){' '}
         <AiOutlineEdit
           className="writeReview"
-          onClick={() => setReviewModalOpen(true)}
+          onClick={() => confirmLoggedIn(true)}
         />
         <ReviewModal
           reviewModalOpen={reviewModalOpen}
           setReviewModalOpen={setReviewModalOpen}
+        />
+        <SignInPlzModal
+          signInPlzModalOpen={signInPlzModalOpen}
+          setSignInPlzModalOpen={setSignInPlzModalOpen}
         />
       </div>
 

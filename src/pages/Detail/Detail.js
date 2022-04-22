@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
-import { DetailContext } from './Context';
+import { DetailContext, UserContext } from './Context';
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ function Detail() {
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
-
+  let user = 2;
   const processOnlyItem = res => {
     res.reviews = res.Reviews.length;
     res.rate =
@@ -84,12 +84,14 @@ function Detail() {
     }
   };
 
+  // localStorage
   useEffect(() => {
     if (loading === false) {
       localItem(id);
     }
   }, [loading]);
 
+  // get Data
   useEffect(() => {
     fetch('/data/detail.json', {
       method: 'GET',
@@ -108,18 +110,20 @@ function Detail() {
 
   return (
     <Wrapper>
-      {loading ? (
-        <div>loading...</div>
-      ) : (
-        <DetailContext.Provider value={{ item, itemRate, reviews }}>
-          <div className="detail">
-            <ImgBox src={item.image_url} />
-            <OrderBox />
-          </div>
+      <UserContext.Provider value={{ user }}>
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <DetailContext.Provider value={{ item, itemRate, reviews }}>
+            <div className="detail">
+              <ImgBox src={item.image_url} />
+              <OrderBox />
+            </div>
 
-          <Reviews />
-        </DetailContext.Provider>
-      )}
+            <Reviews />
+          </DetailContext.Provider>
+        )}
+      </UserContext.Provider>
     </Wrapper>
   );
 }

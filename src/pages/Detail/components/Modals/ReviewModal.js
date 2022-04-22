@@ -97,6 +97,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
   };
 
   const onSubmit = data => {
+    console.log(data);
     cleanData(file);
   };
 
