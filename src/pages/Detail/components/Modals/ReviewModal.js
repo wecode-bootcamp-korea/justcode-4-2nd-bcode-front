@@ -21,7 +21,7 @@ const Modal = styled.form`
   border-radius: 5px;
   width: 900px;
   height: 750px;
-  background-color: white;
+  background: linear-gradient(white, pink);
   padding: 20px;
   position: relative;
   display: flex;
@@ -29,58 +29,52 @@ const Modal = styled.form`
   justify-content: center;
   align-items: center;
   margin-top: 400px;
+
   .close {
     font-size: 25px;
     position: absolute;
-    top: 15px;
-    right: 15px;
+    right: 0;
     opacity: 0.5;
   }
   .content {
+    &:focus {
+      outline: none;
+    }
+    width: 400px;
+    height: 400px;
+    resize: none;
+    font-size: 20px;
   }
-  .priveiw {
-    width: 200px;
-    height: 100px;
+`;
+
+const Preview = styled.div`
+  width: 400px;
+  height: 400px;
+  img {
+    width: 100%;
+    height: 100%;
   }
 `;
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
+  const [imgPreview, setImgPreview] = useState('');
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
-  const [file, setFile] = useState('');
-  const [previewURL, setPreviewURL] = useState('');
-  const [preview, setPreview] = useState(null);
-  const fileRef = useRef();
+
   const onSubmit = data => console.log(data);
+  console.log(watch('image'));
+  const watchImg = watch('image');
 
   useEffect(() => {
-    if (file !== '')
-      //처음 파일 등록하지 않았을 때를 방지
-      setPreview(<img className="img_preview" src={previewURL} />);
-    return () => {};
-  }, [previewURL]);
-
-  const handleFileOnChange = event => {
-    //파일 불러오기
-    event.preventDefault();
-    let file = event.target.files[0];
-    let reader = new FileReader();
-
-    reader.onloadend = e => {
-      setFile(file);
-      setPreviewURL(reader.result);
-    };
-    if (file) reader.readAsDataURL(file);
-  };
-
-  const handleFileButtonClick = e => {
-    //버튼 대신 클릭하기
-    e.preventDefault();
-    fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
-  };
+    if (watchImg) {
+      const file = watchImg[0];
+      setImgPreview(URL.createObjectURL(file));
+    }
+  }, [watchImg]);
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -93,24 +87,23 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
             enctype="multipart/form-data"
           >
             <AiOutlineClose onClick={() => setReviewModalOpen(false)} />
-            <input
-              className="content"
-              {...register('content', { required: true })}
-            />
+
             <input
               type="file"
               accept="image/*"
-              {...register('image_url', { required: true })}
-              onClick={handleFileButtonClick}
+              {...register('image', { required: true })}
             />
-            <input
-              ref={fileRef}
-              hidden={true}
-              id="file"
-              type="file"
-              onChange={handleFileOnChange}
+            {imgPreview && (
+              <Preview>
+                {' '}
+                <img src={imgPreview} />
+              </Preview>
+            )}
+
+            <textarea
+              className="content"
+              {...register('content', { required: true })}
             />
-            <div className="priveiw">{preview}</div>
             <input type="submit" value="리뷰 작성 완료" />
           </Modal>
         </Box>

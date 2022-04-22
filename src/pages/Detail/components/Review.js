@@ -29,7 +29,15 @@ const Content = styled.div`
     padding: 10px 0;
     line-height: 30px;
   }
-  span {
+  textarea {
+    resize: none;
+    width: 70vw;
+    height: 50px;
+    border: none;
+    font-size: 18px;
+    &:focus {
+      outline: none;
+    }
   }
   .heartBox {
     display: flex;
@@ -59,11 +67,9 @@ function Review({ review }) {
             )
           )}
         </div>
-        <div className="text">
-          <span>{review.content.slice(0, 200)}</span>
-          <br />
-          <span>{review.content.slice(200, 400)}</span>
-        </div>
+
+        <textarea readOnly>{review.content}</textarea>
+
         <div className="heartBox">
           <AiOutlineHeart />
           {review.Reviews_likes.length}
