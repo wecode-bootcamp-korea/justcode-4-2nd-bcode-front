@@ -17,38 +17,41 @@ function Footer() {
   return (
     <FooterSection>
       <FooterInner>
-        <FooterTitle>(주)아뤼따움</FooterTitle>
-        <FooterMainInfo>
-          <div>
-            (주)아뤼따움 대표이사 : 저스트코드 | 사업자 등록번호 : 123-45-56789
-          </div>
-          <div>주소 : 서울특별시 용산구 한강대로 1004 (한강로 7가) </div>
-          <div>전자메일주소 : support@aruitaum.com</div>
-          <div>호스팅 제공자 : (주)아뤼따움</div>
-          <div>통신판매업신고번호 : 2022-서울용산-1004호</div>
-          <div>건강기능식품판매업 영업신고증 제7호</div>
-        </FooterMainInfo>
+        <div>
+          <FooterTitle>(주)아뤼따움</FooterTitle>
+          <FooterMainInfo>
+            <div>
+              (주)아뤼따움 대표이사 : 저스트코드 | 사업자 등록번호 :
+              123-45-56789
+            </div>
+            <div>주소 : 서울특별시 용산구 한강대로 1004 (한강로 7가) </div>
+            <div>전자메일주소 : support@aruitaum.com</div>
+            <div>호스팅 제공자 : (주)아뤼따움</div>
+            <div>통신판매업신고번호 : 2022-서울용산-1004호</div>
+            <div>건강기능식품판매업 영업신고증 제7호</div>
+          </FooterMainInfo>
 
-        <FooterInfo>
-          <div>
-            고객님의 안전거래를 위한 현금 거래에 대해 영서페이 에스크로서비스를
-            이용하실 수 있습니다.
-          </div>
-          <div>
-            아뤼따움 모든 고객은 월1200만원(리네즈 글로벌 상품 월1000만원)/연
-            1200만원 내에서 할인 혜택을 받을 수 있습니다.(온/오프라인 합산)
-          </div>
-        </FooterInfo>
-        <Footerlast>
-          <div>ARUITAUM CORPORATION ALL RIGHTS RESERVED.</div>
-        </Footerlast>
+          <FooterInfo>
+            <div>
+              고객님의 안전거래를 위한 현금 거래에 대해 영서페이
+              에스크로서비스를 이용하실 수 있습니다.
+            </div>
+            <div>
+              아뤼따움 모든 고객은 월1200만원(리네즈 글로벌 상품 월1000만원)/연
+              1200만원 내에서 할인 혜택을 받을 수 있습니다.(온/오프라인 합산)
+            </div>
+          </FooterInfo>
+          <Footerlast>
+            <div>ARUITAUM CORPORATION ALL RIGHTS RESERVED.</div>
+          </Footerlast>
+        </div>
+        <FooterIcons>
+          <FiFacebook className="icons" style={{ strokeWidth: '1' }} />
+          <FiInstagram className="icons" style={{ strokeWidth: '1' }} />
+          <FiYoutube className="icons" style={{ strokeWidth: '1' }} />
+          <FiTwitter className="icons" style={{ strokeWidth: '1' }} />
+        </FooterIcons>
       </FooterInner>
-      <FooterIcons>
-        <FiFacebook className="icons" style={{ strokeWidth: '1' }} />
-        <FiInstagram className="icons" style={{ strokeWidth: '1' }} />
-        <FiYoutube className="icons" style={{ strokeWidth: '1' }} />
-        <FiTwitter className="icons" style={{ strokeWidth: '1' }} />
-      </FooterIcons>
       <FiArrowUp
         className="goToTop"
         style={{ strokeWidth: '1' }}
@@ -82,6 +85,8 @@ const FooterSection = styled.section`
 `;
 
 const FooterInner = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 1200px;
   margin: auto;
 `;
@@ -120,9 +125,6 @@ const Footerlast = styled.div`
 `;
 
 const FooterIcons = styled.div`
-  position: absolute;
-  top: 50px;
-  right: 100px;
   @media (max-width: 820px) {
     display: none;
   }
