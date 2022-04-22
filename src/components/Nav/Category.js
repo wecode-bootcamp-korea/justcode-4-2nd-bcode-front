@@ -26,19 +26,21 @@ function Category(props) {
   }, []);
 
   return (
-    <CategoryBar>
-      <CategoryMain>
-        <CategoryMenu
-          onMouseOver={moveCategoryList}
-          onMouseOut={backCategoryList}
-        >
-          <FiMenu
-            className="icon"
-            style={{ stroke: 'black', strokeWidth: '1' }}
-          />
-          <span>카테고리</span>
-        </CategoryMenu>
-      </CategoryMain>
+    <>
+      <CategoryBar>
+        <CategoryMain>
+          <CategoryMenu
+            onMouseOver={moveCategoryList}
+            onMouseOut={backCategoryList}
+          >
+            <FiMenu
+              className="icon"
+              style={{ stroke: 'black', strokeWidth: '1' }}
+            />
+            <span>카테고리</span>
+          </CategoryMenu>
+        </CategoryMain>
+      </CategoryBar>
       <CategorySection>
         <div
           className={categoryClassName}
@@ -54,7 +56,10 @@ function Category(props) {
           </ul>
         </div>
       </CategorySection>
-    </CategoryBar>
+      <HiddenSection>
+        <CategoryHidden></CategoryHidden>
+      </HiddenSection>
+    </>
   );
 }
 
@@ -72,7 +77,12 @@ const CategoryBar = styled.section`
   width: 100%;
   border: 2px solid #f0f0f0;
   background-color: white;
-  z-index: 150;
+`;
+
+const CategorySection = styled.div`
+  width: 1200px;
+  height: 70px;
+  margin: auto;
   .categoryList {
     ${CategoryCss}
     transform: translateY(-180%);
@@ -83,13 +93,6 @@ const CategoryBar = styled.section`
   }
 `;
 
-const CategorySection = styled.div`
-  width: 1200px;
-  height: 100%;
-  margin: auto;
-  z-index: 100;
-`;
-
 const CategoryMain = styled.div`
   width: 1200px;
   height: 100%;
@@ -97,11 +100,13 @@ const CategoryMain = styled.div`
 `;
 
 const CategoryMenu = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
   width: 150px;
   padding-left: 15px;
+  z-index: 120;
   .icon {
     font-size: 32px;
   }
@@ -112,6 +117,21 @@ const CategoryMenu = styled.div`
   &:hover {
     color: #f47dab;
   }
+`;
+
+const CategoryHidden = styled.div`
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background-color: white;
+  top: -120px;
+  z-index: 110;
+`;
+
+const HiddenSection = styled.div`
+  width: 1200px;
+  height: 70px;
+  margin: auto;
 `;
 
 export default Category;

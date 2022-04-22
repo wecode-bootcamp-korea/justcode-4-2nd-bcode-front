@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { BsBagX } from 'react-icons/bs';
+import Category from './Category';
 
 function CartModal(props) {
   return (

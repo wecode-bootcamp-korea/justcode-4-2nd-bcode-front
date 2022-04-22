@@ -270,12 +270,14 @@ const inputBoxItem = css`
 const NavSection = styled.div`
   position: relative;
   height: 100px;
+  z-index: 120;
 `;
 
 const ClickModal = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 500;
 `;
 const TopSectoion = styled.nav`
   width: 100%;
