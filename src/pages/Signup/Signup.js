@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-
-import { useReducer, useRef, useState, useCallback } from 'react';
+import { useReducer, useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import InputChkBox from './InputChkBox';
 import { BiChevronUp, BiChevronDown, BiChevronRight } from 'react-icons/bi';
-import { check } from 'prettier';
 
 function Signup() {
   //토글 바 함수
