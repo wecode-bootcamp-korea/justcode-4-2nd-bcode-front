@@ -69,6 +69,8 @@ const CategoryCss = css`
   height: 350px;
   transition: all 0.3s ease-in;
   border: 1px solid #b4b4b4;
+  background-color: white;
+  z-index: 100;
 `;
 
 const CategoryBar = styled.section`
