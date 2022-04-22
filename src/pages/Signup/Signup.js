@@ -265,6 +265,7 @@ const WrapSignUp = styled.div`
     padding: 0 20px;
   }
 `;
+
 const SignUpHead = styled.div`
   padding: 50px 0 30px;
 `;
