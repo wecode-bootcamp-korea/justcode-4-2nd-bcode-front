@@ -1,7 +1,12 @@
 import styled from 'styled-components';
+import CarouselMain from './CarouselMain';
 
 function Main() {
-  return <div></div>;
+  return (
+    <>
+      <CarouselMain />
+    </>
+  );
 }
 
 export default Main;
