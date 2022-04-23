@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -48,6 +48,11 @@ const Modal = styled.form`
     @media (max-width: 375px) {
       width: 300px;
     }
+  }
+
+  select {
+    padding: 10px 20px;
+    margin: 20px 0;
   }
 `;
 
@@ -131,7 +136,6 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
             name="reviewForm"
           >
             <AiOutlineClose onClick={() => closeModal()} />
-
             <input
               type="file"
               accept="image/*"
@@ -142,19 +146,19 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
                 <img src={imgPreview} alt="다른 사진을 업로드 해 주세요" />
               </Preview>
             )}
-
             <textarea
               className="content"
               {...register('content', { required: true })}
+              placeholder="댓글을 입력하세요"
             />
-
-            <select form="reviewForm" {...register('rating')}>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+            <select form="reviewForm" {...register('rating')} required>
+              <option value="1">1점</option>
+              <option value="2">2점</option>
+              <option value="3">3점</option>
+              <option value="4">4점</option>
+              <option value="5">5점</option>
             </select>
+
             <input type="submit" value="리뷰 작성 완료" />
           </Modal>
         </Box>

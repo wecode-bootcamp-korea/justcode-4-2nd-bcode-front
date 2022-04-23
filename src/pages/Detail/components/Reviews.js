@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { AiTwotoneStar, AiOutlineEdit } from 'react-icons/ai';
 import { DetailContext, ReviewContext, UserContext } from '../Context';
 import Line from '../components/Filters/Line';
-import High from '../components/Filters/High';
+import High from './Filters/ByHigh';
 import ReviewModal from '../components/Modals/ReviewModal';
 import SignInPlzModal from '../components/Modals/SignInPlzModal';
 

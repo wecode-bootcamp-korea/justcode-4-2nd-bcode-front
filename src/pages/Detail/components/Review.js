@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { DetailContext, UserContext } from '../Context';
 import styled from 'styled-components';
 import {
@@ -21,6 +21,7 @@ const Wrapper = styled.div`
     font-size: 15px;
   }
 `;
+
 const User = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,6 +34,7 @@ const User = styled.div`
     font-size: 50px;
   }
 `;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,6 +57,11 @@ const Content = styled.div`
     border: 1px silver solid;
     padding: 5px;
   }
+  .date {
+    opacity: 0.7;
+    padding-left: 10px;
+  }
+
   .edit {
     position: absolute;
     display: flex;
@@ -91,6 +98,9 @@ function Review({ review }) {
               <AiTwotoneStar style={{ color: 'silver' }} />
             )
           )}
+          <span className="date">
+            {review.created_at.split('-').join('.').slice(0, 10)}
+          </span>
         </div>
 
         <span>{review.content}</span>

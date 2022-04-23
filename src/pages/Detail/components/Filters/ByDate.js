@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useContext } from 'react';
 import { DetailContext } from '../../Context';
 import Review from '../Review';
 

@@ -12,7 +12,6 @@ import { DetailContext, ModalContext, UserContext } from '../Context';
 import CartModal from './Modals/CartModal';
 import SignInPlzModal from '../components/Modals/SignInPlzModal';
 
-// css
 const TitleText = css`
   font-weight: 700;
   font-size: 25px;
@@ -24,6 +23,7 @@ const HeightAndBoredr = i => css`
   padding: ${i}px 0;
   border-bottom: 1px solid silver;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,6 +41,7 @@ const Wrapper = styled.div`
     margin-top: 100px;
   }
 `;
+
 const Brand = styled.span`
   display: flex;
   justify-content: space-between;
@@ -57,6 +58,7 @@ const Brand = styled.span`
 const Name = styled.span`
   ${TitleText}
 `;
+
 const Price = styled.span`
   ${TitleText}
   display: flex;
@@ -139,6 +141,7 @@ const PurchaseBenefit = styled.div`
     }
   }
 `;
+
 const DeliveryPrice = styled.div`
   ${HeightAndBoredr(40)}
   .title {
@@ -180,6 +183,7 @@ const CountBtn = styled.div`
   width: 80px;
   padding: 0 13px;
 `;
+
 const Amount = styled.div`
   display: flex;
   justify-content: space-between;
@@ -193,10 +197,12 @@ const Amount = styled.div`
     font-size: 25px;
   }
 `;
+
 const ShopNowOrLater = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const ShopNow = styled.button`
   background-color: white;
   color: #ee2c7a;
@@ -211,6 +217,7 @@ const ShopNow = styled.button`
     font-size: 15px;
   }
 `;
+
 const ShopLater = styled.button`
   background-color: #ee2c7a;
   border: 1px solid #ee2c7a;
