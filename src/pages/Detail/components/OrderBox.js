@@ -8,10 +8,10 @@ import {
   AiOutlineQuestionCircle,
 } from 'react-icons/ai';
 import BenefitModal from './Modals/BenefitModal';
-import { DetailContext, ModalContext } from '../Context';
+import { DetailContext, ModalContext, UserContext } from '../Context';
 import CartModal from './Modals/CartModal';
+import SignInPlzModal from '../components/Modals/SignInPlzModal';
 
-// css
 const TitleText = css`
   font-weight: 700;
   font-size: 25px;
@@ -23,6 +23,7 @@ const HeightAndBoredr = i => css`
   padding: ${i}px 0;
   border-bottom: 1px solid silver;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,6 +41,7 @@ const Wrapper = styled.div`
     margin-top: 100px;
   }
 `;
+
 const Brand = styled.span`
   display: flex;
   justify-content: space-between;
@@ -56,6 +58,7 @@ const Brand = styled.span`
 const Name = styled.span`
   ${TitleText}
 `;
+
 const Price = styled.span`
   ${TitleText}
   display: flex;
@@ -138,6 +141,7 @@ const PurchaseBenefit = styled.div`
     }
   }
 `;
+
 const DeliveryPrice = styled.div`
   ${HeightAndBoredr(40)}
   .title {
@@ -179,6 +183,7 @@ const CountBtn = styled.div`
   width: 80px;
   padding: 0 13px;
 `;
+
 const Amount = styled.div`
   display: flex;
   justify-content: space-between;
@@ -192,10 +197,12 @@ const Amount = styled.div`
     font-size: 25px;
   }
 `;
+
 const ShopNowOrLater = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const ShopNow = styled.button`
   background-color: white;
   color: #ee2c7a;
@@ -210,6 +217,7 @@ const ShopNow = styled.button`
     font-size: 15px;
   }
 `;
+
 const ShopLater = styled.button`
   background-color: #ee2c7a;
   border: 1px solid #ee2c7a;
@@ -226,10 +234,13 @@ const ShopLater = styled.button`
 
 function OrderBox() {
   const { item, itemRate } = useContext(DetailContext);
+  const { user } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
+
   const slicePrice = price => {
     return String(price).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
@@ -249,8 +260,12 @@ function OrderBox() {
     alert('제품 링크가 복사되었습니다.');
   };
 
-  const addCart = () => {
-    return setCartModalOpen(true);
+  const confirmLoggedIn = () => {
+    if (user) {
+      setCartModalOpen(true);
+    } else {
+      setSignInPlzModalOpen(true);
+    }
   };
 
   return (
@@ -281,7 +296,7 @@ function OrderBox() {
           )
         )}
         {item.rate}
-        <MoveToReview>{item.reviews}건 리뷰</MoveToReview>
+        <MoveToReview>{item.reviews.length}건 리뷰</MoveToReview>
       </Rate>
       <BuyBenefit>
         <span className="title">구매 혜택</span>
@@ -350,10 +365,14 @@ function OrderBox() {
       <ModalContext.Provider value={{ cartModalOpen, setCartModalOpen, item }}>
         <CartModal />
         <ShopNowOrLater>
-          <ShopNow onClick={() => addCart()}>장바구니 담기</ShopNow>
+          <ShopNow onClick={() => confirmLoggedIn()}>장바구니 담기</ShopNow>
           <ShopLater>바로구매</ShopLater>
         </ShopNowOrLater>
       </ModalContext.Provider>
+      <SignInPlzModal
+        signInPlzModalOpen={signInPlzModalOpen}
+        setSignInPlzModalOpen={setSignInPlzModalOpen}
+      />
     </Wrapper>
   );
 }
