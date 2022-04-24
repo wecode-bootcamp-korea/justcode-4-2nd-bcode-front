@@ -107,9 +107,9 @@ const Preview = styled.div`
   }
 `;
 
-function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
+function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   const [imgPreview, setImgPreview] = useState('');
-  const { id } = useParams();
+  const { product_id } = useParams();
   const {
     register,
     handleSubmit,
@@ -140,22 +140,37 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
 
   const onSubmit = data => {
     console.log(data);
-    if (!data.rating) {
+    if (!watch('rating')) {
       alert('별점을 주세요');
     } else {
-      fetch('http://localhost:8000/review/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: {
-          productId: id,
-          content: data.content,
-          rating: data.rating,
-          image: data.image,
-        },
-      }).then(cleanData(file));
+      if (formMethod.method === 'POST') {
+        fetch('http://localhost:8000/review/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: {
+            productId: product_id,
+            content: data.content,
+            rating: data.rating,
+            image: data.image,
+          },
+        }).then(cleanData(file));
+      } else if (formMethod.method === 'PATCH') {
+        fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: {
+            content: data.content,
+            rating: data.rating,
+            image: data.image,
+          },
+        }).then(cleanData(file));
+      }
     }
   };
 

@@ -65,10 +65,14 @@ const Filter = styled.div`
 
 function Reviews() {
   const { reviews, itemRate, item } = useContext(DetailContext);
+  const { user } = useContext(UserContext);
   const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
-  const { user } = useContext(UserContext);
+  const [formMethod, setFormMethod] = useState({
+    method: 'POST',
+    review_id: 0,
+  });
 
   const confirmLoggedIn = () => {
     if (user) {
@@ -89,6 +93,7 @@ function Reviews() {
         <ReviewModal
           reviewModalOpen={reviewModalOpen}
           setReviewModalOpen={setReviewModalOpen}
+          formMethod={formMethod}
         />
         <SignInPlzModal
           signInPlzModalOpen={signInPlzModalOpen}
@@ -108,7 +113,9 @@ function Reviews() {
         &nbsp;
         {Number(item.rate).toFixed(1)}
       </Rate>
-      <ReviewContext.Provider value={{ setFilter }}>
+      <ReviewContext.Provider
+        value={{ setFilter, setReviewModalOpen, setFormMethod }}
+      >
         <Filter>
           <span>총 {reviews.length}</span>
           <Line />

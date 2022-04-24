@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { DetailContext, UserContext } from '../Context';
+import React, { useContext, useState } from 'react';
+import { DetailContext, UserContext, ReviewContext } from '../Context';
 import styled from 'styled-components';
 import {
   AiTwotoneStar,
@@ -74,6 +74,7 @@ const Content = styled.div`
 function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
   const { user } = useContext(UserContext);
+  const { setReviewModalOpen, setFormMethod } = useContext(ReviewContext);
 
   const deleteReview = () => {
     fetch(`http://localhost:8000/review/${review.id}`, {
@@ -81,7 +82,10 @@ function Review({ review }) {
     });
   };
 
-  const updateReview = () => {};
+  const updateReview = () => {
+    setFormMethod({ method: 'PATCH', review_id: review.id });
+    setReviewModalOpen(true);
+  };
 
   return (
     <Wrapper>
@@ -110,7 +114,10 @@ function Review({ review }) {
           {review.reviews_likes.length}
           {user === review.users.id && (
             <div className="edit">
-              <AiOutlineEdit style={{ marginRight: '10px' }} />
+              <AiOutlineEdit
+                style={{ marginRight: '10px' }}
+                onClick={() => updateReview()}
+              />
               <AiOutlineDelete onClick={() => deleteReview()} />
             </div>
           )}
