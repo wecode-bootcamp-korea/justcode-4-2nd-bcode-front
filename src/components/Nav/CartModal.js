@@ -43,10 +43,12 @@ const Cartcss = css`
 const CartSection = styled.section`
   .cartModal {
     ${Cartcss}
+    visibility: hidden;
     transform: translateX(100%);
   }
   .cartModalChange {
     ${Cartcss}
+    visibility: visible;
     transform: translateX(0%);
   }
 `;

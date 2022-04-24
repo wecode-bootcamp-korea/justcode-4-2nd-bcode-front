@@ -83,10 +83,12 @@ const LatelySection = styled.section`
   .latelyModal {
     ${latelyCss}
     transform: translateX(100%);
+    display: none;
   }
   .latelyModalChange {
     ${latelyCss}
     transform: translateX(0%);
+    display: block;
   }
 `;
 
