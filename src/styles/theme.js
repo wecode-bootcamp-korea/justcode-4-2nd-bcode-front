@@ -5,6 +5,7 @@ const fontSize = {
   h5: '18px',
   h4: '20px',
   h2: '30px',
+  h1: '40px',
 };
 
 const theme = {
