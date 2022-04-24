@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useContext } from 'react';
 import { DetailContext } from '../../Context';
 import Review from '../Review';
 
-function Low() {
+function High() {
   const { reviews } = useContext(DetailContext);
-  const sortedReviews = [...reviews.sort((a, b) => a.rating - b.rating)];
+
+  const sortedReviews = [...reviews.sort((a, b) => b.rating - a.rating)];
 
   return (
     <div>
@@ -16,4 +16,4 @@ function Low() {
   );
 }
 
-export default Low;
+export default High;
