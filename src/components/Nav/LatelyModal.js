@@ -82,11 +82,19 @@ const Wrap = styled.div`
 const LatelySection = styled.section`
   .latelyModal {
     ${latelyCss}
-    transform: translateX(100%);
+    transform: translateX(120%);
+    @media (max-width: 375px) {
+      display: none;
+      width: 100%;
+    }
   }
   .latelyModalChange {
     ${latelyCss}
     transform: translateX(0%);
+    @media (max-width: 375px) {
+      display: block;
+      width: 100%;
+    }
   }
 `;
 
@@ -130,6 +138,9 @@ const LatelyMain = styled.ul`
   padding-left: 20px;
   padding-top: 20px;
   overflow: scroll;
+  @media (max-width: 375px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export default LatelyModal;

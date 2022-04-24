@@ -43,11 +43,19 @@ const Cartcss = css`
 const CartSection = styled.section`
   .cartModal {
     ${Cartcss}
-    transform: translateX(100%);
+    transform: translateX(120%);
+    @media (max-width: 375px) {
+      display: none;
+      width: 100%;
+    }
   }
   .cartModalChange {
     ${Cartcss}
     transform: translateX(0%);
+    @media (max-width: 375px) {
+      display: block;
+      width: 100%;
+    }
   }
 `;
 

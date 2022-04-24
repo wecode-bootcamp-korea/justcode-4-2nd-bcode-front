@@ -382,7 +382,7 @@ const Header = styled.div`
     width: 300px;
     height: 80px;
     @media (max-width: 600px) {
-      width: 210px;
+      width: 160px;
       height: 80px;
     }
     .fonts {
@@ -410,7 +410,7 @@ const Image = styled.img`
   width: 200px;
   cursor: pointer;
   @media (max-width: 600px) {
-    width: 100px;
+    width: 150px;
     padding: 10px;
   }
 `;
