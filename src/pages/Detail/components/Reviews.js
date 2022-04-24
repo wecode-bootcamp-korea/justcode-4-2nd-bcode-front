@@ -1,24 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { css } from 'styled-components';
-import { AiTwotoneStar } from 'react-icons/ai';
-import { DetailContext, ReviewContext } from '../Context';
+import React, { useState, useContext } from 'react';
+import styled from 'styled-components';
+import { AiTwotoneStar, AiOutlineEdit } from 'react-icons/ai';
+import { DetailContext, ReviewContext, UserContext } from '../Context';
 import Line from '../components/Filters/Line';
-import High from '../components/Filters/High';
-import Low from './Filters/Low';
+import ReviewModal from '../components/Modals/ReviewModal';
+import SignInPlzModal from '../components/Modals/SignInPlzModal';
+import Byfilter from './Filters/ByFilter';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
   margin: 0 100px;
   margin-top: 100px;
-
+  @media (max-width: 375px) {
+    margin: 100px 0 0 0;
+  }
   .reviewBox {
     color: #ee2c7a;
     font-size: 25px;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     padding: 40px 0;
     border-bottom: 1px solid #ee2c7a;
+
+    .writeReview {
+      font-size: 50px;
+      margin-left: 50px;
+    }
   }
 `;
 
@@ -38,6 +47,7 @@ const Filter = styled.div`
   background-color: #e8e1e1;
   font-size: 25px;
   padding: 30px 0;
+
   button {
     font-size: 20px;
     border: none;
@@ -46,19 +56,49 @@ const Filter = styled.div`
   }
   span {
     margin-left: 20px;
+    padding-right: 20px;
+    @media (max-width: 375px) {
+      width: 50px;
+    }
   }
 `;
 
 function Reviews() {
   const { reviews, itemRate, item } = useContext(DetailContext);
-  const [filter, setFilter] = useState(<High />);
+  const [filter, setFilter] = useState(<Byfilter />);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
+  const { user } = useContext(UserContext);
+
+  const confirmLoggedIn = () => {
+    if (user) {
+      setReviewModalOpen(true);
+    } else {
+      setSignInPlzModalOpen(true);
+    }
+  };
 
   return (
     <Wrapper>
-      <div className="reviewBox">상품 리뷰({reviews.length})</div>
+      <div className="reviewBox">
+        상품 리뷰({reviews.length})
+        <AiOutlineEdit
+          className="writeReview"
+          onClick={() => confirmLoggedIn(true)}
+        />
+        <ReviewModal
+          reviewModalOpen={reviewModalOpen}
+          setReviewModalOpen={setReviewModalOpen}
+        />
+        <SignInPlzModal
+          signInPlzModalOpen={signInPlzModalOpen}
+          setSignInPlzModalOpen={setSignInPlzModalOpen}
+        />
+      </div>
+
       <Rate>
         <span>고객 평점</span>
-        {itemRate(Math.round(item.rate)).map(i =>
+        {itemRate(Math.ceil(item.rate)).map(i =>
           i !== 0 ? (
             <AiTwotoneStar style={{ color: '#ffb23a' }} />
           ) : (

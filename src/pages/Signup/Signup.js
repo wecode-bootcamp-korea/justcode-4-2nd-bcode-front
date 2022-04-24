@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { useReducer, useRef, useState, useCallback } from 'react';
-// import { useNavigate } from 'react-router-dom';
+
+import { useReducer, useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import InputChkBox from './InputChkBox';
@@ -45,43 +46,35 @@ function Signup() {
   const onError = errors => console.log(errors);
 
   //체크박스 관련 함수
+  const [totalCheck, setTotalCheck] = useState(false);
+  const [checkList, setCheckList] = useState(Array(3).fill(false));
 
-  const [checkedList, setCheckedList] = useState([]);
-  const [fillList, setFillList] = useState(Array(4));
-  console.log(fillList);
   //전체 체크 클릭 시 발생
-  const onCheckedAll = useCallback(
-    checked => {
-      if (checked) {
-        const checkedListArray = [];
-
-        fillList.forEach(list => {
-          checkedListArray.push(true);
-        });
-        console.log(checkedListArray);
-        setCheckedList(checkedListArray);
-      } else {
-        // console.log(checkedList);
-        setCheckedList([]);
-      }
-    },
-    [fillList]
-  );
+  const allCheck = () => {
+    // console.log(`checkList : ${checkList}`);
+    setCheckList(Array(checkList.length).fill(!totalCheck));
+    setTotalCheck(!totalCheck);
+    // console.log(`totalCheck : ${totalCheck}`);
+  };
   //개별 체크 클릭 시 발생함수
-  const onCheckedElement = useCallback(
-    checked => {
-      console.log(checkedList);
-      if (checked) {
-        setCheckedList([...checkedList]);
-        console.log(checked, checkedList);
-      } else {
-        // setCheckedList(checkedList.filter(el => el !== list));
-        console.log(checked, checkedList);
-      }
-    },
-    [checkedList]
-  );
+  const singleCheck = index => {
+    setCheckList(prev => {
+      // console.log(`prev:${prev}`);
+      const array = [...prev];
 
+      // console.log(array[index], !array[index]);
+      array[index] = !array[index];
+
+      return array;
+    });
+  };
+  useEffect(() => {
+    if (checkList.includes(false)) {
+      setTotalCheck(false);
+    } else {
+      setTotalCheck(true);
+    }
+  }, [checkList]);
   return (
     <WrapSignUp>
       <SignUpHead>
@@ -129,7 +122,7 @@ function Signup() {
           <InputChkBox
             type="radio"
             id="pwCustom"
-            isCheck="checked"
+            isCheck="true"
             message="비밀번호 직접입력"
             name="pwRadio"
           />
@@ -185,15 +178,11 @@ function Signup() {
             <InputChkBox
               id="allAgree"
               type="checkbox"
-              isCheck={
-                checkedList.length === 0
-                  ? false
-                  : checkedList.length === fillList.length
-                  ? true
-                  : false
-              }
+              isCheck={totalCheck}
               message="모든 약관 동의"
-              event={e => onCheckedAll(e.target.checked)}
+              event={() => {
+                allCheck();
+              }}
             />
             <b onClick={toggleDisplay}>
               {display === 'block' ? (
@@ -214,9 +203,11 @@ function Signup() {
               <InputChkBox
                 id="agree1"
                 type="checkbox"
-                isCheck={checkedList.includes(fillList[0]) ? true : false}
+                isCheck={checkList[0]}
                 message="[필수] 뷰티포인트 서비스 이용약관"
-                event={e => onCheckedElement(e.target.checked)}
+                event={() => {
+                  singleCheck(0);
+                }}
               />
               <b>
                 <BiChevronRight size={25} />
@@ -226,8 +217,11 @@ function Signup() {
               <InputChkBox
                 id="agree2"
                 type="checkbox"
-                isCheck=""
+                isCheck={checkList[1]}
                 message="[선택] 개인정보 제3자 제공 동의"
+                event={() => {
+                  singleCheck(1);
+                }}
               />
               <b>
                 <BiChevronRight size={25} />
@@ -242,8 +236,11 @@ function Signup() {
               <InputChkBox
                 id="agree3"
                 type="checkbox"
-                isCheck=""
+                isCheck={checkList[2]}
                 message="[선택] 뷰티포인트 문자 수신 동의"
+                event={() => {
+                  singleCheck(2);
+                }}
               />
               <b>
                 <BiChevronRight size={25} />
@@ -260,12 +257,14 @@ function Signup() {
 }
 
 const WrapSignUp = styled.div`
-  max-width:30%;
+  max-width: 30%;
   min-width: 375px;
   margin: 0 auto 50px;
   @media only screen and (max-width: 375px) {
-    padding:0 20px;
+    padding: 0 20px;
+  }
 `;
+
 const SignUpHead = styled.div`
   padding: 50px 0 30px;
 `;
@@ -305,10 +304,10 @@ const Input = styled.input`
   font-size: 1rem;
   outline: none;
   transition: all 0.3s;
-  :: placeholder {
+  & ::placeholder {
     color: ${props => props.theme.defaultInput};
   }
-  &: focus {
+  &:focus {
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.14);
   }
 `;

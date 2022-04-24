@@ -3,56 +3,59 @@
   "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/1.jpg",
   "price_before": "28000",
   "price_after": "19600",
-  "brands": { "name": "아이소페" },
-  "Reviews": [
+  "brands": {
+    "name": "아이소페"
+  },
+  "reviews": [
     {
-      "id": 5,
-      "rating": 4,
-      "content": "쫗아요",
+      "id": 1,
+      "rating": 5,
+      "content": "좋음",
       "image": null,
-      "user_id": 1,
+      "users": {
+        "id": 1,
+        "username": "testuser"
+      },
       "product_id": 1,
-      "Reviews_likes": [
+      "created_at": "2022-04-20T14:40:18.808Z",
+      "reviews_likes": [
         {
-          "id": 2
+          "id": 1
         }
       ]
     },
     {
-      "id": 6,
-      "rating": 2,
-      "content": "싫음",
+      "id": 2,
+      "rating": 1,
+      "content": "별로에요",
       "image": null,
-      "user_id": 1,
+      "users": {
+        "id": 2,
+        "username": "testuser2"
+      },
       "product_id": 1,
-      "Reviews_likes": []
+      "created_at": "2022-05-20T14:40:18.808Z",
+      "reviews_likes": [
+        {
+          "id": 2
+        },
+        {
+          "id": 3
+        }
+      ]
     },
     {
-      "id": 7,
-      "rating": 5,
-      "content": "좋음",
+      "id": 3,
+      "rating": 3,
+      "content": "적당함",
       "image": null,
-      "user_id": 1,
+      "users": {
+        "id": 3,
+        "username": "testuser3"
+      },
       "product_id": 1,
-      "Reviews_likes": []
-    },
-    {
-      "id": 8,
-      "rating": 2,
-      "content": "안좋음",
-      "image": null,
-      "user_id": 1,
-      "product_id": 1,
-      "Reviews_likes": []
-    },
-    {
-      "id": 9,
-      "rating": 5,
-      "content": "좋음",
-      "image": null,
-      "user_id": 1,
-      "product_id": 1,
-      "Reviews_likes": []
+      "created_at": "2022-06-20T14:40:18.808Z",
+      "reviews_likes": []
     }
   ]
 }

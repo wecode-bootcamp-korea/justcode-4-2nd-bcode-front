@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
-import { DetailContext } from './Context';
+import { DetailContext, UserContext } from './Context';
 
 const Wrapper = styled.div`
   display: flex;
-
   flex-direction: column;
   margin: 0 100px;
   margin-top: 100px;
   justify-content: center;
-  @media (max-width: 375px) {
-    flex-direction: column;
-  }
+
   @media (max-width: 820px) {
     margin: 0;
     margin-top: 100px;
@@ -22,6 +20,9 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
+    @media (max-width: 375px) {
+      flex-direction: column;
+    }
   }
 `;
 const ImgBox = styled.img`
@@ -41,34 +42,18 @@ const ImgBox = styled.img`
 `;
 
 function Detail() {
+  const { product_id } = useParams();
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
-
+  let user = 2;
   const processOnlyItem = res => {
-    res.reviews = res.Reviews.length;
     res.rate =
-      res.Reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
-      res.reviews;
+      res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
+      res.reviews.length;
 
     return res;
   };
-
-  useEffect(() => {
-    fetch('http://localhost:3000/data/detail.json', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setReviews(res.Reviews);
-        setItem(processOnlyItem(res));
-        setLoading(false);
-      });
-  }, []);
 
   const itemRate = count => {
     const arr = [];
@@ -82,20 +67,62 @@ function Detail() {
     return arr;
   };
 
+  const localItem = id => {
+    let getItem = localStorage.getItem('itemsViewed');
+    if (!getItem) {
+      return localStorage.setItem('itemsViewed', id);
+    } else if (getItem) {
+      if (
+        getItem
+          .split(',')
+          .map(v => v === id)
+          .indexOf(true) === -1
+      ) {
+        localStorage.setItem('itemsViewed', getItem + ',' + id);
+      }
+    }
+  };
+
+  // localStorage
+  useEffect(() => {
+    if (loading === false) {
+      localItem(product_id);
+    }
+  }, [loading]);
+
+  // get Data
+  useEffect(() => {
+    fetch('/data/detail.json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        setReviews(res.reviews);
+        setItem(processOnlyItem(res));
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <Wrapper>
-      {loading ? (
-        <div>loading...</div>
-      ) : (
-        <DetailContext.Provider value={{ item, itemRate, reviews }}>
-          <div className="detail">
-            <ImgBox src={item.image_url} />
-            <OrderBox />
-          </div>
+      <UserContext.Provider value={{ user }}>
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <DetailContext.Provider value={{ item, itemRate, reviews }}>
+            <div className="detail">
+              <ImgBox src={item.image_url} />
+              <OrderBox />
+            </div>
 
-          <Reviews />
-        </DetailContext.Provider>
-      )}
+            <Reviews />
+          </DetailContext.Provider>
+        )}
+      </UserContext.Provider>
     </Wrapper>
   );
 }

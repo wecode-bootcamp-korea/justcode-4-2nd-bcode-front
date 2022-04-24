@@ -1,42 +1,46 @@
 import React, { useContext, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { ReviewContext } from '../../Context';
-import High from './High';
-import Low from './Low';
-import Date from './Date';
+import Byfilter from './ByFilter';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  button {
+    @media (max-width: 375px) {
+      font-size: 15px;
+    }
+  }
+`;
 
 function Line() {
   const { setFilter } = useContext(ReviewContext);
   const [now, setNow] = useState('high');
   const filterReviewComponent = e => {
-    // eslint-disable-next-line default-case
     switch (e.target.className) {
       case 'high': {
-        setFilter(<High />);
+        setFilter(<Byfilter filter="high" />);
         setNow('high');
         break;
       }
       case 'low': {
-        setFilter(<Low />);
+        setFilter(<Byfilter filter="low" />);
         setNow('low');
         break;
       }
       case 'date': {
-        setFilter(<Date />);
+        setFilter(<Byfilter filter="date" />);
         setNow('date');
+        break;
+      }
+      default: {
         break;
       }
     }
   };
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     <Wrapper>
       {(function () {
-        // eslint-disable-next-line default-case
         switch (now) {
           case 'high': {
             return (
@@ -115,6 +119,33 @@ function Line() {
                   className="date"
                 >
                   √ 작성일순
+                </button>
+              </div>
+            );
+          }
+          default: {
+            return (
+              <div>
+                <button
+                  style={{ color: 'black' }}
+                  onClick={e => filterReviewComponent(e)}
+                  className="high"
+                >
+                  √ 높은평점순
+                </button>
+                <button
+                  style={{ color: 'silver' }}
+                  onClick={e => filterReviewComponent(e)}
+                  className="low"
+                >
+                  낮은평점순
+                </button>
+                <button
+                  style={{ color: 'silver' }}
+                  onClick={e => filterReviewComponent(e)}
+                  className="date"
+                >
+                  작성일순
                 </button>
               </div>
             );
