@@ -47,6 +47,7 @@ const SearchitemList = styled.li`
   }
   .fixIcon {
     padding: 5px;
+    font-size: 24px;
     cursor: pointer;
   }
 `;
