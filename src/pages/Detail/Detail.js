@@ -42,7 +42,7 @@ const ImgBox = styled.img`
 `;
 
 function Detail() {
-  const { id } = useParams();
+  const { product_id } = useParams();
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
@@ -86,7 +86,7 @@ function Detail() {
   // localStorage
   useEffect(() => {
     if (loading === false) {
-      localItem(id);
+      localItem(product_id);
     }
   }, [loading]);
 

@@ -16,6 +16,9 @@ const Box = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
+  @media (max-width: 820px) {
+    height: 300%;
+  }
 `;
 
 const Modal = styled.form`
@@ -32,10 +35,15 @@ const Modal = styled.form`
   margin-top: 400px;
 
   .close {
-    font-size: 25px;
+    font-size: 50px;
     position: absolute;
-    right: 0;
+    right: 50px;
+    top: 50px;
     opacity: 0.5;
+  }
+  .fileInput {
+    padding: 10px;
+    font-size: 20px;
   }
   .content {
     &:focus {
@@ -45,14 +53,41 @@ const Modal = styled.form`
     height: 400px;
     resize: none;
     font-size: 20px;
+    border: 2px solid #ee2c7a;
+
     @media (max-width: 375px) {
       width: 300px;
     }
   }
 
+  .submit {
+    border: 2px solid #ee2c7a;
+    background-color: white;
+    padding: 20px;
+    font-size: 20px;
+  }
   select {
     padding: 10px 20px;
     margin: 20px 0;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 30px;
+    input[type='radio'] {
+      display: none;
+      &:checked ~ label {
+        text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+      }
+    }
+    label {
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke-width: 1.7px;
+      -webkit-text-stroke-color: #ee2c7a;
+      text-shadow: 0 0 0 white;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -105,19 +140,23 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
 
   const onSubmit = data => {
     console.log(data);
-    fetch('http://localhost:8000/review/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: {
-        productId: id,
-        content: data.content,
-        rating: data.rating,
-        image: data.image,
-      },
-    }).then(cleanData(file));
+    if (!data.rating) {
+      alert('별점을 주세요');
+    } else {
+      fetch('http://localhost:8000/review/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: {
+          productId: id,
+          content: data.content,
+          rating: data.rating,
+          image: data.image,
+        },
+      }).then(cleanData(file));
+    }
   };
 
   const closeModal = () => {
@@ -135,8 +174,9 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
             enctype="multipart/form-data"
             name="reviewForm"
           >
-            <AiOutlineClose onClick={() => closeModal()} />
+            <AiOutlineClose className="close" onClick={() => closeModal()} />
             <input
+              className="fileInput"
               type="file"
               accept="image/*"
               {...register('image', { required: true })}
@@ -149,17 +189,56 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
             <textarea
               className="content"
               {...register('content', { required: true })}
-              placeholder="댓글을 입력하세요"
+              placeholder="댓글을 입력하세요."
             />
-            <select form="reviewForm" {...register('rating')} required>
-              <option value="1">1점</option>
-              <option value="2">2점</option>
-              <option value="3">3점</option>
-              <option value="4">4점</option>
-              <option value="5">5점</option>
-            </select>
 
-            <input type="submit" value="리뷰 작성 완료" />
+            <fieldset>
+              <input
+                type="radio"
+                name="reviewStar"
+                value="5"
+                id="rate1"
+                {...register('rating')}
+              />
+              <label for="rate1">★</label>
+              <input
+                type="radio"
+                name="reviewStar"
+                value="4"
+                id="rate2"
+                {...register('rating')}
+              />
+              <label for="rate2">★</label>
+              <input
+                type="radio"
+                name="reviewStar"
+                value="3"
+                id="rate3"
+                {...register('rating')}
+              />
+              <label for="rate3">★</label>
+              <input
+                type="radio"
+                name="reviewStar"
+                value="2"
+                id="rate4"
+                {...register('rating')}
+              />
+              <label for="rate4">★</label>
+              <input
+                type="radio"
+                name="reviewStar"
+                value="1"
+                id="rate5"
+                {...register('rating')}
+              />
+              <label for="rate5">★</label>
+              <span style={{ marginRight: '10px' }} class="text-bold">
+                별점을 선택해주세요
+              </span>
+            </fieldset>
+
+            <input className="submit" type="submit" value="리뷰 작성 완료" />
           </Modal>
         </Box>
       )}

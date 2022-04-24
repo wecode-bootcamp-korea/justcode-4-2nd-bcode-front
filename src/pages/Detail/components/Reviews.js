@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState, useContext } from 'react';
+import styled from 'styled-components';
 import { AiTwotoneStar, AiOutlineEdit } from 'react-icons/ai';
 import { DetailContext, ReviewContext, UserContext } from '../Context';
 import Line from '../components/Filters/Line';
-import High from './Filters/ByHigh';
 import ReviewModal from '../components/Modals/ReviewModal';
 import SignInPlzModal from '../components/Modals/SignInPlzModal';
+import Byfilter from './Filters/ByFilter';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
@@ -56,12 +56,16 @@ const Filter = styled.div`
   }
   span {
     margin-left: 20px;
+    padding-right: 20px;
+    @media (max-width: 375px) {
+      width: 50px;
+    }
   }
 `;
 
 function Reviews() {
   const { reviews, itemRate, item } = useContext(DetailContext);
-  const [filter, setFilter] = useState(<High />);
+  const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
   const { user } = useContext(UserContext);

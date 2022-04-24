@@ -2,9 +2,7 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { ReviewContext } from '../../Context';
-import High from './ByHigh';
-import Low from './ByLow';
-import ByDate from './ByDate';
+import Byfilter from './ByFilter';
 
 const Wrapper = styled.div`
   button {
@@ -20,17 +18,17 @@ function Line() {
   const filterReviewComponent = e => {
     switch (e.target.className) {
       case 'high': {
-        setFilter(<High />);
+        setFilter(<Byfilter filter="high" />);
         setNow('high');
         break;
       }
       case 'low': {
-        setFilter(<Low />);
+        setFilter(<Byfilter filter="low" />);
         setNow('low');
         break;
       }
       case 'date': {
-        setFilter(<ByDate />);
+        setFilter(<Byfilter filter="date" />);
         setNow('date');
         break;
       }
