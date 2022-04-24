@@ -82,7 +82,7 @@ const Wrap = styled.div`
 const LatelySection = styled.section`
   .latelyModal {
     ${latelyCss}
-    transform: translateX(100%);
+    transform: translateX(120%);
     @media (max-width: 375px) {
       display: none;
       width: 100%;
