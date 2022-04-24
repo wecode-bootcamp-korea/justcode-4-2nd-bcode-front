@@ -91,6 +91,9 @@ const CategoryMain = styled.div`
   width: 1200px;
   height: 100%;
   margin: auto;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const CategoryMenu = styled.div`
@@ -110,21 +113,6 @@ const CategoryMenu = styled.div`
   &:hover {
     color: #f47dab;
   }
-`;
-
-const CategoryHidden = styled.div`
-  position: absolute;
-  width: 200px;
-  height: 300px;
-  background-color: white;
-  top: -120px;
-  z-index: 110;
-`;
-
-const HiddenSection = styled.div`
-  width: 1200px;
-  height: 70px;
-  margin: auto;
 `;
 
 export default Category;
