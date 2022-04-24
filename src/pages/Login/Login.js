@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useForm } from 'react-hook-form';
 import ModalPopup from './ModalPopup';
-import { BiCookie } from 'react-icons/bi';
+import { setCookie } from '../../cookie';
 
 function Login() {
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   const togglePopup = () => {
     setShowPopup(false);
@@ -41,18 +43,19 @@ function Login() {
         //console.log(json);
         if (json.jwt) {
           const newToken = json.jwt;
-          setToken(newToken);
+
+          setCookie('userToken', newToken, {
+            path: '/',
+            secure: true,
+            sameSite: 'none',
+          });
+          alert('환영합니다!');
+          navigate('../main');
         }
       });
   };
 
   const onError = errors => console.log(errors);
-
-  useEffect(() => {
-    if (token !== null) {
-    }
-  }, [token]);
-
   return (
     <LoginWrap>
       {showPopup && <ModalPopup event={togglePopup} />}
