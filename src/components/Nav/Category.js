@@ -105,10 +105,16 @@ const CategoryMenu = styled.div`
   padding-left: 15px;
   .icon {
     font-size: 32px;
+    @media (max-width: 375px) {
+      font-size: 28px;
+    }
   }
   span {
     padding: 3px 0 0 15px;
     font-size: 18px;
+    @media (max-width: 375px) {
+      font-size: 16px;
+    }
   }
   &:hover {
     color: #f47dab;
