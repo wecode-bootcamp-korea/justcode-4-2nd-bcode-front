@@ -1,7 +1,7 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 const Variable = createGlobalStyle`
 
 `;
 
-export default Variable;
+export { Variable };
