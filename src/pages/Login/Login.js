@@ -1,32 +1,101 @@
 import styled from 'styled-components';
-
+import { useState, useEffect } from 'react';
 import { RiKakaoTalkFill } from 'react-icons/ri';
+import { useForm } from 'react-hook-form';
+import ModalPopup from './ModalPopup';
+import { BiCookie } from 'react-icons/bi';
 
 function Login() {
+  const [token, setToken] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const togglePopup = () => {
+    setShowPopup(false);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = data => {
+    // console.log(data);
+    fetch(`http://localhost:8000/user/signin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then(res => {
+        const resJson = res.json();
+        if (res.status !== 200) {
+          setShowPopup(true);
+        }
+        return resJson;
+      })
+      .then(json => {
+        //console.log(json);
+        if (json.jwt) {
+          const newToken = json.jwt;
+          setToken(newToken);
+        }
+      });
+  };
+
+  const onError = errors => console.log(errors);
+
+  useEffect(() => {
+    if (token !== null) {
+    }
+  }, [token]);
+
   return (
     <LoginWrap>
+      {showPopup && <ModalPopup event={togglePopup} />}
       <LoginOutBox>
         <LoginInBox>
           <H2>로그인</H2>
           <LoginArea>
-            <form>
-              <EmailInput placeholder="아이디 입력" />
-              <PwInput placeholder="비밀번호 입력" />
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
+              <InputLabel>
+                <EmailInput
+                  type="text"
+                  placeholder="아이디 입력"
+                  {...register('email', { required: true })}
+                />
+                {errors.email?.type === 'required' && (
+                  <InputAlert>이메일을 입력해주세요.</InputAlert>
+                )}
+              </InputLabel>
+              <InputLabel>
+                <PwInput
+                  placeholder="비밀번호 입력"
+                  {...register('password', { required: true })}
+                />
+                {errors.password?.type === 'required' && (
+                  <InputAlert>비밀번호를 입력해주세요.</InputAlert>
+                )}
+              </InputLabel>
+
+              <InlineBox>
+                <InlineLinkList>
+                  <li>
+                    <InlineLink href="#">아이디 찾기</InlineLink>
+                  </li>
+                  <li>
+                    <InlineLink href="#"> 비밀번호 찾기</InlineLink>
+                  </li>
+                  <li>
+                    <InlineLink href="/signup">회원가입</InlineLink>
+                  </li>
+                </InlineLinkList>
+              </InlineBox>
+              <LoginButton type="submit">로그인</LoginButton>
             </form>
-            <InlineBox>
-              <InlineLinkList>
-                <li>
-                  <InlineLink to="#">아이디 찾기</InlineLink>
-                </li>
-                <li>
-                  <InlineLink to="#"> 비밀번호 찾기</InlineLink>
-                </li>
-                <li>
-                  <InlineLink to="">회원가입</InlineLink>
-                </li>
-              </InlineLinkList>
-            </InlineBox>
-            <LoginButton>로그인</LoginButton>
             <KaKaoLogin>
               <span>
                 <RiKakaoTalkFill size="2.1rem " />
@@ -88,13 +157,15 @@ const H2 = styled.h2`
   text-align: center;
   color: ${props => props.theme.text};
 `;
-
+const InputLabel = styled.label`
+  display: block;
+  margin-bottom: 20px;
+`;
 const EmailInput = styled.input`
   display: block;
   width: 100%;
   height: 60px;
   padding: 0 15px;
-  margin-bottom: 20px;
   border: none;
   border-radius: 0;
   outline: none;
@@ -113,7 +184,12 @@ const PwInput = styled(EmailInput).attrs({ type: 'password' })`
   }
   letter-spacing: 5px;
 `;
-
+const InputAlert = styled.span`
+  display: inline-block;
+  padding: 10px 0 0;
+  font-size: 13px;
+  color: ${props => props.theme.point};
+`;
 const InlineBox = styled.div`
   display: flex;
   justify-content: end;
@@ -138,6 +214,7 @@ const InlineLink = styled.a`
   display: block;
   font-size: ${props => props.theme.fontSize.small};
   color: ${props => props.theme.defaultInput};
+  text-decoration: none;
   cursor: pointer;
   transition: all 0.3s;
   &:before {
@@ -172,7 +249,7 @@ const KaKaoLogin = styled(LoginButton)`
   align-items: center;
   background: #ffe32c;
   color: #3c1e1e;
-
+  opacity: 0.5;
   & span:first-child {
     flex-shrink: 0;
     width: 100px;
@@ -192,4 +269,5 @@ const KaKaoLogin = styled(LoginButton)`
     }
   }
 `;
+
 export default Login;
