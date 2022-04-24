@@ -91,6 +91,9 @@ const CategoryMain = styled.div`
   width: 1200px;
   height: 100%;
   margin: auto;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const CategoryMenu = styled.div`
@@ -102,29 +105,20 @@ const CategoryMenu = styled.div`
   padding-left: 15px;
   .icon {
     font-size: 32px;
+    @media (max-width: 375px) {
+      font-size: 28px;
+    }
   }
   span {
     padding: 3px 0 0 15px;
     font-size: 18px;
+    @media (max-width: 375px) {
+      font-size: 16px;
+    }
   }
   &:hover {
     color: #f47dab;
   }
-`;
-
-const CategoryHidden = styled.div`
-  position: absolute;
-  width: 200px;
-  height: 300px;
-  background-color: white;
-  top: -120px;
-  z-index: 110;
-`;
-
-const HiddenSection = styled.div`
-  width: 1200px;
-  height: 70px;
-  margin: auto;
 `;
 
 export default Category;
