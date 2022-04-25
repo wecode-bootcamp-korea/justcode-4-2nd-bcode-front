@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../../Context';
 
 const Box = styled.div`
   position: absolute;
@@ -107,9 +108,10 @@ const Preview = styled.div`
   }
 `;
 
-function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
+function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
+  const { user_id } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
-  const { id } = useParams();
+  const { product_id } = useParams();
   const {
     register,
     handleSubmit,
@@ -140,22 +142,39 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen }) {
 
   const onSubmit = data => {
     console.log(data);
-    if (!data.rating) {
+    console.log(`user_id : ${user_id}`, `product_id : ${product_id}`);
+    if (!watch('rating')) {
       alert('별점을 주세요');
     } else {
-      fetch('http://localhost:8000/review/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: {
-          productId: id,
-          content: data.content,
-          rating: data.rating,
-          image: data.image,
-        },
-      }).then(cleanData(file));
+      if (formMethod.method === 'POST') {
+        fetch('http://localhost:8000/review/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: {
+            user_id,
+            productId: product_id,
+            content: data.content,
+            rating: data.rating,
+            image: data.image,
+          },
+        }).then(cleanData(file));
+      } else if (formMethod.method === 'PATCH') {
+        fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: {
+            content: data.content,
+            rating: data.rating,
+            image: data.image,
+          },
+        }).then(cleanData(file));
+      }
     }
   };
 

@@ -7,7 +7,6 @@ function Byfilter({ filter }) {
 
   let sortedReviews = [];
 
-  // eslint-disable-next-line default-case
   switch (filter) {
     case 'high': {
       sortedReviews = [...reviews.sort((a, b) => b.rating - a.rating)];

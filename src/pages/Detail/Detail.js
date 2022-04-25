@@ -46,7 +46,7 @@ function Detail() {
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
-  let user = 2;
+  let user_id = 2;
   const processOnlyItem = res => {
     res.rate =
       res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
@@ -109,7 +109,7 @@ function Detail() {
 
   return (
     <Wrapper>
-      <UserContext.Provider value={{ user }}>
+      <UserContext.Provider value={{ user_id }}>
         {loading ? (
           <div>loading...</div>
         ) : (
