@@ -43,8 +43,10 @@ function Login() {
         //console.log(json);
         if (json.jwt) {
           const newToken = json.jwt;
-
-          setCookie('userToken', newToken, {
+          const userId = json.id;
+          const userName = json.name;
+          console.log(json);
+          setCookie(userId, newToken, {
             path: '/',
             secure: true,
             sameSite: 'none',
