@@ -4,7 +4,7 @@ import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 function CarouselBtn(props) {
   return (
     <BtnWrap>
-      <Btn>
+      <Btn onClick={props.event}>
         {props.type === 'left' ? (
           <FiChevronLeft
             style={{ strokeWidth: '1', marginLeft: '-3px', fontSize: '2rem' }}

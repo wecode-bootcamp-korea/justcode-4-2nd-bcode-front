@@ -45,13 +45,13 @@ function Login() {
           const newToken = json.jwt;
           const userId = json.id;
           const userName = json.name;
-          console.log(json);
+          // console.log(json);
           setCookie(userId, newToken, {
             path: '/',
             secure: true,
             sameSite: 'none',
           });
-          alert('환영합니다!');
+          alert(`${userName}님, 환영합니다!`);
           navigate('../main');
         }
       });
