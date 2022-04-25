@@ -1,21 +1,47 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  width: 285px;
+  @media only screen and (max-width: 820px) {
+    width: 180px;
+  }
+  @media only screen and (max-width: 375px) {
+    width: 315px;
+  }
+`;
+
+const Wrapper = styled.div`
+  @media only screen and (max-width: 375px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const ImgContainer = styled.div`
   max-width: 224px;
   max-height: 224px;
   margin-bottom: 10px;
+  @media only screen and (max-width: 820px) {
+    max-width: 135px;
+    max-height: 135px;
+  }
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 100%;
+`;
+
+const Info = styled.div`
+  @media only screen and (max-width: 375px) {
+    margin-top: 10px;
+    margin-left: 50px;
+    font-size: 12px;
+  }
 `;
 
 const Product = styled.div`
@@ -57,6 +83,9 @@ const Rate = styled.div`
   display: flex;
   align-items: center;
   margin-top: 5px;
+  @media only screen and (max-width: 375px) {
+    width: 100px;
+  }
   & span {
     display: flex;
     align-items: center;
@@ -68,39 +97,46 @@ const Rate = styled.div`
   }
 `;
 
-function Card(products) {
-  const priceBefore = products.price_before + '원';
-  const priceAfter = products.price_after + '원';
+function Card({ item }) {
+  const { id } = useParams();
+  const priceBefore = item.price_before + '원';
+  const priceAfter = item.price_after + '원';
   const discount =
-    Math.round((1 - products.price_after / products.price_before) * 100, -1) +
-    '%';
+    Math.round((1 - item.price_after / item.price_before) * 100, -1) + '%';
 
   return (
     <div>
       <Container>
-        <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/detail">
-          <ImgContainer>
-            <Img src={products.image_url} />
-          </ImgContainer>
-          <Product>
-            <span>{products.brand}</span>
-            <span>{products.name}</span>
-          </Product>
-          <Price>
-            <div>
-              <span>{discount}</span>
-              <span>{priceAfter}</span>
-            </div>
-            <span>{priceBefore}</span>
-          </Price>
-          <Rate>
-            <span>
-              <FaStar color="#ffb33c" />
-            </span>
-            <span>{products.rate}</span>
-            <span>|</span>
-            <span>리뷰()</span>
-          </Rate>
+        <Link
+          style={{ textDecoration: 'none', color: 'inherit' }}
+          to="/detail?id=${id}"
+        >
+          <Wrapper>
+            <ImgContainer>
+              <Img src={item.image_url} />
+            </ImgContainer>
+            <Info>
+              <Product>
+                <span>{item.brands.name}</span>
+                <span>{item.name}</span>
+              </Product>
+              <Price>
+                <div>
+                  <span>{discount === '0%' ? null : discount}</span>
+                  <span>{priceAfter}</span>
+                </div>
+                <span>{priceBefore === priceAfter ? null : priceBefore}</span>
+              </Price>
+              <Rate>
+                <span>
+                  <FaStar color="#ffb33c" />
+                </span>
+                <span>{item.reviews}</span>
+                <span>|</span>
+                <span>리뷰()</span>
+              </Rate>
+            </Info>
+          </Wrapper>
         </Link>
       </Container>
     </div>
