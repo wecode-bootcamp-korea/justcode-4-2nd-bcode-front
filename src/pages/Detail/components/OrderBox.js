@@ -11,6 +11,7 @@ import BenefitModal from './Modals/BenefitModal';
 import { DetailContext, ModalContext, UserContext } from '../Context';
 import CartModal from './Modals/CartModal';
 import SignInPlzModal from '../components/Modals/SignInPlzModal';
+import { useParams } from 'react-router-dom';
 
 const TitleText = css`
   font-weight: 700;
@@ -240,6 +241,7 @@ function OrderBox() {
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
   const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
+  const { product_id } = useParams();
 
   const slicePrice = price => {
     return String(price).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
@@ -263,6 +265,16 @@ function OrderBox() {
   const confirmLoggedIn = () => {
     if (user_id) {
       setCartModalOpen(true);
+      fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: {
+          quantity: totalCount,
+        },
+      });
     } else {
       setSignInPlzModalOpen(true);
     }
