@@ -4,6 +4,7 @@ const fontSize = {
   h6: '15px',
   h5: '18px',
   h4: '20px',
+  h3: '24px',
   h2: '30px',
   h1: '40px',
 };
