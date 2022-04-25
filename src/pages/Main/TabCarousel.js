@@ -9,8 +9,8 @@ function TabCarousel() {
       <ContentInner>
         <H3>영서's PICK,아뤼따움에서 가장 핫한 제품들</H3>
         <TabList>
-          <TabBtn className="active">에스쁘아</TabBtn>
-          <TabBtn>마몽드</TabBtn>
+          <TabBtn className="active">에슾으아</TabBtn>
+          <TabBtn>매머드</TabBtn>
         </TabList>
         <TabContent>
           <ImgLink href="#">
