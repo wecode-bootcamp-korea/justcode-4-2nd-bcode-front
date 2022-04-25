@@ -234,7 +234,7 @@ const ShopLater = styled.button`
 
 function OrderBox() {
   const { item, itemRate } = useContext(DetailContext);
-  const { user } = useContext(UserContext);
+  const { user_id } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
@@ -261,7 +261,7 @@ function OrderBox() {
   };
 
   const confirmLoggedIn = () => {
-    if (user) {
+    if (user_id) {
       setCartModalOpen(true);
     } else {
       setSignInPlzModalOpen(true);

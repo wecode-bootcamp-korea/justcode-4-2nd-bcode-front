@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../../Context';
 
 const Box = styled.div`
   position: absolute;
@@ -108,6 +109,7 @@ const Preview = styled.div`
 `;
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
+  const { user_id } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
   const { product_id } = useParams();
   const {
@@ -140,6 +142,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
 
   const onSubmit = data => {
     console.log(data);
+    console.log(`user_id : ${user_id}`, `product_id : ${product_id}`);
     if (!watch('rating')) {
       alert('별점을 주세요');
     } else {
@@ -151,6 +154,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
             Accept: 'application/json',
           },
           body: {
+            user_id,
             productId: product_id,
             content: data.content,
             rating: data.rating,
