@@ -1,0 +1,112 @@
+[
+  {
+    "name": "트리플 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/1.jpg",
+    "price_before": "28000",
+    "price_after": "19600",
+    "brands": {
+      "id": 1,
+      "name": "아이소페"
+    },
+    "reviews": 5
+  },
+  {
+    "name": "코코 오일",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/2.jpg",
+    "price_before": "38000",
+    "price_after": "38000",
+    "brands": {
+      "id": 2,
+      "name": "한슐"
+    },
+    "reviews": 4
+  },
+  {
+    "name": "드리마크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/3.jpg",
+    "price_before": "45000",
+    "price_after": "45000",
+    "brands": {
+      "id": 3,
+      "name": "스데티"
+    },
+    "reviews": 3
+  },
+  {
+    "name": "치즈 비누, 바디 세트",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/4.jpg",
+    "price_before": "43000",
+    "price_after": "34400",
+    "brands": {
+      "id": 4,
+      "name": "마몰드"
+    },
+    "reviews": 2
+  },
+  {
+    "name": "올인원 세트",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/5.jpg",
+    "price_before": "85000",
+    "price_after": "68000",
+    "brands": {
+      "id": 5,
+      "name": "헤루"
+    },
+    "reviews": 1
+  },
+  {
+    "name": "유 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/6.jpg",
+    "price_before": "29000",
+    "price_after": "20300",
+    "brands": {
+      "id": 6,
+      "name": "니네즈"
+    },
+    "reviews": 5
+  },
+  {
+    "name": "라이브 퍼펙트 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/7.jpg",
+    "price_before": "43000",
+    "price_after": "34400",
+    "brands": {
+      "id": 7,
+      "name": "카이스"
+    },
+    "reviews": 4
+  },
+  {
+    "name": "모먼트 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/8.jpg",
+    "price_before": "28000",
+    "price_after": "19600",
+    "brands": {
+      "id": 8,
+      "name": "데이프"
+    },
+    "reviews": 3
+  },
+  {
+    "name": "올인원 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/9.jpg",
+    "price_before": "18000",
+    "price_after": "12600",
+    "brands": {
+      "id": 9,
+      "name": "려스"
+    },
+    "reviews": 2
+  },
+  {
+    "name": "올인원 크림",
+    "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/9.jpg",
+    "price_before": "18000",
+    "price_after": "12600",
+    "brands": {
+      "id": 9,
+      "name": "려스"
+    },
+    "reviews": 1
+  }
+]

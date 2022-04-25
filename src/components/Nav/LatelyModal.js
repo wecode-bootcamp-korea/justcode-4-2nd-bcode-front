@@ -4,9 +4,9 @@ import { BsBagX } from 'react-icons/bs';
 import LatelyModalList from './LatelyModalList';
 
 function LatelyModal(props) {
-  const [carItem, setCartItem] = useState(
-    JSON.parse(localStorage.getItem('itemsViewed'))
-  );
+  const [carItem, setCartItem] = useState();
+  // JSON.parse(localStorage.getItem('itemsViewed')) || []
+
   const [latelyItem, setLatelyItem] = useState([]);
   useEffect(() => {
     fetch(`/data/latelyData.json`, {
