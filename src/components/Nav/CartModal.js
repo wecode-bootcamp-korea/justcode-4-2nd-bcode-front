@@ -51,6 +51,7 @@ const CartSection = styled.section`
   }
   .cartModalChange {
     ${Cartcss}
+    visibility: visible;
     transform: translateX(0%);
     @media (max-width: 375px) {
       display: block;
