@@ -1,12 +1,7 @@
 import styled from 'styled-components';
-import TabCarousel from './TabCarousel';
 
 function Main() {
-  return (
-    <div>
-      <TabCarousel />
-    </div>
-  );
+  return <></>;
 }
 
 export default Main;
