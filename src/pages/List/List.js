@@ -29,6 +29,7 @@ const CategoryNav = styled.div``;
 const CategoryNavTable = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
   @media only screen and (max-width: 375px) {
     display: flex;
@@ -59,16 +60,15 @@ const SortNav = styled.div`
 `;
 const Total = styled.span``;
 const SortListWrapper = styled.div``;
+
 const SortList = styled.span`
   margin-left: 10px;
   color: #999;
   cursor: pointer;
   &:hover {
-    color: #f0427d;
+    color: #ee2d7a;
   }
-  &:active {
-    border-color: #f0427d;
-  }
+  ${({ active }) => active && `color: black;`}
 `;
 
 const ProductList = styled.div`
@@ -81,17 +81,18 @@ const ProductList = styled.div`
   @media only screen and (max-width: 375px) {
     row-gap: 50px;
     flex-wrap: nowrap;
-    /* align-items: center; */
     flex-direction: column;
   }
 `;
+const types = ['평점순', '낮은가격순', '높은가격순'];
 
 const List = () => {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const { id } = useParams();
+  const [active, setActive] = useState(types[0]);
+  // const { id } = useParams();
 
   // 카테고리 별 상품 받아오기
 
@@ -113,13 +114,13 @@ const List = () => {
   //     });
   // }, []);
 
-  const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
-  const sortedLowPrice = [
-    ...categoryData.sort((a, b) => a.price_after - b.price_after),
-  ];
-  const sortedHighPrice = [
-    ...categoryData.sort((a, b) => b.price_before - a.price_before),
-  ];
+  // const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
+  // const sortedLowPrice = [
+  //   ...categoryData.sort((a, b) => a.price_after - b.price_after),
+  // ];
+  // const sortedHighPrice = [
+  //   ...categoryData.sort((a, b) => b.price_before - a.price_before),
+  // ];
 
   // Mock Data fetch (104 ~ 126)  추후 삭제
   useEffect(() => {
@@ -138,7 +139,7 @@ const List = () => {
         setCategoryData(data);
       });
   }, []);
-
+  console.log(categoryData);
   const filterProduct = cat => {
     const result = filterData.filter(props => {
       return props.category === cat;
@@ -174,6 +175,8 @@ const List = () => {
                 key={item.id}
                 item={item.name}
                 filterProduct={filterProduct}
+                active={active === item.name}
+                onClick={() => setActive(item.name)}
               />
             );
           })}
@@ -182,13 +185,29 @@ const List = () => {
       <SortNav>
         <Total>총 ({itemAmount})개</Total>
         <SortListWrapper>
-          <SortList value="0" onClick={''}>
+          <SortList
+            className="review"
+            active={active === types[0]}
+            onClick={() => setActive(types[0])}
+          >
             평점순
           </SortList>
           <SortList>|</SortList>
-          <SortList onClick={() => ''}>낮은가격순</SortList>
+          <SortList
+            className="low"
+            active={active === types[1]}
+            onClick={() => setActive(types[1])}
+          >
+            낮은가격순
+          </SortList>
           <SortList>|</SortList>
-          <SortList onClick={() => ''}>높은가격순</SortList>
+          <SortList
+            className="high"
+            active={active === types[2]}
+            onClick={() => setActive(types[2])}
+          >
+            높은가격순
+          </SortList>
         </SortListWrapper>
       </SortNav>
       <ProductList>

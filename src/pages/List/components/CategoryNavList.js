@@ -6,7 +6,7 @@ const CategoryNavList = props => {
 
   const List = styled.li`
     list-style: none;
-    width: 14%;
+    width: 16%;
     padding: 15px;
     border: 1px solid ${isClicked};
     @media only screen and (max-width: 820px) {
