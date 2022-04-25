@@ -1,235 +1,203 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Card from '../../components/Card/Card';
 import styled from 'styled-components';
+import LocationListOption from './components/LocationListOption';
+import CategoryNavList from './components/CategoryNavList';
+import Card from '../../components/Card/Card';
 import { BiChevronRight } from 'react-icons/bi';
-
-const BigContainer = styled.div`
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-`;
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   max-width: 1200px;
+  margin: auto;
+  padding: 30px;
 `;
-
-const Location = styled.div`
+const LocationList = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+`;
+const LocationTitle = styled.h1`
+  margin-right: 10px;
   font-size: 13px;
-  color: #999999;
-  & span {
-    display: flex;
-    align-items: center;
-    margin-right: 5px;
-  }
-  & span:first-child:hover {
-    cursor: pointer;
-  }
-  & select {
-    border: none;
-    color: #999999;
-    padding-right: 10px;
-  }
+`;
+const Select = styled.select`
+  margin-left: 10px;
+  border: none;
 `;
 
-const Cateogory = styled.h1`
-  margin-top: 50px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
-`;
-
-const Table = styled.ul`
-  margin-top: 40px;
-  width: 100%;
+const CategoryNav = styled.div``;
+const CategoryNavTable = styled.div`
   display: flex;
   flex-wrap: wrap;
-  & li {
-    width: 19.8%;
-    padding: 15px 0;
-    border: 1px solid #999999;
-    border-collapse: collapse;
-  }
-  :hover {
-    color: #ee2d7a;
-    border-color: #ee2d7a;
-  }
-  & a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: inherit;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 300px 300px 300px 300px;
-  row-gap: 60px;
   width: 100%;
-  margin-top: 100px;
+  @media only screen and (max-width: 375px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
-const NavBar = styled.div`
+const Title = styled.h1`
+  margin-bottom: 50px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const SortNav = styled.div`
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
-  border-bottom: 1px solid #eee;
+  margin: 50px 0;
   padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
   font-size: 14px;
-  color: #000;
-  & ul {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  @media only screen and (max-width: 1250px) {
+    max-width: 1000px;
   }
-  & li {
-    margin: 0 10px;
-    color: #999;
+  @media only screen and (max-width: 820px) {
+    max-width: 520px;
+  }
+`;
+const Total = styled.span``;
+const SortListWrapper = styled.div``;
+const SortList = styled.span`
+  margin-left: 10px;
+  color: #999;
+  cursor: pointer;
+  &:hover {
+    color: #f0427d;
+  }
+  &:active {
+    border-color: #f0427d;
   }
 `;
 
-function Main() {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
-  const [loading, setLoading] = useState(false);
+const ProductList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 100px;
+  @media only screen and (max-width: 820px) {
+    margin-left: 20px;
+  }
+  @media only screen and (max-width: 375px) {
+    row-gap: 50px;
+    flex-wrap: nowrap;
+    /* align-items: center; */
+    flex-direction: column;
+  }
+`;
 
-  let componentMounted = true;
+const List = () => {
+  const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const { id } = useParams();
+
+  // 카테고리 별 상품 받아오기
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:8000/category?id=${id}`, { method: 'GET' })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setCategoryData(data);
+  //     });
+  // }, []);
+
+  // 카테고리 리스트 받아오기
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:8000/category`, { method: 'GET' })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setCategoryList(data);
+  //     });
+  // }, []);
+
+  const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
+  const sortedLowPrice = [
+    ...categoryData.sort((a, b) => a.price_after - b.price_after),
+  ];
+  const sortedHighPrice = [
+    ...categoryData.sort((a, b) => b.price_before - a.price_before),
+  ];
+
+  // Mock Data fetch (104 ~ 126)  추후 삭제
+  useEffect(() => {
+    fetch('data/sample2.json', { method: 'GET' })
+      .then(res => res.json())
+      .then(data => {
+        setData(data);
+        setFilterData(data);
+      });
+  }, []);
 
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      const response = await fetch('data/sample2.json');
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-      }
-      return () => {
-        componentMounted = false;
-      };
-    };
-    getProducts();
+    fetch('data/category.json', { method: 'GET' })
+      .then(res => res.json())
+      .then(data => {
+        setCategoryData(data);
+      });
   }, []);
 
   const filterProduct = cat => {
-    const updatedList = data.filter(item => item.brands.name === cat);
-    setFilter(updatedList);
+    const result = filterData.filter(props => {
+      return props.category === cat;
+    });
+    setData(result);
   };
 
-  const Loading = () => {
-    return <>Loading...</>;
-  };
-  const navigate = useNavigate();
-  const goToMain = () => {
-    navigate('/detail');
-  };
+  const itemAmount = categoryData.length;
 
-  const discount = Math.round((1 - data.price_after / data.price_before) * 100);
-  const dataAmount = data.length;
   return (
-    <div>
-      <BigContainer>
-        <Location>
-          <span onClick={goToMain}>홈</span>
-          <span>
-            <BiChevronRight />
-          </span>
-          <select>
-            <option>마스크</option>
-            <option>선크림</option>
-            <option>미스트</option>
-            <option>선크림</option>
-            <option>미스트</option>
-            <option>선크림</option>
-            <option>미스트</option>
-          </select>
-        </Location>
-
-        <Container>
-          <Cateogory>카테고리</Cateogory>
-          <Table>
-            <li>
-              <Link onClick={() => filterProduct('아이소페')} to="#">
-                아이소페
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('한슐')} to="#">
-                한슐
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('스데티')} to="#">
-                스데티
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('마몰드')} to="#">
-                마몰드
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('헤루')} to="#">
-                헤루
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('니네즈')} to="#">
-                니네즈
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('카이스')} to="#">
-                카이스
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('데이프')} to="#">
-                데이프
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('려스')} to="#">
-                려스
-              </Link>
-            </li>
-            <li>
-              <Link onClick={() => filterProduct('려스')} to="#">
-                려스
-              </Link>
-            </li>
-          </Table>
-        </Container>
-        <NavBar>
-          <span>총 {dataAmount}개</span>
-          <ul>
-            <li>평점순</li>|<li>낮은가격순</li>|<li>높은가격순</li>
-          </ul>
-        </NavBar>
-        <Wrapper>
-          {filter.map(product => (
-            <Card
-              key={product.id}
-              brand={product.brands.name}
-              name={product.name}
-              price_before={product.price_before}
-              price_after={product.price_after}
-              rate={product.rate}
-              image_url={product.image_url}
-              discount={discount}
-            />
-          ))}
-        </Wrapper>
-        <div>{loading ? <Loading /> : null}</div>
-      </BigContainer>
-    </div>
+    <Container>
+      <LocationList>
+        <LocationTitle>홈</LocationTitle>
+        <BiChevronRight style={{ color: 'gray' }} />
+        <Select>
+          {categoryData.map(item => {
+            return (
+              <LocationListOption
+                key={item.id}
+                item={item.name}
+                filterProduct={filterProduct}
+              />
+            );
+          })}
+        </Select>
+      </LocationList>
+      <CategoryNav>
+        <Title>카테고리</Title>
+        <CategoryNavTable>
+          {categoryData.map(item => {
+            return (
+              <CategoryNavList
+                key={item.id}
+                item={item.name}
+                filterProduct={filterProduct}
+              />
+            );
+          })}
+        </CategoryNavTable>
+      </CategoryNav>
+      <SortNav>
+        <Total>총 ({itemAmount})개</Total>
+        <SortListWrapper>
+          <SortList value="0" onClick={''}>
+            평점순
+          </SortList>
+          <SortList>|</SortList>
+          <SortList onClick={() => ''}>낮은가격순</SortList>
+          <SortList>|</SortList>
+          <SortList onClick={() => ''}>높은가격순</SortList>
+        </SortListWrapper>
+      </SortNav>
+      <ProductList>
+        {data.map(item => {
+          return <Card key={item.id} item={item} />;
+        })}
+      </ProductList>
+    </Container>
   );
-}
+};
 
-export default Main;
+export default List;

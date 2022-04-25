@@ -1,23 +1,49 @@
 import styled from 'styled-components';
-import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import CarouselMainList from './CarouselMainList';
 import { useEffect, useState, useRef } from 'react';
 
 function CarouselMain() {
   const [carouselImg, setCarouselImg] = useState([]);
-  const [widthValue, setWidthValue] = useState(0);
+  const [widthValue, setWidthValue] = useState(-1200);
+  const [widthSpeed, setWidthSpeed] = useState(0.3);
+  const [delay, setDelay] = useState(3000);
 
   const moveToLeft = () => {
+    //버튼 클릭시 delay 멈춤
+    setDelay(null);
+    setWidthSpeed(0.3);
     widthValue === 0 ? setWidthValue(0) : setWidthValue(widthValue + 1200);
+    if (widthValue === -1200) {
+      setTimeout(() => {
+        setWidthSpeed(0);
+        setWidthValue(-3600);
+      }, 300);
+    }
+    //버튼클릭시 delay를 멈추고 3초뒤 다시 실행
+    setTimeout(() => {
+      setDelay(3000);
+    }, 300);
   };
 
   const moveToRight = () => {
-    const x = widthValue - 1200;
-    console.log(widthValue);
-    widthValue === -6000 ? setWidthValue(0) : setWidthValue(x);
+    //버튼 클릭시 delay 멈춤
+    setDelay(null);
+    setWidthSpeed(0.3);
+    widthValue === -6000 ? setWidthValue(0) : setWidthValue(widthValue - 1200);
+    if (widthValue === -3600) {
+      setTimeout(() => {
+        setWidthSpeed(0);
+        setWidthValue(-1200);
+      }, 300);
+    }
+    //버튼클릭시 delay를 멈추고 3초뒤 다시 실행
+    setTimeout(() => {
+      setDelay(3000);
+    }, 300);
   };
 
-  useInterval(moveToRight, 3000);
+  useInterval(moveToRight, delay);
 
   //react 에서 setInterval 대신 useInterval 을 만들어서 사용해줌
   function useInterval(callback, delay) {
@@ -50,14 +76,17 @@ function CarouselMain() {
   }, []);
   return (
     <CarouselSection>
-      <LeftSection>
-        <FiArrowLeft
-          className="leftIcons"
-          style={{ strokeWidth: '1' }}
-          onClick={moveToLeft}
-        />
-      </LeftSection>
-      <CarouselImgSection style={{ transform: `translateX(${widthValue}px)` }}>
+      <FiChevronLeft
+        className="leftIcons"
+        style={{ strokeWidth: '1' }}
+        onClick={moveToLeft}
+      />
+      <CarouselImgSection
+        style={{
+          transform: `translate3d(${widthValue}px,0,0)`,
+          transition: `${widthSpeed}s`,
+        }}
+      >
         {carouselImg.map((comment, index) => {
           return (
             <CarouselMainList
@@ -68,64 +97,51 @@ function CarouselMain() {
           );
         })}
       </CarouselImgSection>
-      <RightSection>
-        <FiArrowRight
-          className="RightIcons"
-          style={{ strokeWidth: '1' }}
-          onClick={moveToRight}
-        />
-      </RightSection>
+      <FiChevronRight
+        className="RightIcons"
+        style={{ strokeWidth: '1' }}
+        onClick={moveToRight}
+      />
     </CarouselSection>
   );
 }
 
 const CarouselSection = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 480px;
-  overflow: hidden;
-  z-index: 1;
-`;
-
-const LeftSection = styled.div`
-  position: relative;
   height: 100%;
-  background-color: black;
-  opacity: 0.5;
-  z-index: 2;
+  overflow: hidden;
   .leftIcons {
     position: absolute;
-    top: 50%;
-    left: -80px;
-    font-size: 48px;
+    left: 4%;
+    font-size: 38px;
     color: #9e9d9d;
     background-color: white;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     cursor: pointer;
     z-index: 3;
     &:hover {
-      color: #ee2d7a;
+      color: white;
+      background-color: #9e9d9d;
     }
   }
-`;
-
-const RightSection = styled.div`
-  position: relative;
-  height: 100%;
   .RightIcons {
     position: absolute;
-    top: 50%;
-    right: -80px;
-    font-size: 48px;
+    right: 4%;
+    font-size: 38px;
     color: #9e9d9d;
     background-color: white;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     cursor: pointer;
     z-index: 3;
     &:hover {
-      color: ee2d7a;
+      color: white;
+      background-color: #9e9d9d;
     }
   }
 `;
@@ -133,9 +149,11 @@ const RightSection = styled.div`
 const CarouselImgSection = styled.ul`
   display: flex;
   width: 1200px;
-  height: 100%;
   transition: all 0.3s ease-in;
   z-index: 1;
+  @media (max-width: 1430px) {
+    width: 100%;
+  }
 `;
 
 export default CarouselMain;
