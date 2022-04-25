@@ -9,8 +9,12 @@ import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
 
+import { ThemeProvider } from 'styled-components';
+import theme from './styles/theme';
+
 function Router() {
   return (
+
     <BrowserRouter>
       <Nav />
       <Routes>
@@ -22,6 +26,7 @@ function Router() {
       </Routes>
       <Footer />
     </BrowserRouter>
+
   );
 }
 
