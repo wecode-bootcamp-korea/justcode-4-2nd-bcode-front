@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
+import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,8 +48,8 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
-
-  let user_id;
+  const [user_id, setUser_id] = useState(1);
+  const cookie = getCookie('user_id');
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
@@ -110,14 +111,15 @@ function Detail() {
 
     // verify user fetching
     fetch('http://localhost:8000/user/verify', {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: cookie,
       },
     })
       .then(res => res.json())
-      .then(res => console.log(res));
+      .then(res => setUser_id(res.userId));
   }, []);
 
   return (

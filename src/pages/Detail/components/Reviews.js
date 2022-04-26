@@ -88,7 +88,10 @@ function Reviews() {
         상품 리뷰({reivewObj._count.content})
         <AiOutlineEdit
           className="writeReview"
-          onClick={() => confirmLoggedIn(true)}
+          onClick={() => {
+            confirmLoggedIn(true);
+            setFormMethod({ method: 'POST' });
+          }}
         />
         <ReviewModal
           reviewModalOpen={reviewModalOpen}

@@ -115,63 +115,63 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   const { register, handleSubmit, watch, reset } = useForm();
 
   const watchImg = watch('image');
-  let file;
+  let fileImg;
   useEffect(() => {
     if (watchImg) {
-      file = watchImg[0];
-      if (!file) {
+      fileImg = watchImg[0];
+      if (!fileImg) {
         setImgPreview(null);
       } else {
-        setImgPreview(URL.createObjectURL(file));
+        setImgPreview(URL.createObjectURL(fileImg));
       }
     }
   }, [watchImg]);
 
-  const cleanData = file => {
-    URL.revokeObjectURL(file);
+  const cleanData = fileImg => {
+    URL.revokeObjectURL(fileImg);
     setImgPreview(null);
     reset();
     setReviewModalOpen(false);
   };
 
   const onSubmit = data => {
+    const newFormData = new FormData();
+
+    newFormData.set('productId', product_id);
+    newFormData.set('userId', user_id);
+    newFormData.set('rating', data.rating);
+    newFormData.set('content', data.content);
+    newFormData.set('reviewImage', watchImg[0]);
+
     if (!watch('rating')) {
       alert('별점을 주세요');
     } else {
       if (formMethod.method === 'POST') {
         fetch('http://localhost:8000/review/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: {
-            user_id,
-            productId: product_id,
-            content: data.content,
-            rating: data.rating,
-            image: data.image,
-          },
-        }).then(cleanData(file));
+          headers: {},
+          body: newFormData,
+        })
+          .then(cleanData(fileImg))
+          .then(alert('리뷰를 등록했습니다'));
       } else if (formMethod.method === 'PATCH') {
         fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
           method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
+          headers: {},
           body: {
             content: data.content,
             rating: data.rating,
-            image: data.image,
+            image: imgPreview,
           },
-        }).then(cleanData(file));
+        })
+          .then(cleanData(fileImg))
+          .then(alert('리뷰를 수정했습니다'));
       }
     }
   };
 
   const closeModal = () => {
-    cleanData(file);
+    cleanData(fileImg);
   };
 
   return (
@@ -182,8 +182,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
           <Modal
             method={formMethod.method}
             onSubmit={handleSubmit(onSubmit)}
-            enctype="multipart/form-data"
-            name="reviewForm"
+            encType="multipart/form-data"
           >
             <AiOutlineClose className="close" onClick={() => closeModal()} />
             <input

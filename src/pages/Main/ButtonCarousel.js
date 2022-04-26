@@ -8,14 +8,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-
   button {
     border: 1px solid silver;
     border-radius: 20px;
     background-color: inherit;
     padding: 10px 40px;
   }
-
   .title {
     display: block;
     padding: 20px 0;
