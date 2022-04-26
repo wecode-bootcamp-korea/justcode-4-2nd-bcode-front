@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
-import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,7 +47,7 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
 
-  let user_id = getCookie('user_id');
+  let user_id;
 
   const processOnlyItem = res => {
     res.rate =
@@ -107,6 +106,16 @@ function Detail() {
         setItem(processOnlyItem(res));
         setLoading(false);
       });
+
+    fetch('http://localhost:8000/user/verify', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => console.log(res));
   }, []);
 
   return (
@@ -120,7 +129,6 @@ function Detail() {
               <ImgBox src={item.image_url} />
               <OrderBox />
             </div>
-
             <Reviews />
           </DetailContext.Provider>
         )}

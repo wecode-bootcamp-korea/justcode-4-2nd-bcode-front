@@ -277,9 +277,6 @@ function OrderBox() {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: {
-          quantity: totalCount,
-        },
       });
     } else {
       setSignInPlzModalOpen(true);
