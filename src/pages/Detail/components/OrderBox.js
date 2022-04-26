@@ -235,7 +235,7 @@ const ShopLater = styled.button`
 `;
 
 function OrderBox() {
-  const { item, itemRate } = useContext(DetailContext);
+  const { item, itemRate, reivewObj } = useContext(DetailContext);
   const { user_id } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
@@ -312,7 +312,7 @@ function OrderBox() {
         )}
         {item.rate}
         <MoveToReview onClick={() => moveToReview()}>
-          {item.reviews.length}건 리뷰
+          {reivewObj._count.content}건 리뷰
         </MoveToReview>
       </Rate>
       <BuyBenefit>

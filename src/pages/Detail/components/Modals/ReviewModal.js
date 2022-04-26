@@ -180,7 +180,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
       {reviewModalOpen && (
         <Box>
           <Modal
-            method="POST"
+            method={formMethod.method}
             onSubmit={handleSubmit(onSubmit)}
             enctype="multipart/form-data"
             name="reviewForm"

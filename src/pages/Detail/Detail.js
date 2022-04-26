@@ -46,13 +46,12 @@ function Detail() {
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
+  const [reivewObj, setReviewObj] = useState({});
 
   let user_id;
 
   const processOnlyItem = res => {
-    res.rate =
-      res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
-      res.reviews.length;
+    res.rate = res.reviewSum._avg.rating;
     return res;
   };
 
@@ -93,6 +92,7 @@ function Detail() {
 
   // get Data
   useEffect(() => {
+    // data fetching
     fetch(`/data/detail.json`, {
       method: 'GET',
       headers: {
@@ -104,9 +104,11 @@ function Detail() {
       .then(res => {
         setReviews(res.reviews);
         setItem(processOnlyItem(res));
+        setReviewObj(res.reviewSum);
         setLoading(false);
       });
 
+    // verify user fetching
     fetch('http://localhost:8000/user/verify', {
       method: 'GET',
       headers: {
@@ -124,7 +126,9 @@ function Detail() {
         {loading ? (
           <div>loading...</div>
         ) : (
-          <DetailContext.Provider value={{ item, itemRate, reviews }}>
+          <DetailContext.Provider
+            value={{ item, itemRate, reviews, reivewObj }}
+          >
             <div className="detail">
               <ImgBox src={item.image_url} />
               <OrderBox />
