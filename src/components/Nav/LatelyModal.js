@@ -2,12 +2,27 @@ import styled, { css } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { BsBagX } from 'react-icons/bs';
 import LatelyModalList from './LatelyModalList';
+import { RiSplitCellsHorizontal } from 'react-icons/ri';
 
 function LatelyModal(props) {
-  const [carItem, setCartItem] = useState();
-  // JSON.parse(localStorage.getItem('itemsViewed')) || []
+  const [localItem, setLocalItem] = useState(
+    localStorage.getItem('itemsViewed') || ''
+  );
 
   const [latelyItem, setLatelyItem] = useState([]);
+
+  const deletItem = id => {
+    //fetch로 불러온 값 지우기
+    const localResult = latelyItem.filter(lately => lately.id !== id);
+    setLatelyItem(localResult);
+    //로컬스토리지에 저장된 값 지우기
+    const latelyResult = localItem
+      .split(',')
+      .filter(local => parseInt(local) !== id)
+      .join(',');
+    localStorage.setItem('itemsViewed', latelyResult);
+  };
+  //`/product/lately?product_id=${carItem}`
   useEffect(() => {
     fetch(`/data/latelyData.json`, {
       method: 'GET',
@@ -17,6 +32,7 @@ function LatelyModal(props) {
         setLatelyItem(data);
       });
   }, []);
+
   return (
     <LatelySection>
       <div
@@ -32,7 +48,7 @@ function LatelyModal(props) {
           <LatelyTitle>최근본상품</LatelyTitle>
           <span>전체삭제</span>
         </LatelyHeader>
-        {carItem === '' ? (
+        {localItem === '' ? (
           <NoLatelyitem>
             <BsBagX className="icon" />
             <span>최근본상품이 없습니다.</span>
@@ -50,6 +66,7 @@ function LatelyModal(props) {
                     image_url={comment.image_url}
                     price_after={comment.price_after}
                     price_before={comment.price_before}
+                    deletItem={deletItem}
                   />
                 );
               })}
@@ -83,7 +100,7 @@ const LatelySection = styled.section`
   .latelyModal {
     ${latelyCss}
     transform: translateX(120%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: none;
       width: 100%;
     }
@@ -91,7 +108,7 @@ const LatelySection = styled.section`
   .latelyModalChange {
     ${latelyCss}
     transform: translateX(0%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: block;
       width: 100%;
     }

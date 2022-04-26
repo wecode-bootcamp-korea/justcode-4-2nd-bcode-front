@@ -44,7 +44,7 @@ const CartSection = styled.section`
   .cartModal {
     ${Cartcss}
     transform: translateX(120%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: none;
       width: 100%;
     }
@@ -52,7 +52,7 @@ const CartSection = styled.section`
   .cartModalChange {
     ${Cartcss}
     transform: translateX(0%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: block;
       width: 100%;
     }
