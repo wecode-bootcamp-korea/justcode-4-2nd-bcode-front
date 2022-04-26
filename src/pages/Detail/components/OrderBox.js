@@ -268,7 +268,7 @@ function OrderBox() {
     window.scrollTo({ top: location, behavior: 'smooth' });
   };
 
-  const postIfLoggedInt = () => {
+  const postIfLoggedIn = () => {
     if (user_id) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
@@ -382,7 +382,7 @@ function OrderBox() {
       <ModalContext.Provider value={{ cartModalOpen, setCartModalOpen, item }}>
         <CartModal />
         <ShopNowOrLater>
-          <ShopNow onClick={() => postIfLoggedInt()}>장바구니 담기</ShopNow>
+          <ShopNow onClick={() => postIfLoggedIn()}>장바구니 담기</ShopNow>
           <ShopLater>바로구매</ShopLater>
         </ShopNowOrLater>
       </ModalContext.Provider>
