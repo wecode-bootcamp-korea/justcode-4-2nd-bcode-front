@@ -27,9 +27,17 @@ function LatelyModalList(props) {
           <BrandName>{props.brandname}</BrandName>
           <ItemName>{props.name}</ItemName>
           <PriceInfo>
-            <span className="discount">{discount}</span>
+            {discount === '0%' ? (
+              ''
+            ) : (
+              <span className="discount">{discount}</span>
+            )}
             <span className="priceAfter">{priceAfter}</span>
-            <span className="beforePrice">{priceBefore}</span>
+            {discount === '0%' ? (
+              ''
+            ) : (
+              <span className="beforePrice">{priceBefore}</span>
+            )}
           </PriceInfo>
         </div>
       </WrapList>

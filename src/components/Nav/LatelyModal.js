@@ -11,20 +11,27 @@ function LatelyModal(props) {
 
   const [latelyItem, setLatelyItem] = useState([]);
 
+  const deleteAll = () => {
+    setLatelyItem([]);
+    setLocalItem('');
+    localStorage.setItem('itemsViewed', '');
+  };
+
   const deletItem = id => {
     //fetch로 불러온 값 지우기
-    const localResult = latelyItem.filter(lately => lately.id !== id);
-    setLatelyItem(localResult);
     //로컬스토리지에 저장된 값 지우기
     const latelyResult = localItem
       .split(',')
       .filter(local => parseInt(local) !== id)
       .join(',');
+    setLocalItem(latelyResult);
     localStorage.setItem('itemsViewed', latelyResult);
+    const localResult = latelyItem.filter(lately => lately.id !== id);
+    setLatelyItem(localResult);
   };
-  //`/product/lately?product_id=${carItem}`
+
   useEffect(() => {
-    fetch(`/data/latelyData.json`, {
+    fetch(`http://localhost:8000/product/visited?product_id=${localItem}`, {
       method: 'GET',
     })
       .then(res => res.json())
@@ -46,7 +53,7 @@ function LatelyModal(props) {
       >
         <LatelyHeader>
           <LatelyTitle>최근본상품</LatelyTitle>
-          <span>전체삭제</span>
+          <span onClick={deleteAll}>전체삭제</span>
         </LatelyHeader>
         {localItem === '' ? (
           <NoLatelyitem>
@@ -61,7 +68,7 @@ function LatelyModal(props) {
                   <LatelyModalList
                     key={index}
                     id={comment.id}
-                    brandname={comment.brandname}
+                    brandname={comment.brands.name}
                     name={comment.name}
                     image_url={comment.image_url}
                     price_after={comment.price_after}

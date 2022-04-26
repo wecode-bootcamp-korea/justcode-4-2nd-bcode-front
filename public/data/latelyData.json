@@ -1,90 +1,112 @@
 [
   {
     "id": 0,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저1",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 1,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저2",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "카이스"
+    }
   },
   {
     "id": 2,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저3",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 3,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저4",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 4,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저5",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 5,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저6",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 6,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저7",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 7,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저8",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "한슐"
+    }
   },
   {
     "id": 8,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저9",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 9,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저10",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   },
   {
     "id": 10,
-    "brandname": "브러쉬",
     "name": "모지 젤 클렌저11",
     "image_url": "https://raw.githubusercontent.com/youngseoKim-kr/B-code-img/master/img/20.jpg",
     "price_after": 19600,
-    "price_before": 28000
+    "price_before": 28000,
+    "brands": {
+      "name": "헤루"
+    }
   }
 ]
