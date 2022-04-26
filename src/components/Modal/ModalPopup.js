@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { RiCloseFill } from 'react-icons/ri';
-import { useRef, useReducer, useState } from 'react';
+import { useRef } from 'react';
 
 function ModalPopup(props) {
   const popup = useRef();

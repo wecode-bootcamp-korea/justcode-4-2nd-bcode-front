@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useForm } from 'react-hook-form';
-import ModalPopup from './ModalPopup';
+import ModalPopup from '../../components/Modal/ModalPopup';
 import { setCookie } from '../../cookie';
 
 function Login() {
@@ -43,10 +43,9 @@ function Login() {
         //console.log(json);
         if (json.jwt) {
           const newToken = json.jwt;
-          const userId = json.id;
           const userName = json.name;
           // console.log(json);
-          setCookie(userId, newToken, {
+          setCookie('user_id', newToken, {
             path: '/',
             secure: true,
             sameSite: 'none',

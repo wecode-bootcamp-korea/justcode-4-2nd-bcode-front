@@ -8,12 +8,14 @@ import Signup from './pages/Signup/Signup';
 import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
+import Cart from './pages/Cart/Cart';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 
 function Router() {
   return (
+<<<<<<< Updated upstream
    <ThemeProvider theme={theme}>
        <BrowserRouter>
          <Nav />
@@ -26,6 +28,21 @@ function Router() {
          </Routes>
          <Footer />
        </BrowserRouter>
+=======
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/:product_id" element={<Detail />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+>>>>>>> Stashed changes
     </ThemeProvider>
   );
 }
