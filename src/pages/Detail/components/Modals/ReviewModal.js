@@ -112,13 +112,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   const { user_id } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
   const { product_id } = useParams();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, watch, reset } = useForm();
 
   const watchImg = watch('image');
   let file;
@@ -141,8 +135,6 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   };
 
   const onSubmit = data => {
-    console.log(data);
-    console.log(`user_id : ${user_id}`, `product_id : ${product_id}`);
     if (!watch('rating')) {
       alert('별점을 주세요');
     } else {

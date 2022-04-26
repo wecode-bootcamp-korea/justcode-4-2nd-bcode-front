@@ -83,7 +83,7 @@ function Reviews() {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="reviews">
       <div className="reviewBox">
         상품 리뷰({reviews.length})
         <AiOutlineEdit

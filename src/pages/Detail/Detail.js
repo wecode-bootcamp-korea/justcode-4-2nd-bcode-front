@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
+import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,12 +47,13 @@ function Detail() {
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
-  let user_id = 2;
+
+  let user_id = getCookie('user_id');
+
   const processOnlyItem = res => {
     res.rate =
       res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
       res.reviews.length;
-
     return res;
   };
 
@@ -92,7 +94,7 @@ function Detail() {
 
   // get Data
   useEffect(() => {
-    fetch('/data/detail.json', {
+    fetch(`/data/detail.json`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
