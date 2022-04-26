@@ -81,6 +81,11 @@ const FooterSection = styled.section`
     &:hover {
       background-color: #ee2e7a;
     }
+    @media (max-width: 375px) {
+      right: 40px;
+      bottom: 40px;
+      font-size: 34px;
+    }
   }
 `;
 
