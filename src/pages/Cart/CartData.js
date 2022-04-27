@@ -18,12 +18,15 @@ function CartNoData() {
 }
 
 function CartData({ data, quantity, event }) {
-  //onChange event
-  console.log(data);
-  const changeQuantity = (e, val) => {
-    // console.log(e.target.value);
+  // console.log(data);
+
+  const deleteHandler = () => {
+    event(data.products.id);
+  };
+
+  const changeQuantity = e => {
     fetch(
-      `http://localhost:8000/cart/${data.id}?setQuantity=${e.target.value}`,
+      `http://localhost:8000/cart/${data.products.id}?setQuantity=${e.target.value}`,
       { method: 'PUT' }
     );
   };
@@ -32,7 +35,9 @@ function CartData({ data, quantity, event }) {
     return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
   let discountRate =
-    Math.round((1 - data.price_after / data.price_before) * 100) + '%';
+    Math.round(
+      (1 - data.products.price_after / data.products.price_before) * 100
+    ) + '%';
   return (
     <CartDataTr>
       <td>
@@ -42,22 +47,26 @@ function CartData({ data, quantity, event }) {
       <td>
         <ProductWrap>
           <ProductImg>
-            <img src={data.image_url} alt={data.name} />
+            <img src={data.products.image_url} alt={data.products.name} />
           </ProductImg>
           <ProductInfo>
-            <Brand>{data.brands.name}</Brand>
-            <li>{data.name}</li>
+            <Brand>{data.products.brands.name}</Brand>
+            <li>{data.products.name}</li>
             <li>
               <Discount>{discountRate}</Discount>
-              <span>{intoString(data.price_before)}원</span>
-              <BeforePrice>{intoString(data.price_after)}원</BeforePrice>
+              <span>{intoString(data.products.price_before)}원</span>
+              <BeforePrice>
+                {intoString(data.products.price_after)}원
+              </BeforePrice>
             </li>
           </ProductInfo>
         </ProductWrap>
       </td>
       <td>
-        <select defaultValue={quantity} onChange={changeQuantity}>
-          <option value="null">선택</option>
+        <select
+          defaultValue={quantity > 10 ? 10 : quantity}
+          onChange={changeQuantity}
+        >
           <option value="1">1개</option>
           <option value="2">2개</option>
           <option value="3">3개</option>
@@ -70,9 +79,13 @@ function CartData({ data, quantity, event }) {
           <option value="10">10개</option>
         </select>
       </td>
-      <Price>{Number(data.price_before * quantity).toLocaleString()}원</Price>
-      <Price>{Number(data.price_after * quantity).toLocaleString()}원</Price>
-      <DeleteData>
+      <Price>
+        {Number(data.products.price_before * quantity).toLocaleString()}원
+      </Price>
+      <Price>
+        {Number(data.products.price_after * quantity).toLocaleString()}원
+      </Price>
+      <DeleteData onClick={deleteHandler}>
         <BsX size={22} />
         <span>삭제</span>
       </DeleteData>

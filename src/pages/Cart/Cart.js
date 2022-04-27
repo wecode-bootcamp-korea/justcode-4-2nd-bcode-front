@@ -11,20 +11,18 @@ function Cart() {
     return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
   const deleteData = id => {
+    fetch(`http://localhost:8000/cart/${id} `, { method: 'DELETE' });
+
     const result = cartList.filter(item => item.products.id !== id);
     setCartList(result);
-    fetch(`http://localhost:8000/cart/${id} `, { method: 'DELETE' });
   };
-  const totalPrice = cartList
-    .map(order => {
-      let array = [];
-      array.push(order.products.price_before * order.products.quantity);
-      array.push(order.products.price_after * order.products.quantity);
-    })
+
+  const totalBeforePrice = cartList
+    .map(order => order.products.price_before * order.quantity)
     .reduce(function (prev, curr) {
       return prev + curr;
     }, 0);
-
+  console.log(totalBeforePrice);
   useEffect(() => {
     fetch(`http://localhost:8000/cart/now`, { method: 'GET' })
       .then(res => res.json())
@@ -62,9 +60,9 @@ function Cart() {
               </th>
               <th>상품명/옵션명/상품가격</th>
               <th>수량</th>
-              <th>할인금액</th>
-              <th>판매가격</th>
-              <th>주문</th>
+              <th>판매가</th>
+              <th>할인가</th>
+              <th />
             </tr>
           </CartListHead>
           <tbody>
@@ -73,7 +71,7 @@ function Cart() {
                 return (
                   <CartData
                     key={order.id}
-                    data={order.products}
+                    data={order}
                     quantity={order.quantity}
                     event={deleteData}
                   />
@@ -118,7 +116,7 @@ function Cart() {
             </TotalPriceArea>
             <PaymentArea>
               <td colSpan="99">
-                결제 예상 금액 <span>10000</span>원
+                결제 예상 금액 <span>500</span>원
               </td>
             </PaymentArea>
             <tr />
