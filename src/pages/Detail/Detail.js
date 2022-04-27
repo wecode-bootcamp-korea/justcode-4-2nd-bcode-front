@@ -94,7 +94,7 @@ function Detail() {
   // get Data
   useEffect(() => {
     // data fetching
-    fetch(`/data/detail.json`, {
+    fetch(`http://localhost:8000/product/detail/${product_id}?limit=3`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
