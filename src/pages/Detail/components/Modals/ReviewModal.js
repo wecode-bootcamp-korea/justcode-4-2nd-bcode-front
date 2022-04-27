@@ -122,7 +122,9 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
       if (!fileImg) {
         setImgPreview(null);
       } else {
-        setImgPreview(URL.createObjectURL(fileImg));
+        return fileImg.size > 20000
+          ? alert('사진의 용량이 너무 큽니다')
+          : setImgPreview(URL.createObjectURL(fileImg));
       }
     }
   }, [watchImg]);
