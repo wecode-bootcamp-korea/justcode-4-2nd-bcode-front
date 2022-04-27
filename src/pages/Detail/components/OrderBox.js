@@ -280,6 +280,8 @@ function OrderBox() {
     }
   };
 
+  const priceGap = item.price_before - item.price_after;
+
   return (
     <Wrapper>
       <Brand>
@@ -290,14 +292,15 @@ function OrderBox() {
       </Brand>
       <Name>{item.name}</Name>
       <Price>
-        <span className="discount">
-          {Math.floor(
-            ((item.price_before - item.price_after) / item.price_before) * 100
-          )}
-          %
-        </span>
+        {priceGap !== 0 && (
+          <span className="discount">
+            {Math.floor((priceGap / item.price_before) * 100)}%
+          </span>
+        )}
         <span className="priceAfter">{slicePrice(item.price_after)}원</span>
-        <del className="priceBefore">{slicePrice(item.price_before)}원</del>
+        {priceGap !== 0 && (
+          <del className="priceBefore">{slicePrice(item.price_before)}원</del>
+        )}
       </Price>
       <Rate>
         {itemRate(Math.round(item.rate)).map(i =>
