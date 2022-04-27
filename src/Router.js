@@ -15,7 +15,7 @@ import theme from './styles/theme';
 
 function Router() {
   return (
-<<<<<<< Updated upstream
+
    <ThemeProvider theme={theme}>
        <BrowserRouter>
          <Nav />
@@ -25,24 +25,10 @@ function Router() {
            <Route path="/" element={<Main />} />
            <Route path="/list" element={<List />} />
            <Route path="/detail/:product_id" element={<Detail />} />
+           <Route path="/cart" element={<Cart />} />
          </Routes>
          <Footer />
        </BrowserRouter>
-=======
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Main />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/:product_id" element={<Detail />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
->>>>>>> Stashed changes
     </ThemeProvider>
   );
 }

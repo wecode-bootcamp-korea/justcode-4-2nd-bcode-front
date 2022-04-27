@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import { FiX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-const now = new Date();
-const todayMonth = now.getMonth() + 1;
-const todayDate = now.getDate();
 
 function SearchList(props) {
   const navigate = useNavigate();
@@ -16,9 +13,7 @@ function SearchList(props) {
   return (
     <>
       <SearchitemList>
-        <div className="searchitemday">
-          {todayMonth}.{todayDate}
-        </div>
+        <div className="searchitemday">{props.date}</div>
         <div className="searchitemdata" onClick={goToSearchPage}>
           {props.item}
         </div>
