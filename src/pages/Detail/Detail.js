@@ -9,6 +9,7 @@ import { getCookie } from '../../cookie';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+
   margin-top: 100px;
   justify-content: center;
 
@@ -16,7 +17,8 @@ const Wrapper = styled.div`
     width: 1200px;
     margin: 100px 310px;
   }
-
+  @media (max-width: 820px) {
+  }
   .detail {
     display: flex;
     flex-direction: row;

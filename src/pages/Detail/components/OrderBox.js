@@ -310,7 +310,7 @@ function OrderBox() {
             <AiTwotoneStar style={{ color: 'silver' }} />
           )
         )}
-        {item.rate}
+        {item.rate.toFixed(1)}
         <MoveToReview onClick={() => moveToReview()}>
           {reivewObj._count.content}건 리뷰
         </MoveToReview>
