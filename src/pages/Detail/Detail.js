@@ -50,7 +50,7 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
-  const [user_id, setUser_id] = useState(null);
+  const [user_id, setUser_id] = useState();
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;

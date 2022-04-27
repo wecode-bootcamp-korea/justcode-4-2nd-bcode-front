@@ -20,6 +20,14 @@ const Wrapper = styled.div`
   @media (max-width: 820px) {
     font-size: 15px;
   }
+  img {
+    width: 150px;
+    height: 130px;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: absolute;
+    right: 10px;
+  }
 `;
 
 const User = styled.div`
@@ -123,6 +131,7 @@ function Review({ review }) {
           )}
         </div>
       </Content>
+      {review.image && <img src={review.image} alt="리뷰 이미지" />}
     </Wrapper>
   );
 }
