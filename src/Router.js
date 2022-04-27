@@ -25,6 +25,7 @@ function Router() {
           <Route path="/list/:list_id" element={<List />} />
           <Route path="/detail/:product_id" element={<Detail />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -43,7 +43,7 @@ function Login() {
         //console.log(json);
         if (json.jwt) {
           const newToken = json.jwt;
-          const userName = json.name;
+          const userName = json.username;
           // console.log(json);
           setCookie('user_id', newToken, {
             path: '/',
@@ -51,7 +51,7 @@ function Login() {
             sameSite: 'none',
           });
           alert(`${userName}님, 환영합니다!`);
-          navigate('../main');
+          navigate('../');
         }
       });
   };

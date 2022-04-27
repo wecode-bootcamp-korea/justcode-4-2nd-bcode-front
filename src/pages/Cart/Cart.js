@@ -1,28 +1,36 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartNoData, CartData } from './CartData';
-import InputChkBox from '../../components/Checkbox/InputChkBox';
+import { getCookie } from '../../cookie';
 import { BiMinus, BiPlus } from 'react-icons/bi';
 
 function Cart() {
-  //체크박스 관련 함수
-  const [totalCheck, setTotalCheck] = useState(false);
-  const [checkList, setCheckList] = useState(Array(3).fill(false));
-
-  //전체 체크 클릭 시 발생
-  const allCheck = () => {
-    setCheckList(Array(checkList.length).fill(!totalCheck));
-    setTotalCheck(!totalCheck);
+  const deliveryFee = 2500;
+  const [cartList, setCartList] = useState([]);
+  const intoString = dataname => {
+    return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
-  //개별 체크 클릭 시 발생함수
-  const singleCheck = index => {
-    setCheckList(prev => {
-      const array = [...prev];
-      array[index] = !array[index];
+  const deleteData = id => {
+    fetch(`http://localhost:8000/cart/${id} `, { method: 'DELETE' });
 
-      return array;
-    });
+    const result = cartList.filter(item => item.products.id !== id);
+    setCartList(result);
   };
+
+  const totalBeforePrice = cartList
+    .map(order => order.products.price_before * order.quantity)
+    .reduce(function (prev, curr) {
+      return prev + curr;
+    }, 0);
+  console.log(totalBeforePrice);
+  useEffect(() => {
+    fetch(`http://localhost:8000/cart/now`, { method: 'GET' })
+      .then(res => res.json())
+      .then(data => {
+        setCartList(data);
+      });
+  }, []);
+  // console.log(cartList);
   return (
     <CartWrap>
       <CartHeader>
@@ -52,15 +60,26 @@ function Cart() {
               </th>
               <th>상품명/옵션명/상품가격</th>
               <th>수량</th>
-              <th>할인금액</th>
-              <th>판매가격</th>
-              <th>주문</th>
+              <th>판매가</th>
+              <th>할인가</th>
+              <th />
             </tr>
           </CartListHead>
           <tbody>
-            <CartData />
-
-            {/* <CartNoData /> */}
+            {cartList.length !== 0 ? (
+              cartList.map(order => {
+                return (
+                  <CartData
+                    key={order.id}
+                    data={order}
+                    quantity={order.quantity}
+                    event={deleteData}
+                  />
+                );
+              })
+            ) : (
+              <CartNoData />
+            )}
 
             <TotalPriceArea>
               <td colSpan="6">
@@ -68,7 +87,8 @@ function Cart() {
                   <PriceInfo>
                     총 상품금액
                     <span>
-                      10000<b>원</b>
+                      500
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                   <TotalSymbol>
@@ -77,7 +97,8 @@ function Cart() {
                   <PriceInfo>
                     총 할인금액
                     <span>
-                      10000<b>원</b>
+                      500
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                   <TotalSymbol>
@@ -86,7 +107,8 @@ function Cart() {
                   <PriceInfo>
                     배송비
                     <span>
-                      10000<b>원</b>
+                      {intoString(deliveryFee)}
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                 </TotalPayList>
@@ -94,7 +116,7 @@ function Cart() {
             </TotalPriceArea>
             <PaymentArea>
               <td colSpan="99">
-                결제 예상 금액 <span>10000</span>원
+                결제 예상 금액 <span>500</span>원
               </td>
             </PaymentArea>
             <tr />
