@@ -8,7 +8,7 @@ import Signup from './pages/Signup/Signup';
 import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
-import Cart from './pages/Cart/Cart';
+import Search from './pages/Search/Search';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -22,8 +22,9 @@ function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Main />} />
-          <Route path="/list" element={<List />} />
+          <Route path="/list/:list_id" element={<List />} />
           <Route path="/detail/:product_id" element={<Detail />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>
         <Footer />
