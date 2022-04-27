@@ -114,7 +114,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   const { product_id } = useParams();
   const { register, handleSubmit, watch, reset } = useForm();
 
-  const watchImg = watch('image');
+  let watchImg = watch('image');
   let fileImg;
   useEffect(() => {
     if (watchImg) {
@@ -122,9 +122,12 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
       if (!fileImg) {
         setImgPreview(null);
       } else {
-        return fileImg.size > 20000
-          ? alert('사진의 용량이 너무 큽니다')
-          : setImgPreview(URL.createObjectURL(fileImg));
+        if (fileImg.size > 20000000) {
+          alert('사진의 용량이 너무 큽니다');
+          watchImg.value = null;
+        } else {
+          setImgPreview(URL.createObjectURL(fileImg));
+        }
       }
     }
   }, [watchImg]);
@@ -145,8 +148,8 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     newFormData.set('content', data.content);
     newFormData.set('reviewImage', watchImg[0]);
 
-    if (!watch('rating')) {
-      alert('별점을 주세요');
+    if (!watch('rating') || !!watchImg) {
+      alert('모든 정보를 입력했는지 다시 확인해 주세요');
     } else {
       if (formMethod.method === 'POST') {
         fetch('http://localhost:8000/review/', {
