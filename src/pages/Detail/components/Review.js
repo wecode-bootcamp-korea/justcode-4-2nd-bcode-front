@@ -81,7 +81,7 @@ const Content = styled.div`
 
 function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const { setReviewModalOpen, setFormMethod } = useContext(ReviewContext);
 
   const deleteReview = () => {
@@ -120,7 +120,7 @@ function Review({ review }) {
           <AiOutlineHeart />
           &nbsp;
           {review.reviews_likes.length}
-          {user_id === review.users.id && (
+          {userId === review.users.id && (
             <div className="edit">
               <AiOutlineEdit
                 style={{ marginRight: '10px' }}

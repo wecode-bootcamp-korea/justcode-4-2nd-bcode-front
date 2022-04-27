@@ -64,7 +64,7 @@ const Filter = styled.div`
 
 function Reviews() {
   const { itemRate, item, reivewObj } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
@@ -74,7 +74,7 @@ function Reviews() {
   });
 
   const confirmLoggedIn = () => {
-    if (user_id) {
+    if (userId) {
       setReviewModalOpen(true);
     } else {
       setSignInPlzModalOpen(true);

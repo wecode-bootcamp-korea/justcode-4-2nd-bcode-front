@@ -50,7 +50,7 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
-  const [user_id, setUser_id] = useState();
+  const [userId, setUserId] = useState();
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
@@ -107,14 +107,14 @@ function Detail() {
         setReviews(res.reviews);
         setItem(processOnlyItem(res));
         setReviewObj(res.reviewSum);
-        setUser_id(res.userId);
+        setUserId(res.userId);
         setLoading(false);
       });
   }, []);
 
   return (
     <Wrapper>
-      <UserContext.Provider value={{ user_id }}>
+      <UserContext.Provider value={{ userId }}>
         {loading ? (
           <div>loading...</div>
         ) : (

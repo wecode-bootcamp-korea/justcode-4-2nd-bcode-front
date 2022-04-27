@@ -109,7 +109,7 @@ const Preview = styled.div`
 `;
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
-  const { user_id, localUserId } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
   const { product_id } = useParams();
   const { register, handleSubmit, watch, reset } = useForm();
@@ -148,7 +148,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     } else {
       if (formMethod.method === 'POST') {
         newFormData.set('productId', product_id);
-        newFormData.set('userId', user_id);
+        newFormData.set('userId', userId);
         newFormData.set('rating', data.rating);
         newFormData.set('content', data.content);
         newFormData.set('reviewImage', watchImg[0]);

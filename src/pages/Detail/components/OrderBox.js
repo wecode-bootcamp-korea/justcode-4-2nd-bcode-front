@@ -233,7 +233,7 @@ const ShopLater = styled.button`
 
 function OrderBox() {
   const { item, itemRate, reivewObj } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
@@ -266,7 +266,7 @@ function OrderBox() {
   };
 
   const postIfLoggedIn = () => {
-    if (user_id) {
+    if (userId) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
         method: 'PUT',
