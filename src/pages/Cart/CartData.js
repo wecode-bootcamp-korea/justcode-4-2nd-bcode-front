@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BsBagX, BsX } from 'react-icons/bs';
+
 function CartNoData() {
   return (
     <tr>
@@ -16,43 +17,65 @@ function CartNoData() {
   );
 }
 
-function CartData() {
+function CartData({ data, quantity, event }) {
+  //onChange event
+  console.log(data);
+  const changeQuantity = (e, val) => {
+    // console.log(e.target.value);
+    fetch(
+      `http://localhost:8000/cart/${data.id}?setQuantity=${e.target.value}`,
+      { method: 'PUT' }
+    );
+  };
+
+  const intoString = dataname => {
+    return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
+  let discountRate =
+    Math.round((1 - data.price_after / data.price_before) * 100) + '%';
   return (
     <CartDataTr>
-      <ProductCheck>
+      <td>
         <input type="checkbox" />
-      </ProductCheck>
+      </td>
 
       <td>
         <ProductWrap>
           <ProductImg>
-            <img src="" alt="" />
+            <img src={data.image_url} alt={data.name} />
           </ProductImg>
           <ProductInfo>
-            <Brand>아이오페</Brand>
-            <li>앰플</li>
+            <Brand>{data.brands.name}</Brand>
+            <li>{data.name}</li>
             <li>
-              <Discount>30%</Discount>
-              <span>10000원</span>
-              <BeforePrice>10000원</BeforePrice>
+              <Discount>{discountRate}</Discount>
+              <span>{intoString(data.price_before)}원</span>
+              <BeforePrice>{intoString(data.price_after)}원</BeforePrice>
             </li>
           </ProductInfo>
         </ProductWrap>
       </td>
       <td>
-        <select>
-          <option>1개</option>
-          <option>2개</option>
+        <select defaultValue={quantity} onChange={changeQuantity}>
+          <option value="null">선택</option>
+          <option value="1">1개</option>
+          <option value="2">2개</option>
+          <option value="3">3개</option>
+          <option value="4">4개</option>
+          <option value="5">5개</option>
+          <option value="6">6개</option>
+          <option value="7">7개</option>
+          <option value="8">8개</option>
+          <option value="9">9개</option>
+          <option value="10">10개</option>
         </select>
       </td>
-      <td>10000원</td>
-      <td>10000원</td>
-      <td>
-        <span>
-          <BsX />
-          삭제
-        </span>
-      </td>
+      <Price>{Number(data.price_before * quantity).toLocaleString()}원</Price>
+      <Price>{Number(data.price_after * quantity).toLocaleString()}원</Price>
+      <DeleteData>
+        <BsX size={22} />
+        <span>삭제</span>
+      </DeleteData>
     </CartDataTr>
   );
 }
@@ -79,27 +102,36 @@ const CartNoDataDiv = styled.div`
 const CartDataTr = styled.tr`
   & td {
     padding: 20px 0;
+    text-align: center;
+    vertical-align: middle;
   }
 `;
 
 const ProductWrap = styled.div`
   display: flex;
 `;
-const ProductCheck = styled.td`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
 const ProductImg = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 10px;
   overflow: hidden;
   background: #f3f3f3;
+  & img {
+    width: 100%;
+  }
 `;
 const ProductInfo = styled.ul`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
   margin-left: 10px;
+  padding: 10px 0;
   font-size: ${props => props.theme.fontSize.small};
+  & li {
+    text-align: left;
+    margin-bottom: 5px;
+  }
   & span {
     margin: 0 1px;
   }
@@ -114,4 +146,14 @@ const BeforePrice = styled.span`
   color: ${props => props.theme.defaultInput};
   text-decoration: line-through;
 `;
+const Price = styled.td`
+  font-weight: 500;
+`;
+const DeleteData = styled.td`
+  cursor: pointer;
+  & span {
+    vertical-align: super;
+  }
+`;
+
 export { CartNoData, CartData };
