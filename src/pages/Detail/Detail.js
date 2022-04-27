@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
+import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,12 +47,12 @@ function Detail() {
   const [item, setItem] = useState();
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
-  let user_id = 2;
-  const processOnlyItem = res => {
-    res.rate =
-      res.reviews.map(review => review.rating).reduce((acc, cur) => acc + cur) /
-      res.reviews.length;
+  const [reivewObj, setReviewObj] = useState({});
+  const [user_id, setUser_id] = useState(1);
+  const cookie = getCookie('user_id');
 
+  const processOnlyItem = res => {
+    res.rate = res.reviewSum._avg.rating;
     return res;
   };
 
@@ -92,7 +93,8 @@ function Detail() {
 
   // get Data
   useEffect(() => {
-    fetch('/data/detail.json', {
+    // data fetching
+    fetch(`/data/detail.json`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -103,8 +105,21 @@ function Detail() {
       .then(res => {
         setReviews(res.reviews);
         setItem(processOnlyItem(res));
+        setReviewObj(res.reviewSum);
         setLoading(false);
       });
+
+    // verify user fetching
+    fetch('http://localhost:8000/user/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: cookie,
+      },
+    })
+      .then(res => res.json())
+      .then(res => setUser_id(res.userId));
   }, []);
 
   return (
@@ -113,12 +128,13 @@ function Detail() {
         {loading ? (
           <div>loading...</div>
         ) : (
-          <DetailContext.Provider value={{ item, itemRate, reviews }}>
+          <DetailContext.Provider
+            value={{ item, itemRate, reviews, reivewObj }}
+          >
             <div className="detail">
               <ImgBox src={item.image_url} />
               <OrderBox />
             </div>
-
             <Reviews />
           </DetailContext.Provider>
         )}
