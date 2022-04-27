@@ -63,7 +63,7 @@ const Filter = styled.div`
 `;
 
 function Reviews() {
-  const { reviews, itemRate, item, reivewObj } = useContext(DetailContext);
+  const { itemRate, item, reivewObj } = useContext(DetailContext);
   const { user_id } = useContext(UserContext);
   const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);

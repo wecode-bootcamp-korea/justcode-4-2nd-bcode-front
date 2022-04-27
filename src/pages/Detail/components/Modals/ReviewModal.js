@@ -141,17 +141,18 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
 
   const onSubmit = data => {
     const newFormData = new FormData();
+    const oldFormData = new FormData();
 
-    newFormData.set('productId', product_id);
-    newFormData.set('userId', user_id);
-    newFormData.set('rating', data.rating);
-    newFormData.set('content', data.content);
-    newFormData.set('reviewImage', watchImg[0]);
-
-    if (!watch('rating') || !!watchImg) {
+    if (!watch('rating') || !watchImg) {
       alert('모든 정보를 입력했는지 다시 확인해 주세요');
     } else {
       if (formMethod.method === 'POST') {
+        newFormData.set('productId', product_id);
+        newFormData.set('userId', user_id);
+        newFormData.set('rating', data.rating);
+        newFormData.set('content', data.content);
+        newFormData.set('reviewImage', watchImg[0]);
+
         fetch('http://localhost:8000/review/', {
           method: 'POST',
           headers: {},
@@ -160,14 +161,14 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
           .then(cleanData(fileImg))
           .then(alert('리뷰를 등록했습니다'));
       } else if (formMethod.method === 'PATCH') {
+        oldFormData.set('rating', data.rating);
+        oldFormData.set('content', data.content);
+        oldFormData.set('reviewImage', watchImg[0]);
+
         fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
           method: 'PATCH',
           headers: {},
-          body: {
-            content: data.content,
-            rating: data.rating,
-            image: imgPreview,
-          },
+          body: oldFormData,
         })
           .then(cleanData(fileImg))
           .then(alert('리뷰를 수정했습니다'));
