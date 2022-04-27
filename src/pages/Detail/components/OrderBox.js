@@ -273,10 +273,8 @@ function OrderBox() {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          Authorization: localStorage.getItem('userId'),
         },
-        body: JSON.stringify({
-          userId: user_id,
-        }),
       });
     } else {
       setSignInPlzModalOpen(true);
@@ -313,7 +311,7 @@ function OrderBox() {
             <AiTwotoneStar style={{ color: 'silver' }} />
           )
         )}
-        {item.rate.toFixed(1)}
+        {item.rate && item.rate.toFixed(1)}
         <MoveToReview onClick={() => moveToReview()}>
           {reivewObj._count.content}건 리뷰
         </MoveToReview>

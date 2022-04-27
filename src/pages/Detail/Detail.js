@@ -50,8 +50,7 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
-  const [user_id, setUser_id] = useState(1);
-  const localUserId = localStorage.getItem('userId');
+  const [user_id, setUser_id] = useState(null);
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
@@ -95,12 +94,12 @@ function Detail() {
 
   // get Data
   useEffect(() => {
-    // data fetching
     fetch(`http://localhost:8000/product/detail/${product_id}?limit=5`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: localStorage.getItem('userId'),
       },
     })
       .then(res => res.json())
@@ -108,20 +107,9 @@ function Detail() {
         setReviews(res.reviews);
         setItem(processOnlyItem(res));
         setReviewObj(res.reviewSum);
+        setUser_id(res.userId);
         setLoading(false);
       });
-
-    // verify user fetching
-    fetch('http://localhost:8000/user/verify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: localUserId,
-      },
-    })
-      .then(res => res.json())
-      .then(res => setUser_id(res.userId));
   }, []);
 
   return (

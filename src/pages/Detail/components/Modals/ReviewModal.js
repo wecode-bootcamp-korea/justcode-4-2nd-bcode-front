@@ -109,7 +109,7 @@ const Preview = styled.div`
 `;
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
-  const { user_id } = useContext(UserContext);
+  const { user_id, localUserId } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
   const { product_id } = useParams();
   const { register, handleSubmit, watch, reset } = useForm();
@@ -155,7 +155,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
 
         fetch('http://localhost:8000/review/', {
           method: 'POST',
-          headers: {},
+          headers: { Authorization: localStorage.getItem('userId') },
           body: newFormData,
         })
           .then(cleanData(fileImg))
@@ -167,7 +167,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
 
         fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
           method: 'PATCH',
-          headers: {},
+          headers: { Authorization: localStorage.getItem('userId') },
           body: oldFormData,
         })
           .then(cleanData(fileImg))
