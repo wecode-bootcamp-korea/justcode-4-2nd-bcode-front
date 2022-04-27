@@ -9,7 +9,6 @@ import Byfilter from './Filters/ByFilter';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
-  margin: 0 100px;
   margin-top: 100px;
   @media (max-width: 375px) {
     margin: 100px 0 0 0;

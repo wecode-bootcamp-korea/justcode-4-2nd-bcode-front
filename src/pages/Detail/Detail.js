@@ -9,14 +9,14 @@ import { getCookie } from '../../cookie';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 220px;
   margin-top: 100px;
   justify-content: center;
 
-  @media (max-width: 820px) {
-    margin: 0;
-    margin-top: 100px;
+  @media (min-width: 1920px) {
+    width: 1200px;
+    margin: 100px 310px;
   }
+
   .detail {
     display: flex;
     flex-direction: row;
