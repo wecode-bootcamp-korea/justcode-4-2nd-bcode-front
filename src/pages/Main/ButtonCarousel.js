@@ -55,7 +55,7 @@ function ButtonCarousel() {
   const [more, setMore] = useState(1);
 
   const fetchItem = () => {
-    fetch('/data/latelyData.json', {
+    fetch('http://localhost:8000/category/1', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -73,15 +73,15 @@ function ButtonCarousel() {
   }, []);
 
   const first = recoItems.slice(0, 5);
-  const sec = recoItems.slice(-5);
+  const sec = recoItems.slice(4, 9);
 
   return (
     <Wrapper>
       <span className="title">고객님을 위해 추천 드려요</span>
       <Cards>
         {more === 1
-          ? first.map(i => <Card key={i.id} products={i} />)
-          : sec.map(i => <Card key={i.id} products={i} />)}
+          ? first.map(i => <Card key={i.id} item={i} />)
+          : sec.map(i => <Card key={i.id} item={i} />)}
       </Cards>
       <button onClick={() => (more === 1 ? setMore(2) : setMore(1))}>
         <AiOutlineReload style={{ color: '#ee2c7a' }} /> 더보기 {more}/2
