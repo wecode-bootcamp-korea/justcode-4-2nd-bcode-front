@@ -29,9 +29,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 568px;
-  @media screen and (max-width: 1920px) {
-    margin-left: 100px;
-  }
 
   @media (max-width: 820px) {
     margin-right: 100px;
