@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
-import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,6 +27,7 @@ const Wrapper = styled.div`
     }
   }
 `;
+
 const ImgBox = styled.img`
   margin: 0 140px;
   @media screen and (max-width: 1920px) {
@@ -51,7 +51,7 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
   const [user_id, setUser_id] = useState(1);
-  const cookie = getCookie('user_id');
+  const localUserId = localStorage.getItem('userId');
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
@@ -117,7 +117,7 @@ function Detail() {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: cookie,
+        Authorization: localUserId,
       },
     })
       .then(res => res.json())
