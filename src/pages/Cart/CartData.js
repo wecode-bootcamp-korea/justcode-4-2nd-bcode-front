@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { BsBagX, BsX } from 'react-icons/bs';
 
 function CartNoData() {
@@ -17,8 +18,14 @@ function CartNoData() {
   );
 }
 
-function CartData({ data, quantity, event }) {
+function CartData({ data, quantity, event, changeState }) {
   // console.log(data);
+  const [discountTotal, setDiscountTotal] = useState(
+    (data.products.price_before - data.products.price_after) * quantity
+  );
+  const [afterTotal, setAfterTotal] = useState(
+    data.products.price_after * quantity
+  );
 
   const deleteHandler = () => {
     event(data.products.id);
@@ -29,6 +36,10 @@ function CartData({ data, quantity, event }) {
       `http://localhost:8000/cart/${data.products.id}?setQuantity=${e.target.value}`,
       { method: 'PUT' }
     );
+    setDiscountTotal(
+      (data.products.price_before - data.products.price_after) * e.target.value
+    );
+    setAfterTotal(data.products.price_after * e.target.value);
   };
 
   const intoString = dataname => {
@@ -65,7 +76,10 @@ function CartData({ data, quantity, event }) {
       <td>
         <select
           defaultValue={quantity > 10 ? 10 : quantity}
-          onChange={changeQuantity}
+          onChange={e => {
+            changeQuantity(e);
+            changeState(e);
+          }}
         >
           <option value="1">1개</option>
           <option value="2">2개</option>
@@ -79,12 +93,8 @@ function CartData({ data, quantity, event }) {
           <option value="10">10개</option>
         </select>
       </td>
-      <Price>
-        {Number(data.products.price_before * quantity).toLocaleString()}원
-      </Price>
-      <Price>
-        {Number(data.products.price_after * quantity).toLocaleString()}원
-      </Price>
+      <Price>{intoString(discountTotal)}원</Price>
+      <Price>{intoString(afterTotal)}원</Price>
       <DeleteData onClick={deleteHandler}>
         <BsX size={22} />
         <span>삭제</span>

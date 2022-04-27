@@ -9,6 +9,7 @@ import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
 import Search from './pages/Search/Search';
+import Cart from './pages/Cart/Cart';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
