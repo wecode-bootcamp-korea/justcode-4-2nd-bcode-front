@@ -269,11 +269,14 @@ function OrderBox() {
     if (user_id) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
+        body: JSON.stringify({
+          userId: user_id,
+        }),
       });
     } else {
       setSignInPlzModalOpen(true);
