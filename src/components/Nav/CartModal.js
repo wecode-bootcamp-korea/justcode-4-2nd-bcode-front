@@ -10,10 +10,15 @@ function CartModal(props) {
   useEffect(() => {
     fetch(`http://localhost:8000/cart/now`, {
       method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
     })
       .then(res => res.json())
       .then(data => {
         setCartItem(data);
+        console.log(data);
       });
   }, []);
 
@@ -23,6 +28,10 @@ function CartModal(props) {
     setCartItem(result);
     fetch(`http://localhost:8000/cart/${id}`, {
       method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
     })
       .then(res => res.json())
       .then(data => {});
