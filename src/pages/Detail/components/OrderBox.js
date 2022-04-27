@@ -29,9 +29,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 568px;
-  @media screen and (max-width: 1920px) {
-    margin-left: 100px;
-  }
 
   @media (max-width: 820px) {
     margin-right: 100px;
@@ -272,16 +269,21 @@ function OrderBox() {
     if (user_id) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
+        body: JSON.stringify({
+          userId: user_id,
+        }),
       });
     } else {
       setSignInPlzModalOpen(true);
     }
   };
+
+  const priceGap = item.price_before - item.price_after;
 
   return (
     <Wrapper>
@@ -293,14 +295,15 @@ function OrderBox() {
       </Brand>
       <Name>{item.name}</Name>
       <Price>
-        <span className="discount">
-          {Math.floor(
-            ((item.price_before - item.price_after) / item.price_before) * 100
-          )}
-          %
-        </span>
+        {priceGap !== 0 && (
+          <span className="discount">
+            {Math.floor((priceGap / item.price_before) * 100)}%
+          </span>
+        )}
         <span className="priceAfter">{slicePrice(item.price_after)}원</span>
-        <del className="priceBefore">{slicePrice(item.price_before)}원</del>
+        {priceGap !== 0 && (
+          <del className="priceBefore">{slicePrice(item.price_before)}원</del>
+        )}
       </Price>
       <Rate>
         {itemRate(Math.round(item.rate)).map(i =>
@@ -310,7 +313,7 @@ function OrderBox() {
             <AiTwotoneStar style={{ color: 'silver' }} />
           )
         )}
-        {item.rate}
+        {item.rate.toFixed(1)}
         <MoveToReview onClick={() => moveToReview()}>
           {reivewObj._count.content}건 리뷰
         </MoveToReview>

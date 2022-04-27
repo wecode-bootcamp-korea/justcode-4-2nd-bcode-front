@@ -4,18 +4,19 @@ import styled from 'styled-components';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
-import { getCookie } from '../../cookie';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 100px;
+
   margin-top: 100px;
   justify-content: center;
 
+  @media (min-width: 1920px) {
+    width: 1200px;
+    margin: 100px 310px;
+  }
   @media (max-width: 820px) {
-    margin: 0;
-    margin-top: 100px;
   }
   .detail {
     display: flex;
@@ -26,6 +27,7 @@ const Wrapper = styled.div`
     }
   }
 `;
+
 const ImgBox = styled.img`
   margin: 0 140px;
   @media screen and (max-width: 1920px) {
@@ -49,7 +51,7 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
   const [user_id, setUser_id] = useState(1);
-  const cookie = getCookie('user_id');
+  const localUserId = localStorage.getItem('userId');
 
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
@@ -94,7 +96,7 @@ function Detail() {
   // get Data
   useEffect(() => {
     // data fetching
-    fetch(`/data/detail.json`, {
+    fetch(`http://localhost:8000/product/detail/${product_id}?limit=5`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -115,7 +117,7 @@ function Detail() {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: cookie,
+        Authorization: localUserId,
       },
     })
       .then(res => res.json())
