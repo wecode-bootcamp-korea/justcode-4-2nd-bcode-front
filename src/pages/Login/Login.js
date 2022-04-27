@@ -45,11 +45,12 @@ function Login() {
           const newToken = json.jwt;
           const userName = json.username;
           // console.log(json);
-          setCookie('user_id', newToken, {
-            path: '/',
-            secure: true,
-            sameSite: 'none',
-          });
+          // setCookie('user_id', newToken, {
+          //   path: '/',
+          //   secure: true,
+          //   sameSite: 'none',
+          // });
+          localStorage.setItem('userId', newToken);
           alert(`${userName}님, 환영합니다!`);
           navigate('../');
         }
