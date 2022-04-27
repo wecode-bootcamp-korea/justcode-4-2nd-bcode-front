@@ -32,6 +32,10 @@ function CartModal(props) {
     setCartItem([]);
     fetch(`http://localhost:8000/cart/all`, {
       method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
     })
       .then(res => res.json())
       .then(data => {

@@ -4,7 +4,7 @@ import { useReducer, useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import InputChkBox from './InputChkBox';
+import InputChkBox from '../../components/Checkbox/InputChkBox';
 import { BiChevronUp, BiChevronDown, BiChevronRight } from 'react-icons/bi';
 
 function Signup() {
