@@ -8,6 +8,8 @@ import LatelyModal from './LatelyModal';
 import CartModal from './CartModal';
 import Category from './Category';
 
+const now = new Date();
+
 function Nav() {
   const [inputClassName, setInputClassName] = useState('mainInputBox');
   const [inputSearchName, setInputSearchName] = useState('inputBox');
@@ -79,10 +81,16 @@ function Nav() {
   };
 
   const addSearchWord = item => {
+    const todayMonth = now.getMonth() + 1;
+    const todayDate = now.getDate();
+
+    const nowDate = todayMonth + '.' + todayDate;
+
     const items = {
       id: Date.now(),
       item: item,
       expire: Date.now() + 30,
+      date: nowDate,
     };
     let newSearchword = searchWord;
     newSearchword.unshift(items);
@@ -199,6 +207,7 @@ function Nav() {
                               key={index}
                               id={comment.id}
                               item={comment.item}
+                              date={comment.date}
                               deletedata={deletedata}
                             />
                           );
@@ -420,7 +429,7 @@ const InputHeader = styled.div`
   align-items: center;
   justify-content: center;
   width: 400px;
-  height: 70px;
+  height: 67px;
   padding-top: 40px;
   border-bottom: 2px solid #f0f0f0;
   .inputTitle {

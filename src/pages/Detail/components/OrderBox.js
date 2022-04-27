@@ -84,6 +84,7 @@ const Price = styled.span`
 const Rate = styled.div`
   ${HeightAndBoredr(25)};
 `;
+
 const MoveToReview = styled.a`
   color: #666666;
   margin-left: 10px;
@@ -234,7 +235,7 @@ const ShopLater = styled.button`
 `;
 
 function OrderBox() {
-  const { item, itemRate } = useContext(DetailContext);
+  const { item, itemRate, reivewObj } = useContext(DetailContext);
   const { user_id } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
@@ -262,7 +263,12 @@ function OrderBox() {
     alert('제품 링크가 복사되었습니다.');
   };
 
-  const confirmLoggedIn = () => {
+  const moveToReview = () => {
+    let location = document.querySelector('.reviews').offsetTop;
+    window.scrollTo({ top: location, behavior: 'smooth' });
+  };
+
+  const postIfLoggedIn = () => {
     if (user_id) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
@@ -270,9 +276,6 @@ function OrderBox() {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-        },
-        body: {
-          quantity: totalCount,
         },
       });
     } else {
@@ -308,7 +311,9 @@ function OrderBox() {
           )
         )}
         {item.rate}
-        <MoveToReview>{item.reviews.length}건 리뷰</MoveToReview>
+        <MoveToReview onClick={() => moveToReview()}>
+          {reivewObj._count.content}건 리뷰
+        </MoveToReview>
       </Rate>
       <BuyBenefit>
         <span className="title">구매 혜택</span>
@@ -377,7 +382,7 @@ function OrderBox() {
       <ModalContext.Provider value={{ cartModalOpen, setCartModalOpen, item }}>
         <CartModal />
         <ShopNowOrLater>
-          <ShopNow onClick={() => confirmLoggedIn()}>장바구니 담기</ShopNow>
+          <ShopNow onClick={() => postIfLoggedIn()}>장바구니 담기</ShopNow>
           <ShopLater>바로구매</ShopLater>
         </ShopNowOrLater>
       </ModalContext.Provider>

@@ -64,7 +64,7 @@ const Filter = styled.div`
 `;
 
 function Reviews() {
-  const { reviews, itemRate, item } = useContext(DetailContext);
+  const { reviews, itemRate, item, reivewObj } = useContext(DetailContext);
   const { user_id } = useContext(UserContext);
   const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
@@ -83,12 +83,15 @@ function Reviews() {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="reviews">
       <div className="reviewBox">
-        상품 리뷰({reviews.length})
+        상품 리뷰({reivewObj._count.content})
         <AiOutlineEdit
           className="writeReview"
-          onClick={() => confirmLoggedIn(true)}
+          onClick={() => {
+            confirmLoggedIn(true);
+            setFormMethod({ method: 'POST' });
+          }}
         />
         <ReviewModal
           reviewModalOpen={reviewModalOpen}
@@ -103,7 +106,7 @@ function Reviews() {
 
       <Rate>
         <span>고객 평점</span>
-        {itemRate(Math.ceil(item.rate)).map(i =>
+        {itemRate(Math.ceil(reivewObj._avg.rating)).map(i =>
           i !== 0 ? (
             <AiTwotoneStar style={{ color: '#ffb23a' }} />
           ) : (
@@ -117,7 +120,7 @@ function Reviews() {
         value={{ setFilter, setReviewModalOpen, setFormMethod }}
       >
         <Filter>
-          <span>총 {reviews.length}</span>
+          <span>총 {reivewObj._count.content}</span>
           <Line />
         </Filter>
         {filter}
