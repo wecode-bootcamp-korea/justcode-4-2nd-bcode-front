@@ -46,7 +46,7 @@ function Login() {
           const userId = json.id;
           const userName = json.name;
           // console.log(json);
-          setCookie(userId, newToken, {
+          setCookie('userId', newToken, {
             path: '/',
             secure: true,
             sameSite: 'none',

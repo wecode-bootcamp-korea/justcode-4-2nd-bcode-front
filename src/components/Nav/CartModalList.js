@@ -40,7 +40,7 @@ function CartModalList(props) {
       <FiX
         className="icon"
         style={{ stroke: 'black', strokeWidth: '1' }}
-        onClick={() => props.deletCartItem(props.id)}
+        onClick={() => props.deleteCartItem(props.id)}
       />
     </CartSection>
   );
