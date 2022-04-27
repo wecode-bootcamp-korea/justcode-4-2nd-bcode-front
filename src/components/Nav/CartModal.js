@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import CartModalList from './CartModalList';
 
 function CartModal(props) {
-  const [cartItem, setCartItem] = useState();
+  const [cartItem, setCartItem] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:8000/cart/now`, {
@@ -18,7 +18,7 @@ function CartModal(props) {
   }, []);
 
   //장바구니 삭제
-  const deletCartItem = id => {
+  const deleteCartItem = id => {
     const result = cartItem.filter(item => item.products.id !== id);
     setCartItem(result);
     fetch(`http://localhost:8000/cart/${id}`, {
@@ -27,6 +27,22 @@ function CartModal(props) {
       .then(res => res.json())
       .then(data => {});
   };
+
+  const deleteAll = () => {
+    setCartItem([]);
+    fetch(`http://localhost:8000/cart/all`, {
+      method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+  };
+
   return (
     <CartSection>
       <div
@@ -40,9 +56,9 @@ function CartModal(props) {
       >
         <CartHeader>
           <CartTitle>장바구니</CartTitle>
-          <span>전체삭제</span>
+          <span onClick={deleteAll}>전체삭제</span>
         </CartHeader>
-        {cartItem === undefined ? (
+        {cartItem == false ? (
           <NoCartitem>
             <BsBagX className="icon" />
             <span>장바구니에 담긴 상품이 없습니다.</span>
@@ -60,7 +76,7 @@ function CartModal(props) {
                     image_url={comment.products.image_url}
                     price_after={comment.products.price_after}
                     price_before={comment.products.price_before}
-                    deletCartItem={deletCartItem}
+                    deleteCartItem={deleteCartItem}
                   />
                 );
               })}
