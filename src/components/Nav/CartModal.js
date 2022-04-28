@@ -17,7 +17,7 @@ function CartModal(props) {
     })
       .then(res => res.json())
       .then(data => {
-        setCartItem(data);
+        // setCartItem(data);
         console.log(data);
       });
   }, []);
