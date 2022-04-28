@@ -34,7 +34,13 @@ function CartData({ data, quantity, event, changeState }) {
   const changeQuantity = e => {
     fetch(
       `http://localhost:8000/cart/${data.products.id}?setQuantity=${e.target.value}`,
-      { method: 'PUT' }
+      {
+        method: 'PUT',
+        headers: {
+          'content-Type': 'application/json',
+          Authorization: localStorage.getItem('userId'),
+        },
+      }
     );
     setDiscountTotal(
       (data.products.price_before - data.products.price_after) * e.target.value
