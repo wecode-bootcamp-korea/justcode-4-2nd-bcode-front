@@ -109,7 +109,7 @@ const Preview = styled.div`
 `;
 
 function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [imgPreview, setImgPreview] = useState('');
   const { product_id } = useParams();
   const { register, handleSubmit, watch, reset } = useForm();
@@ -138,7 +138,6 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     reset();
     setReviewModalOpen(false);
   };
-
   const onSubmit = data => {
     const newFormData = new FormData();
     const oldFormData = new FormData();
@@ -148,14 +147,14 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     } else {
       if (formMethod.method === 'POST') {
         newFormData.set('productId', product_id);
-        newFormData.set('userId', user_id);
+        newFormData.set('userId', userId);
         newFormData.set('rating', data.rating);
         newFormData.set('content', data.content);
-        newFormData.set('reviewImage', watchImg[0]);
+        newFormData.set('reviewImage', watchImg);
 
         fetch('http://localhost:8000/review/', {
           method: 'POST',
-          headers: {},
+          headers: { Authorization: localStorage.getItem('userId') },
           body: newFormData,
         })
           .then(cleanData(fileImg))
@@ -167,7 +166,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
 
         fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
           method: 'PATCH',
-          headers: {},
+          headers: { Authorization: localStorage.getItem('userId') },
           body: oldFormData,
         })
           .then(cleanData(fileImg))
@@ -185,11 +184,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     <>
       {reviewModalOpen && (
         <Box>
-          <Modal
-            method={formMethod.method}
-            onSubmit={handleSubmit(onSubmit)}
-            encType="multipart/form-data"
-          >
+          <Modal method={formMethod.method} onSubmit={handleSubmit(onSubmit)}>
             <AiOutlineClose className="close" onClick={() => closeModal()} />
             <input
               className="fileInput"

@@ -233,7 +233,7 @@ const ShopLater = styled.button`
 
 function OrderBox() {
   const { item, itemRate, reivewObj } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [totalCount, setTotalCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(item.price_after);
   const [benefitModalOpen, setBenefitModalOpen] = useState(false);
@@ -266,17 +266,15 @@ function OrderBox() {
   };
 
   const postIfLoggedIn = () => {
-    if (user_id) {
+    if (userId) {
       setCartModalOpen(true);
       fetch(`http://localhost:8000/cart/${product_id}?quantity=${totalCount}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          Authorization: localStorage.getItem('userId'),
         },
-        body: JSON.stringify({
-          userId: user_id,
-        }),
       });
     } else {
       setSignInPlzModalOpen(true);
@@ -306,14 +304,14 @@ function OrderBox() {
         )}
       </Price>
       <Rate>
-        {itemRate(Math.round(item.rate)).map(i =>
+        {itemRate(Math.round(item.rate)).map((i, index) =>
           i !== 0 ? (
-            <AiTwotoneStar style={{ color: '#ffb23a' }} />
+            <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
           ) : (
-            <AiTwotoneStar style={{ color: 'silver' }} />
+            <AiTwotoneStar key={index} style={{ color: 'silver' }} />
           )
         )}
-        {item.rate.toFixed(1)}
+        {item.rate && item.rate.toFixed(1)}
         <MoveToReview onClick={() => moveToReview()}>
           {reivewObj._count.content}건 리뷰
         </MoveToReview>
