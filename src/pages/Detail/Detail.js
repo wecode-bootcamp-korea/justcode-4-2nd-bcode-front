@@ -93,6 +93,10 @@ function Detail() {
     }
   }, [loading]);
 
+  const author = localStorage.getItem('userId')
+    ? `Authorization: ${localStorage.getItem('userId')}`
+    : null;
+
   // get Data
   useEffect(() => {
     fetch(`http://localhost:8000/product/detail/${product_id}?limit=5`, {
@@ -100,7 +104,7 @@ function Detail() {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: localStorage.getItem('userId'),
+        author,
       },
     })
       .then(res => res.json())
