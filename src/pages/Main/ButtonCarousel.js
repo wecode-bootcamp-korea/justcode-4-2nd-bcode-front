@@ -7,7 +7,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   button {
     border: 1px solid silver;
     border-radius: 20px;
@@ -16,11 +15,11 @@ const Wrapper = styled.div`
   }
   .title {
     display: block;
-    padding: 20px 0;
-    width: 60%;
+    position: absolute;
+    top: 0;
     font-weight: 800;
     font-size: 1.2rem;
-    margin-bottom: 40px;
+
     @media (min-width: 375px), (max-width: 820px) {
       width: 90%;
     }
@@ -34,6 +33,8 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   padding-bottom: 50px;
+  position: relative;
+  padding-top: 70px;
   @media (min-width: 375px), (max-width: 820px) {
     margin-left: 30px;
   }
@@ -77,8 +78,9 @@ function ButtonCarousel() {
 
   return (
     <Wrapper>
-      <span className="title">고객님을 위해 추천 드려요</span>
       <Cards>
+        <span className="title">고객님을 위해 추천 드려요</span>
+
         {more === 1
           ? first.map(i => <Card key={i.id} item={i} />)
           : sec.map(i => <Card key={i.id} item={i} />)}
