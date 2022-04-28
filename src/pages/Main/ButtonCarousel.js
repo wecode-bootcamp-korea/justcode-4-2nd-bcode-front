@@ -12,6 +12,7 @@ const Wrapper = styled.div`
     border-radius: 20px;
     background-color: inherit;
     padding: 10px 40px;
+    cursor: pointer;
   }
   .title {
     display: block;
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
     top: 0;
     font-weight: 800;
     font-weight: bold;
-     font-size: 24px;
+    font-size: 24px;
   }
   @media (min-width: 375px), (max-width: 820px) {
     width: 100%;

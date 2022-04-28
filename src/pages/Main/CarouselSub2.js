@@ -28,7 +28,7 @@ function CarouselCard2() {
     <Container>
       <Header>
         <Title>영서's PICK,아뤼따움에서 가장 핫한 제품들</Title>
-        <UpdateDate></UpdateDate>
+        <UpdateDate />
       </Header>
       <Section>
         <ImgLink href="/list/1">
@@ -123,6 +123,7 @@ const ImgBox = styled.figure`
   background: #f4f4f4;
   & img {
     height: 255px;
+    transform: translate(-10%, 0);
   }
   & figcaption {
     padding: 20px 20px 35px 20px;
@@ -149,6 +150,12 @@ const CarouselContainer = styled.div`
     border-radius: 50%;
     font-size: 28px;
     cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
   }
   .rightIcons {
     position: absolute;
@@ -158,6 +165,12 @@ const CarouselContainer = styled.div`
     border-radius: 50%;
     font-size: 28px;
     cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
   }
 `;
 

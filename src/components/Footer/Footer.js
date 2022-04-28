@@ -62,17 +62,13 @@ function Footer() {
           <FiTwitter className="icons" style={{ strokeWidth: '1' }} />
         </FooterIcons>
       </FooterInner>
-      <FiArrowUp
-        className="goToTop"
-        style={{ strokeWidth: '1' }}
-        onClick={goToTop}
-      />
+      <p className="goToTop" onClick={goToTop}>
+        <FiArrowUp style={{ strokeWidth: '2' }} />
+      </p>
       {clickTrue ? <ChatModal chatChange={chatChange} /> : ''}
-      <FiMessageCircle
-        className="goToChat"
-        style={{ strokeWidth: '1' }}
-        onClick={chatChange}
-      />
+      <p className="goToChat" onClick={chatChange}>
+        <FiMessageCircle style={{ strokeWidth: '2' }} />
+      </p>
     </FooterSection>
   );
 }
@@ -86,14 +82,21 @@ const FooterSection = styled.section`
   height: 450px;
   background-color: #f0f0f0;
   .goToChat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     bottom: 130px;
     right: 60px;
-    font-size: 48px;
+    width: 52px;
+    height: 52px;
+    font-size: 35px;
     color: white;
-    background-color: #fbcbde;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     cursor: pointer;
+    z-index: 120;
+    transition: all 0.3s;
     &:hover {
       background-color: #ee2e7a;
     }
@@ -104,14 +107,21 @@ const FooterSection = styled.section`
     }
   }
   .goToTop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     bottom: 60px;
     right: 60px;
-    font-size: 48px;
+    width: 52px;
+    height: 52px;
+    font-size: 35px;
     color: white;
-    background-color: #fbcbde;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     cursor: pointer;
+    z-index: 120;
+    transition: all 0.3s;
     &:hover {
       background-color: #ee2e7a;
     }
