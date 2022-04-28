@@ -10,7 +10,7 @@ function Main() {
 
   setTimeout(() => {
     setLoading(false);
-  }, 500);
+  }, 200);
 
   return (
     <>
