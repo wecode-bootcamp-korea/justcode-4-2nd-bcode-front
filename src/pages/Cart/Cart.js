@@ -34,7 +34,7 @@ function Cart() {
     })
       .then(res => res.json())
       .then(data => {
-        setCartList(data);
+        data.message === 'NEED_TO_LOGIN' ? setCartList([]) : setCartList(data);
       });
     const newTotalPrice = cartList
       .map(order => order.products.price_before * order.quantity)
