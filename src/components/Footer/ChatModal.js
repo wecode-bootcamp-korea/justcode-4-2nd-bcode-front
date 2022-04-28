@@ -67,7 +67,6 @@ const ChatSection = styled.section`
   height: 600px;
   border: 1px solid #e2e2e5;
   background-color: #fdf2f0;
-  z-index: 300;
 `;
 
 const ChatHeader = styled.header`
@@ -86,6 +85,8 @@ const ChatHeader = styled.header`
     cursor: pointer;
   }
 `;
+
+const ChatMain = styled.div``;
 
 const ChatInput = styled.div`
   display: flex;

@@ -10,7 +10,6 @@ function Card({ item }) {
   const navigate = useNavigate();
 
   const goToDetail = () => {
-    console.log(1);
     navigate(`/detail/${item.id}`);
   };
   return (
@@ -39,9 +38,9 @@ function Card({ item }) {
             <span>
               <FaStar color="#ffb33c" />
             </span>
-            <Grade>{item.ratingAvg}</Grade>
+            <Grade>{item.ratingAvg}4.5</Grade>
             <span>|</span>
-            <Count>리뷰({item.contentCnt})</Count>
+            <Count>리뷰({item.contentCnt}123건)</Count>
           </Review>
         </Info>
       </Product>
@@ -54,8 +53,7 @@ export default Card;
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  cursor: pointer;
-  z-index: 20;
+  z-index: 10;
 `;
 // 수정 필요
 const Product = styled.div`

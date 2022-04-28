@@ -38,9 +38,9 @@ function CarouselCard({ item }) {
             <span>
               <FaStar color="#ffb33c" />
             </span>
-            <Grade>{item.ratingAvg}</Grade>
+            <Grade>{item.ratingAvg}4.5</Grade>
             <span>|</span>
-            <Count>리뷰({item.contentCnt})</Count>
+            <Count>리뷰({item.contentCnt}123건)</Count>
           </Review>
         </Info>
       </Product>
@@ -53,7 +53,6 @@ export default CarouselCard;
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  cursor: pointer;
 `;
 // 수정 필요
 const Product = styled.div`

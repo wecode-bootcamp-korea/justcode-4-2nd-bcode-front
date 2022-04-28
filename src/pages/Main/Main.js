@@ -7,7 +7,7 @@ function Main() {
   return (
     <>
       <CarouselMain />
-      <ButtonCarousel />
+      {/* <ButtonCarousel /> */}
       <CarouselSub />
       <CarouselSub2 />
     </>
