@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import SearchData from './components/SearchData';
 import { useState, useEffect } from 'react';
+import Loading from '../../components/Loading';
 
 const Search = () => {
   const [searchData, setSearchData] = useState([]);
+  const [loading, setLoading] = useState(true);
   let urlName = decodeURI(window.location.search);
   urlName = urlName.substr(1);
 
@@ -14,29 +16,36 @@ const Search = () => {
       .then(res => res.json())
       .then(data => {
         setSearchData(data);
+        setLoading(false);
       });
   }, []);
 
   const itemAmount = searchData.length;
   return (
-    <Container>
-      <Header>
-        <span className="search">'{urlName}'</span>
-        {itemAmount === 0 ? (
-          <span>에 대한 검색 결과가 없습니다..</span>
-        ) : (
-          <span>에 대한 검색 결과입니다.</span>
-        )}
-      </Header>
-      <SearchData data={searchData} />
-      {itemAmount === 0 ? (
-        <ImgContainer>
-          <Img src="/image/logo.svg" />
-        </ImgContainer>
+    <>
+      {loading ? (
+        <Loading />
       ) : (
-        ''
+        <Container>
+          <Header>
+            <span className="search">'{urlName}'</span>
+            {itemAmount === 0 ? (
+              <span>에 대한 검색 결과가 없습니다..</span>
+            ) : (
+              <span>에 대한 검색 결과입니다.</span>
+            )}
+          </Header>
+          <SearchData data={searchData} />
+          {itemAmount === 0 ? (
+            <ImgContainer>
+              <Img src="/image/logo.svg" />
+            </ImgContainer>
+          ) : (
+            ''
+          )}
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 

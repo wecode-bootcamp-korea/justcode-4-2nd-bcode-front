@@ -104,6 +104,10 @@ function Nav() {
     window.location.reload();
   };
 
+  const goToCart = () => {
+    navigate(`/cart`);
+  };
+
   const goToHome = () => {
     navigate('/');
     window.location.reload();
@@ -250,6 +254,7 @@ function Nav() {
                     onMouseOut={() => {
                       setCartModalClassName('cartModal');
                     }}
+                    onClick={goToCart}
                   />
                 </div>
               </div>

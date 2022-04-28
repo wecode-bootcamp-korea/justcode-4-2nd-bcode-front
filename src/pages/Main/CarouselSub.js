@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
-import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
+import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 function CarouselSub() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:8000/category/2', { method: 'GET' })
@@ -25,42 +23,39 @@ function CarouselSub() {
     setSlideIndex(slideIndex < 3 ? slideIndex + 1 : 3);
   };
 
-  const goToDetail = id => {
-    navigate(`/detail/${id}`);
-    console.log(1);
-  };
-
   return (
     <Container>
       <Header>
         <Title>모두가 주목하는 베스트 제품</Title>
         <Update>업데이트 일시: 4월 27일 8:53</Update>
       </Header>
+      <FiChevronLeft
+        onClick={handleLeftClick}
+        className="leftIcons"
+        style={{ strokeWidth: '1' }}
+      />
       <CarouselWrapper>
         <SlideWrapper slideIndex={slideIndex}>
           {data.map((item, index) => {
             return (
-              <Slide onClick={() => goToDetail(item.id)}>
-                <Card
-                  key={index}
-                  item={item}
-                  id={item.id}
-                  onClick={() => goToDetail(data.item.id)}
-                />
+              <Slide key={item.id}>
+                <Card key={item.id} item={item} />
               </Slide>
             );
           })}
         </SlideWrapper>
       </CarouselWrapper>
-      <BtnWrapper>
-        <CarouselBtn type="left" event={handleLeftClick} />
-        <CarouselBtn type="right" event={handleRightClick} />
-      </BtnWrapper>
+      <FiChevronRight
+        onClick={handleRightClick}
+        className="rightIcons"
+        style={{ strokeWidth: '1' }}
+      />
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   max-width: 1325px;
   display: flex;
   flex-direction: column;
@@ -68,6 +63,36 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   margin: 100px auto;
+  .leftIcons {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 38px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
+  }
+  .rightIcons {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 38px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
+  }
 `;
 
 const Header = styled.div`
@@ -109,15 +134,6 @@ const Slide = styled.div`
   margin: 0px 30px;
   cursor: pointer;
   z-index: -100;
-`;
-
-const BtnWrapper = styled.div`
-  width: 1325px;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  top: 0;
-  bottom: 0;
 `;
 
 export default CarouselSub;

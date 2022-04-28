@@ -142,7 +142,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     const newFormData = new FormData();
     const oldFormData = new FormData();
 
-    if (!watch('rating') || !watchImg) {
+    if (!watch('rating')) {
       alert('모든 정보를 입력했는지 다시 확인해 주세요');
     } else {
       if (formMethod.method === 'POST') {
@@ -150,7 +150,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
         newFormData.set('userId', userId);
         newFormData.set('rating', data.rating);
         newFormData.set('content', data.content);
-        newFormData.set('reviewImage', watchImg[0]);
+        newFormData.set('reviewImage', watchImg ? watchImg[0] : null);
 
         fetch('http://localhost:8000/review/', {
           method: 'POST',
@@ -162,7 +162,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
       } else if (formMethod.method === 'PATCH') {
         oldFormData.set('rating', data.rating);
         oldFormData.set('content', data.content);
-        oldFormData.set('reviewImage', watchImg[0]);
+        oldFormData.set('reviewImage', watchImg ? watchImg[0] : null);
 
         fetch(`http://localhost:8000/review/${formMethod.review_id}`, {
           method: 'PATCH',
@@ -173,6 +173,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
           .then(alert('리뷰를 수정했습니다'));
       }
     }
+    window.location.reload();
   };
 
   const closeModal = () => {
@@ -190,7 +191,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
               className="fileInput"
               type="file"
               accept="image/*"
-              {...register('image', { required: true })}
+              {...register('image')}
             />
             {imgPreview && (
               <Preview>

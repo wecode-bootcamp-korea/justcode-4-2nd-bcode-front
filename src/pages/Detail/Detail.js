@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Loading from '../../components/Loading';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   margin-top: 100px;
   justify-content: center;
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1500px) {
     width: 1200px;
     margin: 100px 310px;
   }
@@ -31,13 +32,11 @@ const Wrapper = styled.div`
 `;
 
 const ImgBox = styled.img`
-  margin: 0 140px;
-  @media screen and (max-width: 1920px) {
-    width: 35%;
-  }
+  margin: 0 70px 0 40px;
+  width: 40%;
+  border-radius: 12px;
   @media (max-width: 820px) {
     width: 35%;
-    height: 60%;
     margin: 300px 100px;
   }
   @media (max-width: 375px) {
@@ -53,6 +52,7 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
   const [userId, setUserId] = useState();
+  const [reviewLikes, setReviewLikes] = useState([]);
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
     return res;
@@ -105,6 +105,7 @@ function Detail() {
     })
       .then(res => res.json())
       .then(res => {
+        setReviewLikes(res.productDetail.reviewLikesSum);
         setReviews(res.productDetail.reviews);
         setItem(processOnlyItem(res.productDetail));
         setReviewObj(res.productDetail.reviewSum);
@@ -117,10 +118,10 @@ function Detail() {
     <Wrapper>
       <UserContext.Provider value={{ userId }}>
         {loading ? (
-          <div>loading...</div>
+          <Loading />
         ) : (
           <DetailContext.Provider
-            value={{ item, itemRate, reviews, reivewObj }}
+            value={{ item, itemRate, reviews, reivewObj, reviewLikes }}
           >
             <div className="detail">
               <ImgBox src={item.image_url} />

@@ -5,11 +5,14 @@ import Card from '../../components/Card/Card';
 import { BiChevronRight } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import Loading from '../../components/Loading';
 
 const List = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [categoryItem, setCategoryItem] = useState([]);
   const [active, setActive] = useState(types[0]);
+  const [isSelected, setIsSelected] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const params = useParams();
   const categoryId = params.list_id;
@@ -29,11 +32,13 @@ const List = () => {
       .then(res => res.json())
       .then(data => {
         setCategoryData(data);
+        setLoading(false);
       });
     fetch('http://localhost:8000/category', { method: 'GET' })
       .then(res => res.json())
       .then(data => {
         setCategoryItem(data);
+        setLoading(false);
       });
   }, [categoryId]);
 
@@ -62,78 +67,72 @@ const List = () => {
     setCategoryData(sortedLowPrice);
   };
   return (
-    <Container>
-      <Location>
-        <span className="home" onClick={goToMain}>
-          홈
-        </span>
-        <span>
-          <BiChevronRight style={{ color: 'gray' }} />
-        </span>
-        <Select onChange={goToList}>
-          {categoryItem.map(item => {
-            return (
-              <OptionItem key={item.id} index={item.id} item={item.name} />
-            );
-          })}
-        </Select>
-      </Location>
-      <CategoryNav>
-        <Title>카테고리</Title>
-        <CategoryListWrapper onClick={onClick}>
-          {categoryItem.map(item => {
-            return (
-              <CategoryItem
-                key={item.id}
-                index={item.id}
-                item={item.name}
-                active={active === item.id}
-                categoryId={categoryId}
-              />
-            );
-          })}
-        </CategoryListWrapper>
-      </CategoryNav>
-      <SortNav>
-        <Total>총 {itemAmount}개</Total>
-        <SortListWrapper>
-          <SortItem
-            active={active === types[0]}
-            onClick={() => {
-              setActive(types[0]);
-              reviewTop();
-            }}
-          >
-            평점순
-          </SortItem>
-          <span>|</span>
-          <SortItem
-            active={active === types[1]}
-            onClick={() => {
-              setActive(types[1]);
-              priceLow();
-            }}
-          >
-            낮은가격순
-          </SortItem>
-          <span>|</span>
-          <SortItem
-            active={active === types[2]}
-            onClick={() => {
-              setActive(types[2]);
-              priceTop();
-            }}
-          >
-            높은가격순
-          </SortItem>
-        </SortListWrapper>
-      </SortNav>
-      <ProductList>
-        {categoryData.map(item => {
-          return <Card key={item.id} id={item.id} item={item} />;
-        })}
-      </ProductList>
-    </Container>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Location>
+            <span className="home" onClick={goToMain}>
+              홈
+            </span>
+            <span>
+              <BiChevronRight style={{ color: 'gray' }} />
+            </span>
+            <Select onChange={goToList}>
+              {categoryItem.map(item => {
+                return (
+                  <OptionItem key={item.id} index={item.id} item={item.name} />
+                );
+              })}
+            </Select>
+          </Location>
+          <CategoryNav>
+            <Title>카테고리</Title>
+            <CategoryListWrapper></CategoryListWrapper>
+          </CategoryNav>
+          <SortNav>
+            <Total>총 {itemAmount}개</Total>
+            <SortListWrapper>
+              <SortItem
+                active={active === types[0]}
+                onClick={() => {
+                  setActive(types[0]);
+                  reviewTop();
+                }}
+              >
+                평점순
+              </SortItem>
+              <span>|</span>
+              <SortItem
+                active={active === types[1]}
+                onClick={() => {
+                  setActive(types[1]);
+                  priceLow();
+                }}
+              >
+                낮은가격순
+              </SortItem>
+              <span>|</span>
+              <SortItem
+                active={active === types[2]}
+                onClick={() => {
+                  setActive(types[2]);
+                  priceTop();
+                }}
+              >
+                높은가격순
+              </SortItem>
+            </SortListWrapper>
+          </SortNav>
+          <ProductList>
+            {categoryData.map(item => {
+              return <Card key={item.id} id={item.id} item={item} />;
+            })}
+          </ProductList>
+        </Container>
+      )}
+    </>
   );
 };
 

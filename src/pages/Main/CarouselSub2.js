@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { useState, useEffect } from 'react';
-import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
-import CarouselCard from '../../components/Card/CarouselCard';
 import { useNavigate } from 'react-router-dom';
+import CarouselCard from '../../components/Card/CarouselCard';
+import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 function CarouselCard2() {
   const [data, setData] = useState([]);
@@ -35,10 +35,10 @@ function CarouselCard2() {
     <Container>
       <Header>
         <Title>영서's PICK,아뤼따움에서 가장 핫한 제품들</Title>
-        <UpdateDate></UpdateDate>
+        <UpdateDate />
       </Header>
       <Section>
-        <ImgLink href="#">
+        <ImgLink href="/list/1">
           <ImgBox>
             <img
               src="https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
@@ -56,6 +56,11 @@ function CarouselCard2() {
           </ImgBox>
         </ImgLink>
         <CarouselContainer>
+          <FiChevronLeft
+            onClick={handleLeftClick}
+            className="leftIcons"
+            style={{ strokeWidth: '1' }}
+          />
           <CarouselWrapper>
             <SlideWrapper slideIndex={slideIndex}>
               {data.map(item => {
@@ -71,22 +76,15 @@ function CarouselCard2() {
               })}
             </SlideWrapper>
           </CarouselWrapper>
-          <BtnWrapper>
-            <CarouselBtn type="left" event={handleLeftClick} />
-            <CarouselBtn type="right" event={handleRightClick} />
-          </BtnWrapper>
+          <FiChevronRight
+            onClick={handleRightClick}
+            className="rightIcons"
+            style={{ strokeWidth: '1' }}
+          />
         </CarouselContainer>
       </Section>
     </Container>
   );
-}
-{
-  /* <Arrow type="right" onClick={() => handleClick('right')}>
-        <AiOutlineRight />
-      </Arrow>
-      <Arrow type="left" onClick={() => handleClick('left')}>
-        <AiOutlineLeft />
-      </Arrow>{' '} */
 }
 
 const Container = styled.div`
@@ -136,6 +134,7 @@ const ImgBox = styled.figure`
   background: #f4f4f4;
   & img {
     height: 255px;
+    transform: translate(-10%, 0);
   }
   & figcaption {
     padding: 20px 20px 35px 20px;
@@ -154,6 +153,36 @@ const ImgCaption = styled.figcaption`
 const CarouselContainer = styled.div`
   display: flex;
   justify-content: center;
+  .leftIcons {
+    position: absolute;
+    top: 40%;
+    left: 450px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
+  }
+  .rightIcons {
+    position: absolute;
+    top: 40%;
+    right: 60px;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
+  }
 `;
 
 const CarouselWrapper = styled.div`
@@ -186,29 +215,5 @@ const BtnWrapper = styled.div`
   top: 0;
   bottom: 0;
 `;
-
-// const Arrow = styled.div`
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   position: absolute;
-//   top: 120px;
-//   bottom: 0;
-//   left: ${props => props.type === 'left' && '18rem'};
-//   right: ${props => props.type === 'right' && '18rem'};
-//   margin: auto;
-//   width: 50px;
-//   height: 50px;
-//   border: 1px solid #929292;
-//   border-radius: 50%;
-//   cursor: pointer;
-//   opacity: 0.5;
-//   z-index: 10;
-//   &:hover {
-//     color: #ee2d7a;
-//     border-color: #ee2d7a;
-//   }
-// `;
 
 export default CarouselCard2;

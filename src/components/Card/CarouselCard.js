@@ -11,6 +11,7 @@ function CarouselCard({ item }) {
 
   const goToDetail = id => {
     navigate(`/detail/${item.id}`);
+    window.scrollTo(0, 0);
   };
   return (
     <Container onClick={goToDetail}>
@@ -38,9 +39,9 @@ function CarouselCard({ item }) {
             <span>
               <FaStar color="#ffb33c" />
             </span>
-            <Grade>{item.ratingAvg}4.5</Grade>
+            <Grade>{item.ratingAvg && item.ratingAvg.toFixed(1)}</Grade>
             <span>|</span>
-            <Count>리뷰({item.contentCnt}123건)</Count>
+            <Count>리뷰({item.contentCnt})</Count>
           </Review>
         </Info>
       </Product>

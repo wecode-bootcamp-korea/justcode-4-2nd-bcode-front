@@ -11,6 +11,7 @@ function Card({ item }) {
 
   const goToDetail = id => {
     navigate(`/detail/${item.id}`);
+    window.scrollTo(0, 0);
   };
   return (
     <Container onClick={goToDetail}>
@@ -38,9 +39,9 @@ function Card({ item }) {
             <span>
               <FaStar color="#ffb33c" />
             </span>
-            <Grade>{item.ratingAvg}4.5</Grade>
+            <Grade>{item.ratingAvg && item.ratingAvg.toFixed(1)}</Grade>
             <span>|</span>
-            <Count>리뷰({item.contentCnt}123건)</Count>
+            <Count>리뷰({item.contentCnt})</Count>
           </Review>
         </Info>
       </Product>
@@ -53,8 +54,8 @@ export default Card;
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  z-index: 100;
   cursor: pointer;
+  z-index: 20;
 `;
 // 수정 필요
 const Product = styled.div`
