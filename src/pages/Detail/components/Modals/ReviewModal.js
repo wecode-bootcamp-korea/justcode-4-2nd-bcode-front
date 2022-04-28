@@ -138,11 +138,10 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     reset();
     setReviewModalOpen(false);
   };
-
   const onSubmit = data => {
     const newFormData = new FormData();
     const oldFormData = new FormData();
-    console.log(data);
+
     if (!watch('rating') || !watchImg) {
       alert('모든 정보를 입력했는지 다시 확인해 주세요');
     } else {
@@ -151,7 +150,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
         newFormData.set('userId', userId);
         newFormData.set('rating', data.rating);
         newFormData.set('content', data.content);
-        newFormData.set('reviewImage', watchImg[0]);
+        newFormData.set('reviewImage', watchImg);
 
         fetch('http://localhost:8000/review/', {
           method: 'POST',

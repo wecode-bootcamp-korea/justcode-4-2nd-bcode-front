@@ -16,7 +16,9 @@ const Wrapper = styled.div`
     width: 1200px;
     margin: 100px 310px;
   }
-  @media (max-width: 820px) {
+  @media (max-width: 375px) {
+    margin-right: 7px;
+    margin-left: 7px;
   }
   .detail {
     display: flex;

@@ -18,15 +18,20 @@ const Wrapper = styled.div`
   position: relative;
 
   @media (max-width: 820px) {
-    font-size: 15px;
+    font-size: 20px;
   }
   img {
     width: 150px;
     height: 130px;
-    border: 1px solid black;
+    border: 1px dashed silver;
     border-radius: 10px;
     position: absolute;
     right: 10px;
+    @media (min-width: 375px) and (max-width: 819px) {
+      height: 35%;
+      width: 40%;
+      bottom: 50px;
+    }
   }
 `;
 
@@ -75,6 +80,7 @@ const Content = styled.div`
     display: flex;
     flex-direction: row;
     right: 0px;
+    bottom: 0;
     font-size: 30px;
   }
 `;
