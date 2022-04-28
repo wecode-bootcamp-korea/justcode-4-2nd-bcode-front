@@ -14,7 +14,13 @@ function Cart() {
     return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
   const deleteData = id => {
-    fetch(`http://localhost:8000/cart/${id} `, { method: 'DELETE' });
+    fetch(`http://localhost:8000/cart/${id} `, {
+      method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+        Authorization: localStorage.getItem('userId'),
+      },
+    });
 
     const result = cartList.filter(item => item.products.id !== id);
     setCartList(result);
