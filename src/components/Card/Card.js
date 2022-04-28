@@ -9,7 +9,7 @@ function Card({ item }) {
     Math.round((1 - item.price_after / item.price_before) * 100, -1) + '%';
   const navigate = useNavigate();
 
-  const goToDetail = () => {
+  const goToDetail = id => {
     navigate(`/detail/${item.id}`);
   };
   return (
@@ -53,7 +53,8 @@ export default Card;
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  z-index: 10;
+  z-index: 100;
+  cursor: pointer;
 `;
 // 수정 필요
 const Product = styled.div`

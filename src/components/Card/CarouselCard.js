@@ -9,7 +9,7 @@ function CarouselCard({ item }) {
     Math.round((1 - item.price_after / item.price_before) * 100, -1) + '%';
   const navigate = useNavigate();
 
-  const goToDetail = () => {
+  const goToDetail = id => {
     navigate(`/detail/${item.id}`);
   };
   return (
@@ -53,6 +53,7 @@ export default CarouselCard;
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 `;
 // 수정 필요
 const Product = styled.div`

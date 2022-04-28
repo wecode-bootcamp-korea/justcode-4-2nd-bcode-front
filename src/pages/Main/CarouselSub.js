@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
 
@@ -8,9 +8,6 @@ function CarouselSub() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
   const navigate = useNavigate();
-  // const navigate = useNavigate();
-  // const params = useParams();
-  // console.log(params);
 
   useEffect(() => {
     fetch('http://localhost:8000/category/2', { method: 'GET' })
@@ -41,13 +38,14 @@ function CarouselSub() {
       </Header>
       <CarouselWrapper>
         <SlideWrapper slideIndex={slideIndex}>
-          {data.map(item => {
+          {data.map((item, index) => {
             return (
-              <Slide key={item.id}>
+              <Slide onClick={() => goToDetail(item.id)}>
                 <Card
-                  key={item.id}
+                  key={index}
                   item={item}
-                  onClick={() => goToDetail(item.id)}
+                  id={item.id}
+                  onClick={() => goToDetail(data.item.id)}
                 />
               </Slide>
             );
@@ -92,6 +90,7 @@ const CarouselWrapper = styled.div`
   max-width: 3600px;
   overflow: hidden;
   margin: auto;
+  z-index: -100;
 `;
 
 const SlideWrapper = styled.div`
@@ -99,6 +98,7 @@ const SlideWrapper = styled.div`
   display: flex;
   transition: all 0.5s ease-in-out;
   transform: translateX(${props => props.slideIndex * -600}px);
+  z-index: -100;
 `;
 
 const Slide = styled.div`
@@ -106,11 +106,10 @@ const Slide = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   margin: 0px 30px;
+  cursor: pointer;
+  z-index: -100;
 `;
-
-// const a = styled(Link)``;
 
 const BtnWrapper = styled.div`
   width: 1325px;
@@ -120,29 +119,5 @@ const BtnWrapper = styled.div`
   top: 0;
   bottom: 0;
 `;
-
-// const Arrow = styled.div`
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   position: absolute;
-//   top: 120px;
-//   bottom: 0;
-//   left: ${props => props.type === 'left' && '18rem'};
-//   right: ${props => props.type === 'right' && '18rem'};
-//   margin: auto;
-//   width: 50px;
-//   height: 50px;
-//   border: 1px solid #929292;
-//   border-radius: 50%;
-//   cursor: pointer;
-//   opacity: 0.5;
-//   z-index: 10;
-//   &:hover {
-//     color: #ee2d7a;
-//     border-color: #ee2d7a;
-//   }
-// `;
 
 export default CarouselSub;

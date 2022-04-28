@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import SearchData from './components/SearchData';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const Search = () => {
   const [searchData, setSearchData] = useState([]);
   let urlName = decodeURI(window.location.search);
   urlName = urlName.substr(1);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8000/product/search?name=${urlName}`, {
@@ -19,13 +17,9 @@ const Search = () => {
       });
   }, []);
 
-  const goToDetail = e => {
-    navigate(`/detail/${e.target.value}`);
-  };
-
   const itemAmount = searchData.length;
   return (
-    <Container onClick={goToDetail}>
+    <Container>
       <Header>
         <span className="search">'{urlName}'</span>
         {itemAmount === 0 ? (
