@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { CartNoData, CartData } from './CartData';
-import { getCookie } from '../../cookie';
-import { BiMinus, BiPlus } from 'react-icons/bi';
+
+import { BiLeftArrowAlt, BiMinus, BiPlus } from 'react-icons/bi';
 
 function Cart() {
   const deliveryFee = 2500;
   const [cartList, setCartList] = useState([]);
+  const [totalBeforePrice, setTotalBeforePrice] = useState(0);
+  const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
+  const [render, setRender] = useState(false);
+
   const intoString = dataname => {
     return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
@@ -17,20 +21,41 @@ function Cart() {
     setCartList(result);
   };
 
-  const totalBeforePrice = cartList
-    .map(order => order.products.price_before * order.quantity)
-    .reduce(function (prev, curr) {
-      return prev + curr;
-    }, 0);
-  console.log(totalBeforePrice);
+  const changeState = e => {
+    render ? setRender(true) : setRender(false);
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:8000/cart/now`, { method: 'GET' })
+    fetch(`http://localhost:8000/cart/now`, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        Authorization: localStorage.getItem('userId'),
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setCartList(data);
       });
-  }, []);
-  // console.log(cartList);
+    const newTotalPrice = cartList
+      .map(order => order.products.price_before * order.quantity)
+      .reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+    const newDiscountPrice = cartList
+      .map(
+        order =>
+          (order.products.price_before - order.products.price_after) *
+          order.quantity
+      )
+      .reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+    setTotalBeforePrice(newTotalPrice);
+    setTotalDiscountPrice(newDiscountPrice);
+  }, [cartList, render]);
+
+  //console.log(cartList);
   return (
     <CartWrap>
       <CartHeader>
@@ -60,8 +85,8 @@ function Cart() {
               </th>
               <th>상품명/옵션명/상품가격</th>
               <th>수량</th>
-              <th>판매가</th>
-              <th>할인가</th>
+              <th>할인금액</th>
+              <th>판매가격</th>
               <th />
             </tr>
           </CartListHead>
@@ -74,6 +99,7 @@ function Cart() {
                     data={order}
                     quantity={order.quantity}
                     event={deleteData}
+                    changeState={changeState}
                   />
                 );
               })
@@ -87,7 +113,7 @@ function Cart() {
                   <PriceInfo>
                     총 상품금액
                     <span>
-                      500
+                      {intoString(totalBeforePrice)}
                       <b>원</b>
                     </span>
                   </PriceInfo>
@@ -97,7 +123,7 @@ function Cart() {
                   <PriceInfo>
                     총 할인금액
                     <span>
-                      500
+                      {intoString(totalDiscountPrice)}
                       <b>원</b>
                     </span>
                   </PriceInfo>
@@ -115,8 +141,14 @@ function Cart() {
               </td>
             </TotalPriceArea>
             <PaymentArea>
-              <td colSpan="99">
-                결제 예상 금액 <span>500</span>원
+              <td colSpan="6">
+                결제 예상 금액
+                <span>
+                  {intoString(
+                    totalBeforePrice - totalDiscountPrice + deliveryFee
+                  )}
+                </span>
+                원
               </td>
             </PaymentArea>
             <tr />
@@ -160,7 +192,12 @@ const H3 = styled.h3`
   font-weight: 500;
 `;
 const CartListTable = styled.table`
+  display: table;
   table-layout: fixed;
+  & thead,
+  tbody {
+    display: table-row;
+  }
 `;
 const CartListHead = styled.thead`
   border-top: 2px solid #333;
