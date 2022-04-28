@@ -9,7 +9,9 @@ import Byfilter from './Filters/ByFilter';
 
 const Wrapper = styled.div`
   border-top: 1px solid black;
+  margin: 0 40px;
   margin-top: 100px;
+  padding-bottom: 100px;
   @media (max-width: 375px) {
     margin: 100px 0 0 0;
   }
@@ -64,7 +66,7 @@ const Filter = styled.div`
 
 function Reviews() {
   const { itemRate, item, reivewObj } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const [filter, setFilter] = useState(<Byfilter />);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [signInPlzModalOpen, setSignInPlzModalOpen] = useState(false);
@@ -74,17 +76,20 @@ function Reviews() {
   });
 
   const confirmLoggedIn = () => {
-    if (user_id) {
+    if (userId) {
       setReviewModalOpen(true);
     } else {
       setSignInPlzModalOpen(true);
     }
   };
 
+  const reviewCount = reivewObj._count.content;
+
   return (
     <Wrapper className="reviews">
       <div className="reviewBox">
-        상품 리뷰({reivewObj._count.content})
+        상품 리뷰(
+        {reviewCount})
         <AiOutlineEdit
           className="writeReview"
           onClick={() => {
@@ -105,11 +110,11 @@ function Reviews() {
 
       <Rate>
         <span>고객 평점</span>
-        {itemRate(Math.ceil(reivewObj._avg.rating)).map(i =>
+        {itemRate(Math.ceil(reivewObj._avg.rating)).map((i, index) =>
           i !== 0 ? (
-            <AiTwotoneStar style={{ color: '#ffb23a' }} />
+            <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
           ) : (
-            <AiTwotoneStar style={{ color: 'silver' }} />
+            <AiTwotoneStar key={index} style={{ color: 'silver' }} />
           )
         )}
         &nbsp;
@@ -119,7 +124,7 @@ function Reviews() {
         value={{ setFilter, setReviewModalOpen, setFormMethod }}
       >
         <Filter>
-          <span>총 {reivewObj._count.content}</span>
+          <span>총 {reviewCount}</span>
           <Line />
         </Filter>
         {filter}

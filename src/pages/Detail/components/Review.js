@@ -18,7 +18,20 @@ const Wrapper = styled.div`
   position: relative;
 
   @media (max-width: 820px) {
-    font-size: 15px;
+    font-size: 20px;
+  }
+  img {
+    width: 150px;
+    height: 130px;
+    border: 1px dashed silver;
+    border-radius: 10px;
+    position: absolute;
+    right: 10px;
+    @media (min-width: 375px) and (max-width: 819px) {
+      height: 35%;
+      width: 40%;
+      bottom: 50px;
+    }
   }
 `;
 
@@ -67,13 +80,14 @@ const Content = styled.div`
     display: flex;
     flex-direction: row;
     right: 0px;
+    bottom: 0;
     font-size: 30px;
   }
 `;
 
 function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
-  const { user_id } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
   const { setReviewModalOpen, setFormMethod } = useContext(ReviewContext);
 
   const deleteReview = () => {
@@ -87,6 +101,8 @@ function Review({ review }) {
     setReviewModalOpen(true);
   };
 
+  console.log(review);
+
   return (
     <Wrapper>
       <User>
@@ -95,11 +111,11 @@ function Review({ review }) {
       </User>
       <Content>
         <div>
-          {itemRate(review.rating).map(i =>
+          {itemRate(review.rating).map((i, index) =>
             i !== 0 ? (
-              <AiTwotoneStar style={{ color: '#ffb23a' }} />
+              <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
             ) : (
-              <AiTwotoneStar style={{ color: 'silver' }} />
+              <AiTwotoneStar key={index} style={{ color: 'silver' }} />
             )
           )}
           <span className="date">
@@ -112,7 +128,7 @@ function Review({ review }) {
           <AiOutlineHeart />
           &nbsp;
           {review.reviews_likes.length}
-          {user_id === review.users.id && (
+          {userId === review.users.id && (
             <div className="edit">
               <AiOutlineEdit
                 style={{ marginRight: '10px' }}
@@ -123,6 +139,9 @@ function Review({ review }) {
           )}
         </div>
       </Content>
+      {review.image && (
+        <img src={'http://localhost:8000/' + review.image} alt="리뷰 이미지" />
+      )}
     </Wrapper>
   );
 }
