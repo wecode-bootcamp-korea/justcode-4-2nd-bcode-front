@@ -1,16 +1,15 @@
 import styled from 'styled-components';
-import SelectList from './components/SelectList';
-import CategoryList from './components/CategoryList';
+import OptionItem from './components/OptionItem';
 import Card from '../../components/Card/Card';
 import { BiChevronRight } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const List = () => {
   const [categoryData, setCategoryData] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
+  const [categoryItem, setCategoryItem] = useState([]);
   const [active, setActive] = useState(types[0]);
-  // const [active1, setActive1] = useState(categoryTypes[0]);
+  const [isSelected, setIsSelected] = useState(0);
 
   const params = useParams();
   const categoryId = params.list_id;
@@ -23,6 +22,8 @@ const List = () => {
 
   const goToList = e => {
     navigate(`/list/${e.target.value}`);
+    setIsSelected(e.target.value);
+    setActive(false);
   };
 
   useEffect(() => {
@@ -31,16 +32,14 @@ const List = () => {
       .then(data => {
         setCategoryData(data);
       });
-    console.log(categoryData);
-    fetch('http://localhost:8000/category', { method: 'GET' })
-      .then(res => res.json())
-      .then(data => {
-        setCategoryList(data);
-      });
   }, [categoryId]);
-
+  // fetch('http://localhost:8000/category', { method: 'GET' })
+  // .then(res => res.json())
+  // .then(data => {
+  //   setCategoryItem(data);
+  // });
   const reviewTop = () => {
-    const sortedReviews = [categoryData.sort((a, b) => b.rating - a.rating)];
+    const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
     setCategoryData(sortedReviews);
   };
 
@@ -59,7 +58,6 @@ const List = () => {
   };
 
   const itemAmount = categoryData.length;
-  // const link = `list/${categoryId}`;
 
   return (
     <Container>
@@ -71,9 +69,9 @@ const List = () => {
           <BiChevronRight style={{ color: 'gray' }} />
         </span>
         <Select onChange={goToList}>
-          {categoryList.map(item => {
+          {categoryItem.map(item => {
             return (
-              <SelectList key={item.id} index={item.id} item={item.name} />
+              <OptionItem key={item.id} index={item.id} item={item.name} />
             );
           })}
         </Select>
@@ -81,17 +79,103 @@ const List = () => {
       <CategoryNav>
         <Title>카테고리</Title>
         <CategoryListWrapper>
-          {categoryList.map((item, index) => {
-            return (
-              <CategoryList key={item.id} index={item.id} item={item.name} />
-            );
-          })}
+          <CategoryLink to="/list/1">
+            <Item
+              active={
+                active === categoryTypes[0] ||
+                isSelected === '1' ||
+                categoryId === '1'
+              }
+              onClick={() => {
+                setActive(categoryTypes[0]);
+                setIsSelected(false);
+              }}
+            >
+              기초
+            </Item>
+          </CategoryLink>
+          <CategoryLink to="/list/2">
+            <Item
+              active={
+                active === categoryTypes[1] ||
+                isSelected === '2' ||
+                categoryId === '2'
+              }
+              onClick={() => {
+                setActive(categoryTypes[1]);
+                setIsSelected(false);
+              }}
+            >
+              메이크업
+            </Item>
+          </CategoryLink>
+          <CategoryLink to="/list/3">
+            <Item
+              active={
+                active === categoryTypes[2] ||
+                isSelected === '3' ||
+                categoryId === '3'
+              }
+              onClick={() => {
+                setActive(categoryTypes[2]);
+                setIsSelected(false);
+              }}
+            >
+              바디케어
+            </Item>
+          </CategoryLink>
+          <CategoryLink to="/list/4">
+            <Item
+              active={
+                active === categoryTypes[3] ||
+                isSelected === '4' ||
+                categoryId === '4'
+              }
+              onClick={() => {
+                setActive(categoryTypes[3]);
+                setIsSelected(false);
+              }}
+            >
+              미용소품
+            </Item>
+          </CategoryLink>
+          <CategoryLink to="/list/5">
+            <Item
+              active={
+                active === categoryTypes[4] ||
+                isSelected === '5' ||
+                categoryId === '5'
+              }
+              onClick={() => {
+                setActive(categoryTypes[4]);
+                setIsSelected(false);
+              }}
+            >
+              건강식품
+            </Item>
+          </CategoryLink>
+          <CategoryLink to="/list/6">
+            <Item
+              id="6"
+              active={
+                active === categoryTypes[5] ||
+                isSelected === '6' ||
+                categoryId === '6'
+              }
+              onClick={() => {
+                setActive(categoryTypes[5]);
+                setIsSelected(false);
+              }}
+            >
+              클렌징
+            </Item>
+          </CategoryLink>
         </CategoryListWrapper>
       </CategoryNav>
       <SortNav>
         <Total>총 {itemAmount}개</Total>
         <SortListWrapper>
-          <SortList
+          <SortItem
             active={active === types[0]}
             onClick={() => {
               setActive(types[0]);
@@ -99,9 +183,9 @@ const List = () => {
             }}
           >
             평점순
-          </SortList>
+          </SortItem>
           <span>|</span>
-          <SortList
+          <SortItem
             active={active === types[1]}
             onClick={() => {
               setActive(types[1]);
@@ -109,9 +193,9 @@ const List = () => {
             }}
           >
             낮은가격순
-          </SortList>
+          </SortItem>
           <span>|</span>
-          <SortList
+          <SortItem
             active={active === types[2]}
             onClick={() => {
               setActive(types[2]);
@@ -119,7 +203,7 @@ const List = () => {
             }}
           >
             높은가격순
-          </SortList>
+          </SortItem>
         </SortListWrapper>
       </SortNav>
       <ProductList>
@@ -138,10 +222,16 @@ const Container = styled.div`
   padding: 50px 0px;
   margin: auto;
   flex-grow: 1;
-  @media only screen and (min-width: 820px) and (max-width: 1400px) {
+  @media only screen and (max-width: 1400px) {
+    max-width: 1000px;
     padding: 30px;
   }
-  @media only screen and (max-width: 820px) {
+  @media only screen and (max-width: 940px) {
+    max-width: 650px;
+    padding: 30px;
+  }
+  @media only screen and (max-width: 620px) {
+    max-width: 450px;
     padding: 60px;
   }
 `;
@@ -178,23 +268,25 @@ const CategoryListWrapper = styled.ul`
   justify-content: center;
 `;
 
-// const CategoryLink = styled(Link)`
-//   width: 200px
-//   text-decoration: none;
-//   color: inherit;
-// `;
+const CategoryLink = styled(Link)`
+  flex-grow: 1;
+  width: 200px;
+  text-decoration: none;
+  color: inherit;
+`;
 
-// const CaList = styled.li`
-//   list-style: none;
-//   padding: 15px;
-//   border: 1px solid lightgray;
+const Item = styled.li`
+  list-style: none;
+  padding: 15px;
+  border: 1px solid lightgray;
+  text-align: center;
 
-//   &:hover {
-//     color: #f0427d;
-//     cursor: pointer;
-//   }
-//   ${({ active1 }) => active1 && `border-color: #f0427d; color: #f0427d;`}
-// `;
+  &:hover {
+    color: #f0427d;
+    cursor: pointer;
+  }
+  ${({ active }) => active && `border-color: #f0427d; color: #f0427d;`}
+`;
 
 const SortNav = styled.div`
   max-width: 1200px;
@@ -220,8 +312,8 @@ const SortListWrapper = styled.div`
     margin: 0px 5px;
   }
 `;
-// 수정 필요
-const SortList = styled.span`
+
+const SortItem = styled.span`
   color: #999999;
   cursor: pointer;
   &:hover {

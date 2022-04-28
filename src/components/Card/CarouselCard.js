@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
-function Card({ item }) {
+function CarouselCard({ item }) {
   const priceBefore = item.price_before.toLocaleString() + '원';
   const priceAfter = item.price_after.toLocaleString() + '원';
   const discount =
@@ -48,12 +48,11 @@ function Card({ item }) {
   );
 }
 
-export default Card;
+export default CarouselCard;
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  z-index: 10;
 `;
 // 수정 필요
 const Product = styled.div`
@@ -68,14 +67,12 @@ const Product = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-  width: 240px;
-  height: 240px;
+  width: 120px;
+  height: 120px;
   margin-bottom: 10px;
   @media only screen and (max-width: 1550px) {
-  }
-  @media only screen and (max-width: 1020px) {
-  }
-  @media only screen and (max-width: 820px) {
+    width: 180px;
+    height: 180px;
   }
 `;
 
@@ -87,7 +84,7 @@ const Img = styled.img`
 `;
 
 const Info = styled.div`
-  width: 240px;
+  width: 120px;
   text-align: left;
   @media only screen and (max-width: 1550px) {
     width: 180px;
@@ -133,7 +130,7 @@ const PriceAfter = styled.span`
 const Review = styled.div`
   display: flex;
   margin-top: 5px;
-  font-size: ${props => props.theme.fontSize.small};
+  font-size: 12px;
   & span {
     margin-right: 5px;
   }

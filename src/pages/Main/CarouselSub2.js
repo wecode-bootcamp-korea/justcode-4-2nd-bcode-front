@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { useState, useEffect } from 'react';
 import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
+import CarouselCard from '../../components/Card/CarouselCard';
 
 function CarouselCard2() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:8000/category/2', { method: 'GET' })
+    fetch('http://localhost:8000/category/3', { method: 'GET' })
       .then(res => res.json())
       .then(data => {
         setData(data);

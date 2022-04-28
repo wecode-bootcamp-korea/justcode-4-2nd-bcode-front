@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 function CarouselBtn(props) {
-  console.log(props);
   return (
     <BtnWrap onClick={props.event}>
       <Btn>
