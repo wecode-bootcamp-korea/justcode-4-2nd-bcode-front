@@ -4,7 +4,7 @@ import { useReducer, useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import InputChkBox from './InputChkBox';
+import InputChkBox from '../../components/Checkbox/InputChkBox';
 import { BiChevronUp, BiChevronDown, BiChevronRight } from 'react-icons/bi';
 
 function Signup() {
@@ -142,17 +142,19 @@ function Signup() {
           )}
           {errors.password && errors.password?.type === 'pattern' && (
             <AlertMessage>
-              비밀번호는 8자 이상으로 숫자와 문자를 최소 1자씩 포함해주세요.
+              비밀번호는 8자 이상으로 하나 이상의 숫자와 문자,특수문자를
+              포함해주세요.
             </AlertMessage>
           )}
           <Input
             type="password"
-            placeholder="비밀번호는 8자 이상으로 숫자와 문자를 최소 1자씩 포함해주세요."
+            placeholder="비밀번호는 8자 이상으로 숫자, 문자, 특수문자를 최소 1자씩 포함해주세요."
             aria-invalid={errors.password ? '#ff0000' : '#dadada'}
             disable="false"
             {...register('password', {
               required: true,
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              pattern:
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
             })}
           />
           {errors.passwordCheck &&

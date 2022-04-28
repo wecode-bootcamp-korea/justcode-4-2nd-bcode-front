@@ -11,21 +11,33 @@ function LatelyModalList(props) {
   const navigate = useNavigate();
 
   const goToDetail = () => {
-    navigate(`/detail?${props.id}`);
+    navigate(`/detail/${props.id}`);
     window.location.reload();
   };
   return (
     <LatelyItems>
-      <FiX className="icon" style={{ stroke: 'black', strokeWidth: '1' }} />
+      <FiX
+        className="icon"
+        style={{ stroke: 'black', strokeWidth: '1' }}
+        onClick={() => props.deletItem(props.id)}
+      />
       <WrapList onClick={goToDetail}>
         <img src={props.image_url} className="latelyImage" />
         <div className="latelyTitle">
           <BrandName>{props.brandname}</BrandName>
           <ItemName>{props.name}</ItemName>
           <PriceInfo>
-            <span className="discount">{discount}</span>
+            {discount === '0%' ? (
+              ''
+            ) : (
+              <span className="discount">{discount}</span>
+            )}
             <span className="priceAfter">{priceAfter}</span>
-            <span className="beforePrice">{priceBefore}</span>
+            {discount === '0%' ? (
+              ''
+            ) : (
+              <span className="beforePrice">{priceBefore}</span>
+            )}
           </PriceInfo>
         </div>
       </WrapList>

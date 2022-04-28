@@ -1,8 +1,58 @@
 import styled, { css } from 'styled-components';
 import { BsBagX } from 'react-icons/bs';
 import Category from './Category';
+import { useEffect, useState } from 'react';
+import CartModalList from './CartModalList';
 
 function CartModal(props) {
+  const [cartItem, setCartItem] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/cart/now`, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        data.message === 'NEED_TO_LOGIN' ? setCartItem([]) : setCartItem(data);
+      });
+  }, []);
+
+  //장바구니 삭제
+  const deleteCartItem = id => {
+    const result = cartItem.filter(item => item.products.id !== id);
+    setCartItem(result);
+    fetch(`http://localhost:8000/cart/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+        authorization: localStorage.getItem('userId'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {});
+  };
+
+  const deleteAll = () => {
+    if (!localStorage.getItem('userId') === 'null') {
+      setCartItem([]);
+      fetch(`http://localhost:8000/cart/all`, {
+        method: 'DELETE',
+        headers: {
+          'content-Type': 'application/json',
+          authorization: localStorage.getItem('userId'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        });
+    }
+  };
+
   return (
     <CartSection>
       <div
@@ -16,13 +66,33 @@ function CartModal(props) {
       >
         <CartHeader>
           <CartTitle>장바구니</CartTitle>
-          <span>전체삭제</span>
+          <span onClick={deleteAll}>전체삭제</span>
         </CartHeader>
-        <CartMain></CartMain>
-        <NoCartitem>
-          <BsBagX className="icon" />
-          <span>장바구니에 담긴 상품이 없습니다.</span>
-        </NoCartitem>
+        {cartItem == false ? (
+          <NoCartitem>
+            <BsBagX className="icon" />
+            <span>장바구니에 담긴 상품이 없습니다.</span>
+          </NoCartitem>
+        ) : (
+          <Wrap>
+            <CartMain>
+              {cartItem.map((comment, index) => {
+                return (
+                  <CartModalList
+                    key={index}
+                    id={comment.products.id}
+                    brandname={comment.products.brands.name}
+                    name={comment.products.name}
+                    image_url={comment.products.image_url}
+                    price_after={comment.products.price_after}
+                    price_before={comment.products.price_before}
+                    deleteCartItem={deleteCartItem}
+                  />
+                );
+              })}
+            </CartMain>
+          </Wrap>
+        )}
       </div>
     </CartSection>
   );
@@ -44,7 +114,7 @@ const CartSection = styled.section`
   .cartModal {
     ${Cartcss}
     transform: translateX(120%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: none;
       width: 100%;
     }
@@ -53,7 +123,7 @@ const CartSection = styled.section`
     ${Cartcss}
     visibility: visible;
     transform: translateX(0%);
-    @media (max-width: 375px) {
+    @media (max-width: 530px) {
       display: block;
       width: 100%;
     }
@@ -93,6 +163,14 @@ const CartTitle = styled.div`
   font-weight: 700;
 `;
 
-const CartMain = styled.section``;
+const CartMain = styled.section`
+  overflow: scroll;
+  height: 100%;
+`;
+
+const Wrap = styled.div`
+  overflow: hidden;
+  height: 600px;
+`;
 
 export default CartModal;
