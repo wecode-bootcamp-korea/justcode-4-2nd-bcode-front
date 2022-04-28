@@ -2,28 +2,26 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const CategoryList = props => {
-  const [active, setActive] = useState('');
+const CategoryItem = props => {
   const navigate = useNavigate();
 
   const showItems = () => {
     navigate(`/list/${props.index}`);
   };
   return (
-    <List
+    <Item
       value={props.index}
-      active={active === props.item}
+      active={props.active}
       onClick={() => {
-        setActive(props.item);
         showItems();
       }}
     >
       {props.item}
-    </List>
+    </Item>
   );
 };
 
-const List = styled.li`
+const Item = styled.li`
   flex-shrink: 1;
   flex-grow: 1;
   width: 200px;
@@ -38,4 +36,4 @@ const List = styled.li`
   ${({ active }) => active && `color: blue; border-color:blue;`}
 `;
 
-export default CategoryList;
+export default CategoryItem;

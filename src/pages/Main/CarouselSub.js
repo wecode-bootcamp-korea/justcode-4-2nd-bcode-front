@@ -1,12 +1,16 @@
 import styled from 'styled-components';
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
 
 function CarouselSub() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  // const params = useParams();
+  // console.log(params);
 
   useEffect(() => {
     fetch('http://localhost:8000/category/2', { method: 'GET' })
@@ -24,18 +28,27 @@ function CarouselSub() {
     setSlideIndex(slideIndex < 3 ? slideIndex + 1 : 3);
   };
 
+  const goToDetail = id => {
+    navigate(`/detail/${id}`);
+    console.log(1);
+  };
+
   return (
     <Container>
       <Header>
         <Title>모두가 주목하는 베스트 제품</Title>
-        <UpdateDate>업데이트 일시: 4월 27일 8:53</UpdateDate>
+        <Update>업데이트 일시: 4월 27일 8:53</Update>
       </Header>
       <CarouselWrapper>
         <SlideWrapper slideIndex={slideIndex}>
           {data.map(item => {
             return (
               <Slide key={item.id}>
-                <Card item={item} />
+                <Card
+                  key={item.id}
+                  item={item}
+                  onClick={() => goToDetail(item.id)}
+                />
               </Slide>
             );
           })}
@@ -47,14 +60,6 @@ function CarouselSub() {
       </BtnWrapper>
     </Container>
   );
-}
-{
-  /* <Arrow type="right" onClick={() => handleClick('right')}>
-        <AiOutlineRight />
-      </Arrow>
-      <Arrow type="left" onClick={() => handleClick('left')}>
-        <AiOutlineLeft />
-      </Arrow>{' '} */
 }
 
 const Container = styled.div`
@@ -78,7 +83,7 @@ const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
 `;
-const UpdateDate = styled.span`
+const Update = styled.span`
   font-size: 16px;
   color: #999999;
 `;
@@ -104,6 +109,8 @@ const Slide = styled.div`
   /* justify-content: space-between; */
   margin: 0px 30px;
 `;
+
+// const a = styled(Link)``;
 
 const BtnWrapper = styled.div`
   width: 1325px;
