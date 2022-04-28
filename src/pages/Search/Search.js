@@ -19,13 +19,9 @@ const Search = () => {
       });
   }, []);
 
-  const goToDetail = e => {
-    navigate(`/detail/${e.target.value}`);
-  };
-
   const itemAmount = searchData.length;
   return (
-    <Container onClick={goToDetail}>
+    <Container>
       <Header>
         <span className="search">'{urlName}'</span>
         {itemAmount === 0 ? (
