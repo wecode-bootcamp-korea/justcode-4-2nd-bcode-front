@@ -173,6 +173,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
           .then(alert('리뷰를 수정했습니다'));
       }
     }
+    window.location.reload();
   };
 
   const closeModal = () => {

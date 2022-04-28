@@ -94,14 +94,13 @@ function Review({ review }) {
     fetch(`http://localhost:8000/review/${review.id}`, {
       method: 'DELETE',
     });
+    window.location.reload();
   };
 
   const updateReview = () => {
     setFormMethod({ method: 'PATCH', review_id: review.id });
     setReviewModalOpen(true);
   };
-
-  console.log(review);
 
   return (
     <Wrapper>

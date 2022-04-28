@@ -373,7 +373,9 @@ function OrderBox() {
             onClick={() => setTotalCount(prev => (prev === 1 ? 1 : prev - 1))}
           />
           <span>{totalCount}</span>
-          <AiOutlinePlus onClick={() => setTotalCount(prev => prev + 1)} />
+          <AiOutlinePlus
+            onClick={() => setTotalCount(prev => (prev === 10 ? 10 : prev + 1))}
+          />
         </CountBtn>
       </Calculator>
       <Amount>
