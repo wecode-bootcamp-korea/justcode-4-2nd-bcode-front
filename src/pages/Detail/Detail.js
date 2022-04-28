@@ -100,10 +100,7 @@ function Detail() {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization:
-          localStorage.getItem('userId') !== null
-            ? localStorage.getItem('userId')
-            : 'null',
+        Authorization: localStorage.getItem('userId'),
       },
     })
       .then(res => res.json())

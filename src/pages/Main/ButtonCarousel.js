@@ -25,10 +25,6 @@ const Wrapper = styled.div`
     padding: 20px 0;
     font-weight: 800;
     font-size: 1.2rem;
-    margin-bottom: 40px;
-    @media (min-width: 375px), (max-width: 820px) {
-      width: 90%;
-    }
   }
   @media (min-width: 375px), (max-width: 820px) {
     width: 100%;
@@ -86,6 +82,8 @@ function ButtonCarousel() {
         <span className="title">고객님을 위해 추천 드려요</span>
       </div>
       <Cards>
+        <span className="title">고객님을 위해 추천 드려요</span>
+
         {more === 1
           ? first.map(i => <Card key={i.id} item={i} />)
           : sec.map(i => <Card key={i.id} item={i} />)}
