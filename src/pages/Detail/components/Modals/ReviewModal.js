@@ -142,7 +142,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
   const onSubmit = data => {
     const newFormData = new FormData();
     const oldFormData = new FormData();
-
+    console.log(data);
     if (!watch('rating') || !watchImg) {
       alert('모든 정보를 입력했는지 다시 확인해 주세요');
     } else {
@@ -195,6 +195,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
               className="fileInput"
               type="file"
               accept="image/*"
+              multiple="multiple"
               {...register('image', { required: true })}
             />
             {imgPreview && (

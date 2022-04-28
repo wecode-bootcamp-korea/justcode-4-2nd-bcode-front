@@ -51,7 +51,6 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
   const [userId, setUserId] = useState();
-
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
     return res;
@@ -104,10 +103,12 @@ function Detail() {
     })
       .then(res => res.json())
       .then(res => {
-        setReviews(res.reviews);
-        setItem(processOnlyItem(res));
-        setReviewObj(res.reviewSum);
+        console.log(res);
+        setReviews(res.productDetail.reviews);
+        setItem(processOnlyItem(res.productDetail));
+        setReviewObj(res.productDetail.reviewSum);
         setUserId(res.userId);
+
         setLoading(false);
       });
   }, []);
