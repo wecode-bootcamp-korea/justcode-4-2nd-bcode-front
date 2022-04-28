@@ -52,6 +52,7 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
   const [userId, setUserId] = useState();
+  const [reviewLikes, setReviewLikes] = useState([]);
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
     return res;
@@ -104,6 +105,7 @@ function Detail() {
     })
       .then(res => res.json())
       .then(res => {
+        setReviewLikes(res.productDetail.reviewLikesSum);
         setReviews(res.productDetail.reviews);
         setItem(processOnlyItem(res.productDetail));
         setReviewObj(res.productDetail.reviewSum);
@@ -119,7 +121,7 @@ function Detail() {
           <Loading />
         ) : (
           <DetailContext.Provider
-            value={{ item, itemRate, reviews, reivewObj }}
+            value={{ item, itemRate, reviews, reivewObj, reviewLikes }}
           >
             <div className="detail">
               <ImgBox src={item.image_url} />
