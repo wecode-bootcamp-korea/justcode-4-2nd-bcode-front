@@ -14,7 +14,10 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video , input {font-family: 'pretendard';}
+time, mark, audio, video , input {font-family:'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+sans-serif;}
 `;
 
 export default Common;

@@ -1,28 +1,61 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartNoData, CartData } from './CartData';
-import InputChkBox from '../../components/Checkbox/InputChkBox';
-import { BiMinus, BiPlus } from 'react-icons/bi';
+
+import { BiLeftArrowAlt, BiMinus, BiPlus } from 'react-icons/bi';
 
 function Cart() {
-  //체크박스 관련 함수
-  const [totalCheck, setTotalCheck] = useState(false);
-  const [checkList, setCheckList] = useState(Array(3).fill(false));
+  const deliveryFee = 2500;
+  const [cartList, setCartList] = useState([]);
+  const [totalBeforePrice, setTotalBeforePrice] = useState(0);
+  const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
+  const [render, setRender] = useState(false);
 
-  //전체 체크 클릭 시 발생
-  const allCheck = () => {
-    setCheckList(Array(checkList.length).fill(!totalCheck));
-    setTotalCheck(!totalCheck);
+  const intoString = dataname => {
+    return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
-  //개별 체크 클릭 시 발생함수
-  const singleCheck = index => {
-    setCheckList(prev => {
-      const array = [...prev];
-      array[index] = !array[index];
+  const deleteData = id => {
+    fetch(`http://localhost:8000/cart/${id} `, { method: 'DELETE' });
 
-      return array;
-    });
+    const result = cartList.filter(item => item.products.id !== id);
+    setCartList(result);
   };
+
+  const changeState = e => {
+    render ? setRender(true) : setRender(false);
+  };
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/cart/now`, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        Authorization: localStorage.getItem('userId'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCartList(data);
+      });
+    const newTotalPrice = cartList
+      .map(order => order.products.price_before * order.quantity)
+      .reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+    const newDiscountPrice = cartList
+      .map(
+        order =>
+          (order.products.price_before - order.products.price_after) *
+          order.quantity
+      )
+      .reduce(function (prev, curr) {
+        return prev + curr;
+      }, 0);
+    setTotalBeforePrice(newTotalPrice);
+    setTotalDiscountPrice(newDiscountPrice);
+  }, [cartList, render]);
+
+  //console.log(cartList);
   return (
     <CartWrap>
       <CartHeader>
@@ -54,13 +87,25 @@ function Cart() {
               <th>수량</th>
               <th>할인금액</th>
               <th>판매가격</th>
-              <th>주문</th>
+              <th />
             </tr>
           </CartListHead>
           <tbody>
-            <CartData />
-
-            {/* <CartNoData /> */}
+            {cartList.length !== 0 ? (
+              cartList.map(order => {
+                return (
+                  <CartData
+                    key={order.id}
+                    data={order}
+                    quantity={order.quantity}
+                    event={deleteData}
+                    changeState={changeState}
+                  />
+                );
+              })
+            ) : (
+              <CartNoData />
+            )}
 
             <TotalPriceArea>
               <td colSpan="6">
@@ -68,7 +113,8 @@ function Cart() {
                   <PriceInfo>
                     총 상품금액
                     <span>
-                      10000<b>원</b>
+                      {intoString(totalBeforePrice)}
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                   <TotalSymbol>
@@ -77,7 +123,8 @@ function Cart() {
                   <PriceInfo>
                     총 할인금액
                     <span>
-                      10000<b>원</b>
+                      {intoString(totalDiscountPrice)}
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                   <TotalSymbol>
@@ -86,15 +133,22 @@ function Cart() {
                   <PriceInfo>
                     배송비
                     <span>
-                      10000<b>원</b>
+                      {intoString(deliveryFee)}
+                      <b>원</b>
                     </span>
                   </PriceInfo>
                 </TotalPayList>
               </td>
             </TotalPriceArea>
             <PaymentArea>
-              <td colSpan="99">
-                결제 예상 금액 <span>10000</span>원
+              <td colSpan="6">
+                결제 예상 금액
+                <span>
+                  {intoString(
+                    totalBeforePrice - totalDiscountPrice + deliveryFee
+                  )}
+                </span>
+                원
               </td>
             </PaymentArea>
             <tr />
@@ -138,7 +192,12 @@ const H3 = styled.h3`
   font-weight: 500;
 `;
 const CartListTable = styled.table`
+  display: table;
   table-layout: fixed;
+  & thead,
+  tbody {
+    display: table-row;
+  }
 `;
 const CartListHead = styled.thead`
   border-top: 2px solid #333;

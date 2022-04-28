@@ -9,6 +9,7 @@ import Main from './pages/Main/Main';
 import List from './pages/List/List';
 import Detail from './pages/Detail/Detail';
 import Search from './pages/Search/Search';
+import Cart from './pages/Cart/Cart';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -25,6 +26,7 @@ function Router() {
           <Route path="/list/:list_id" element={<List />} />
           <Route path="/detail/:product_id" element={<Detail />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         <Footer />
       </BrowserRouter>

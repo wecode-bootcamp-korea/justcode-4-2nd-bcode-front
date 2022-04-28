@@ -32,12 +32,13 @@ const List = () => {
       .then(data => {
         setCategoryData(data);
       });
+    fetch('http://localhost:8000/category', { method: 'GET' })
+      .then(res => res.json())
+      .then(data => {
+        setCategoryItem(data);
+      });
   }, [categoryId]);
-  // fetch('http://localhost:8000/category', { method: 'GET' })
-  // .then(res => res.json())
-  // .then(data => {
-  //   setCategoryItem(data);
-  // });
+
   const reviewTop = () => {
     const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
     setCategoryData(sortedReviews);
