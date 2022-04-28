@@ -11,7 +11,7 @@ const CategoryItem = props => {
   return (
     <Item
       value={props.index}
-      active={props.active}
+      active={props.active === true || props.index === Number(props.categoryId)}
       onClick={() => {
         showItems();
       }}
@@ -33,7 +33,7 @@ const Item = styled.li`
     color: #f0427d;
     cursor: pointer;
   }
-  ${({ active }) => active && `color: blue; border-color:blue;`}
+  ${({ active }) => active && `color: #f0427d; border-color:#f0427d;`}
 `;
 
 export default CategoryItem;
