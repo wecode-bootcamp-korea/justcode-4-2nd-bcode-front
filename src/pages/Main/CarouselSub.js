@@ -36,10 +36,10 @@ function CarouselSub() {
       />
       <CarouselWrapper>
         <SlideWrapper slideIndex={slideIndex}>
-          {data.map((item, index) => {
+          {data.map(item => {
             return (
               <Slide key={item.id}>
-                <Card key={item.id} item={item} />
+                <Card item={item} />
               </Slide>
             );
           })}

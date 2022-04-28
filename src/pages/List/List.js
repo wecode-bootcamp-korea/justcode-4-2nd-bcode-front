@@ -4,14 +4,13 @@ import CategoryItem from './components/CategoryItem';
 import Card from '../../components/Card/Card';
 import { BiChevronRight } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 
 const List = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [categoryItem, setCategoryItem] = useState([]);
   const [active, setActive] = useState(types[0]);
-  const [isSelected, setIsSelected] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const params = useParams();
@@ -43,10 +42,6 @@ const List = () => {
   }, [categoryId]);
 
   const itemAmount = categoryData.length;
-
-  const onClick = e => {
-    setActive(e.target.value);
-  };
 
   const reviewTop = () => {
     const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
@@ -89,7 +84,19 @@ const List = () => {
           </Location>
           <CategoryNav>
             <Title>카테고리</Title>
-            <CategoryListWrapper></CategoryListWrapper>
+            <CategoryListWrapper onClick={goToList}>
+              {categoryItem.map(item => {
+                return (
+                  <CategoryItem
+                    key={item.id}
+                    index={item.id}
+                    item={item.name}
+                    active={active === item.id}
+                    categoryId={categoryId}
+                  />
+                );
+              })}
+            </CategoryListWrapper>
           </CategoryNav>
           <SortNav>
             <Total>총 {itemAmount}개</Total>
