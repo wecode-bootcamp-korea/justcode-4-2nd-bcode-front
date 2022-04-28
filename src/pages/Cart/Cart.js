@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { CartNoData, CartData } from './CartData';
-
-import { BiLeftArrowAlt, BiMinus, BiPlus } from 'react-icons/bi';
+import { BiMinus, BiPlus } from 'react-icons/bi';
 
 function Cart() {
   const deliveryFee = 2500;
@@ -35,7 +34,7 @@ function Cart() {
     })
       .then(res => res.json())
       .then(data => {
-        setCartList(data);
+        data.message === 'NEED_TO_LOGIN' ? setCartList([]) : setCartList(data);
       });
     const newTotalPrice = cartList
       .map(order => order.products.price_before * order.quantity)
@@ -55,7 +54,6 @@ function Cart() {
     setTotalDiscountPrice(newDiscountPrice);
   }, [cartList, render]);
 
-  //console.log(cartList);
   return (
     <CartWrap>
       <CartHeader>
@@ -194,10 +192,7 @@ const H3 = styled.h3`
 const CartListTable = styled.table`
   display: table;
   table-layout: fixed;
-  & thead,
-  tbody {
-    display: table-row;
-  }
+  width: 100%;
 `;
 const CartListHead = styled.thead`
   border-top: 2px solid #333;
@@ -246,7 +241,7 @@ const PaymentArea = styled.tr`
     text-align: right;
     font-size: ${props => props.theme.fontSize.h5};
     & span {
-      margin: 0 0 0 5px;
+      margin: 0 0 0 10px;
       font-size: ${props => props.theme.fontSize.h2};
       color: ${props => props.theme.point};
       font-weight: 600;
