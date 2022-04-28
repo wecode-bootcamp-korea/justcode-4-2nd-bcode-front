@@ -107,28 +107,32 @@ function Review({ review }) {
   const isLike = review.reviews_likes.length !== 0 ? true : false;
 
   const clickLike = isLike => {
-    if (isLike === false) {
-      fetch('http://localhost:8000/review/likes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: localStorage.getItem('userId'),
-        },
-        body: JSON.stringify({ reviewId: review.id }),
-      });
-    } else if (isLike === true) {
-      fetch(
-        `http://localhost:8000/review/likes/${review.reviews_likes[0].id}`,
-        {
-          method: 'DELETE',
+    if (userId == null || userId == undefined) {
+      return alert('로그인이 필요한 기능입니다.');
+    } else {
+      if (isLike === false) {
+        fetch('http://localhost:8000/review/likes', {
+          method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
             Authorization: localStorage.getItem('userId'),
           },
-        }
-      );
+          body: JSON.stringify({ reviewId: review.id }),
+        });
+      } else if (isLike === true) {
+        fetch(
+          `http://localhost:8000/review/likes/${review.reviews_likes[0].id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: localStorage.getItem('userId'),
+            },
+          }
+        );
+      }
+      window.location.reload();
     }
-    window.location.reload();
   };
 
   const reviewLikeCount =
