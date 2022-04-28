@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DetailContext, UserContext, ReviewContext } from '../Context';
 import styled from 'styled-components';
 import {
@@ -7,6 +7,7 @@ import {
   AiOutlineHeart,
   AiOutlineEdit,
   AiOutlineDelete,
+  AiTwotoneHeart,
 } from 'react-icons/ai';
 
 const Wrapper = styled.div`
@@ -89,6 +90,7 @@ function Review({ review }) {
   const { itemRate } = useContext(DetailContext);
   const { userId } = useContext(UserContext);
   const { setReviewModalOpen, setFormMethod } = useContext(ReviewContext);
+  const { reviewLikes } = useContext(DetailContext);
 
   const deleteReview = () => {
     fetch(`http://localhost:8000/review/${review.id}`, {
@@ -101,6 +103,38 @@ function Review({ review }) {
     setFormMethod({ method: 'PATCH', review_id: review.id });
     setReviewModalOpen(true);
   };
+
+  const isLike = review.reviews_likes.length !== 0 ? true : false;
+
+  const clickLike = isLike => {
+    if (isLike === false) {
+      fetch('http://localhost:8000/review/likes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: localStorage.getItem('userId'),
+        },
+        body: JSON.stringify({ reviewId: review.id }),
+      });
+    } else if (isLike === true) {
+      fetch(
+        `http://localhost:8000/review/likes/${review.reviews_likes[0].id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: localStorage.getItem('userId'),
+          },
+        }
+      );
+    }
+    window.location.reload();
+  };
+
+  const reviewLikeCount =
+    reviewLikes.filter(i => i.id === review.id).length !== 0
+      ? reviewLikes.filter(i => i.id === review.id)[0].like_count
+      : 0;
 
   return (
     <Wrapper>
@@ -123,10 +157,14 @@ function Review({ review }) {
         </div>
 
         <span>{review.content}</span>
-        <div className="heartBox">
-          <AiOutlineHeart />
+        <div className="heartBox" onClick={() => clickLike(isLike)}>
+          {isLike ? (
+            <AiTwotoneHeart style={{ color: 'red' }} />
+          ) : (
+            <AiOutlineHeart style={{ color: 'black' }} />
+          )}
           &nbsp;
-          {review.reviews_likes.length}
+          {reviewLikeCount}
           {userId === review.users.id && (
             <div className="edit">
               <AiOutlineEdit
