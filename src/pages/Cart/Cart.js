@@ -4,11 +4,11 @@ import { CartNoData, CartData } from './CartData';
 import { BiMinus, BiPlus } from 'react-icons/bi';
 
 function Cart() {
-  const deliveryFee = 2500;
   const [cartList, setCartList] = useState([]);
   const [totalBeforePrice, setTotalBeforePrice] = useState(0);
   const [totalDiscountPrice, setTotalDiscountPrice] = useState(0);
   const [render, setRender] = useState(false);
+  let deliveryFee = cartList.length === 0 ? 0 : 2500;
 
   const intoString = dataname => {
     return dataname.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
@@ -70,7 +70,7 @@ function Cart() {
         <CartListTable>
           <colgroup>
             <col width="50" />
-            <col width="*" />
+            <col width="440" />
             <col width="100" />
             <col width="100" />
             <col width="110" />
@@ -106,7 +106,7 @@ function Cart() {
             )}
 
             <TotalPriceArea>
-              <td colSpan="6">
+              <td colSpan="99">
                 <TotalPayList>
                   <PriceInfo>
                     총 상품금액
@@ -139,7 +139,7 @@ function Cart() {
               </td>
             </TotalPriceArea>
             <PaymentArea>
-              <td colSpan="6">
+              <td colSpan="99">
                 결제 예상 금액
                 <span>
                   {intoString(
