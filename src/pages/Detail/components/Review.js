@@ -93,6 +93,7 @@ function Review({ review }) {
   const deleteReview = () => {
     fetch(`http://localhost:8000/review/${review.id}`, {
       method: 'DELETE',
+      Authorization: localStorage.getItem('userId'),
     });
   };
 
