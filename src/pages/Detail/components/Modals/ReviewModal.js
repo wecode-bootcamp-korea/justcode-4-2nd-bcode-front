@@ -150,7 +150,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
         newFormData.set('userId', userId);
         newFormData.set('rating', data.rating);
         newFormData.set('content', data.content);
-        newFormData.set('reviewImage', watchImg);
+        newFormData.set('reviewImage', watchImg[0]);
 
         fetch('http://localhost:8000/review/', {
           method: 'POST',
