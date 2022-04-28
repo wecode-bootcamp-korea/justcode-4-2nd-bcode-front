@@ -76,7 +76,6 @@ function ButtonCarousel() {
     <Wrapper>
       <Cards>
         <span className="title">고객님을 위해 추천 드려요</span>
-
         {more === 1
           ? first.map(i => <Card key={i.id} item={i} />)
           : sec.map(i => <Card key={i.id} item={i} />)}
