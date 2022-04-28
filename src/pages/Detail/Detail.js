@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   margin-top: 100px;
   justify-content: center;
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1500px) {
     width: 1200px;
     margin: 100px 310px;
   }
@@ -32,13 +32,11 @@ const Wrapper = styled.div`
 `;
 
 const ImgBox = styled.img`
-  margin: 0 140px;
-  @media screen and (max-width: 1920px) {
-    width: 35%;
-  }
+  margin: 0 70px 0 40px;
+  width: 40%;
+  border-radius: 12px;
   @media (max-width: 820px) {
     width: 35%;
-    height: 60%;
     margin: 300px 100px;
   }
   @media (max-width: 375px) {

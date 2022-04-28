@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { useState, useEffect } from 'react';
-import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
 import CarouselCard from '../../components/Card/CarouselCard';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
