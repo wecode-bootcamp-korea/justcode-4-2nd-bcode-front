@@ -276,6 +276,7 @@ function OrderBox() {
           Authorization: localStorage.getItem('userId'),
         },
       });
+      window.scrollTo(0, 0);
     } else {
       setSignInPlzModalOpen(true);
     }

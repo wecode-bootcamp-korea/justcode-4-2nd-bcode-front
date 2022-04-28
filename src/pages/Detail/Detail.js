@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Loading from '../../components/Loading';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   margin-top: 100px;
   justify-content: center;
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1500px) {
     width: 1200px;
     margin: 100px 310px;
   }
@@ -31,13 +32,11 @@ const Wrapper = styled.div`
 `;
 
 const ImgBox = styled.img`
-  margin: 0 140px;
-  @media screen and (max-width: 1920px) {
-    width: 35%;
-  }
+  margin: 0 70px 0 40px;
+  width: 40%;
+  border-radius: 12px;
   @media (max-width: 820px) {
     width: 35%;
-    height: 60%;
     margin: 300px 100px;
   }
   @media (max-width: 375px) {
@@ -100,10 +99,7 @@ function Detail() {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization:
-          localStorage.getItem('userId') !== null
-            ? localStorage.getItem('userId')
-            : 'null',
+        Authorization: localStorage.getItem('userId'),
       },
     })
       .then(res => res.json())
@@ -120,7 +116,7 @@ function Detail() {
     <Wrapper>
       <UserContext.Provider value={{ userId }}>
         {loading ? (
-          <div>loading...</div>
+          <Loading />
         ) : (
           <DetailContext.Provider
             value={{ item, itemRate, reviews, reivewObj }}
