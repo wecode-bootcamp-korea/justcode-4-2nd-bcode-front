@@ -19,10 +19,6 @@ const Wrapper = styled.div`
     top: 0;
     font-weight: 800;
     font-size: 1.2rem;
-
-    @media (min-width: 375px), (max-width: 820px) {
-      width: 90%;
-    }
   }
   @media (min-width: 375px), (max-width: 820px) {
     width: 100%;
