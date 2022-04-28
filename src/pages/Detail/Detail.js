@@ -103,12 +103,10 @@ function Detail() {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         setReviews(res.productDetail.reviews);
         setItem(processOnlyItem(res.productDetail));
         setReviewObj(res.productDetail.reviewSum);
         setUserId(res.userId);
-
         setLoading(false);
       });
   }, []);

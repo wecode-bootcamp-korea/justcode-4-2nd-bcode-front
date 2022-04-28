@@ -81,10 +81,13 @@ function Reviews() {
     }
   };
 
+  const reviewCount = reivewObj._count.content;
+
   return (
     <Wrapper className="reviews">
       <div className="reviewBox">
-        상품 리뷰({reivewObj._count.content})
+        상품 리뷰(
+        {reviewCount})
         <AiOutlineEdit
           className="writeReview"
           onClick={() => {
@@ -119,7 +122,7 @@ function Reviews() {
         value={{ setFilter, setReviewModalOpen, setFormMethod }}
       >
         <Filter>
-          <span>총 {reivewObj._count.content}</span>
+          <span>총 {reviewCount}</span>
           <Line />
         </Filter>
         {filter}
