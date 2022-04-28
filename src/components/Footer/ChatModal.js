@@ -19,8 +19,14 @@ function ChatModal(props) {
       arrayKey++;
       setChatText(chatText.concat(result));
       textRef.current.value = '';
-      console.log(textArea.current);
-      textArea.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
+
+      //동시에 진행되서 한박자 느리게 내려가는걸 방지
+      setTimeout(() => {
+        textArea.current.scrollTo(
+          0,
+          textArea.current.scrollHeight + textArea.current.clientHeight
+        );
+      }, 0.1);
     }
   };
 
@@ -31,8 +37,8 @@ function ChatModal(props) {
           <img src="image/logo.svg" />
           <FiX className="icon" onClick={props.chatChange} />
         </ChatHeader>
-        <Wrap ref={textArea}>
-          <ChatLists>
+        <Wrap>
+          <ChatLists ref={textArea}>
             {chatText.map((text, index) => {
               return <ChatList key={index} id={text.id} content={text.item} />;
             })}
@@ -69,6 +75,7 @@ const ChatHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 10px;
   img {
     margin-left: 50px;
     width: 200px;
@@ -113,7 +120,7 @@ const ChatLists = styled.ul`
   width: 100%;
   height: 100%;
   overflow: scroll;
-  padding: 20px 30px;
+  padding: 20px 30px 0 30px;
 `;
 
 const Wrap = styled.div`

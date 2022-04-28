@@ -7,7 +7,7 @@ const seconds = date.getSeconds();
 function ChatList(props) {
   return (
     <>
-      <ChatTextList>
+      <ChatRightList>
         <ChatName>손님1</ChatName>
         <Wrap>
           <ChatContent>{props.content}</ChatContent>
@@ -15,12 +15,47 @@ function ChatList(props) {
             {hour}.{minute}.{seconds}
           </ChatTime>
         </Wrap>
-      </ChatTextList>
+      </ChatRightList>
+      <ChatLeftList>
+        <Wrapper>
+          <LeftTime>
+            {hour}.{minute}.{seconds}
+          </LeftTime>
+          <LeftContent>{props.content}</LeftContent>
+        </Wrapper>
+      </ChatLeftList>
     </>
   );
 }
 
-const ChatTextList = styled.li`
+const ChatLeftList = styled.li`
+  display: flex;
+  padding: 15px 0 15px 40px;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
+const LeftTime = styled.div`
+  position: absolute;
+  font-size: 12px;
+  right: -35px;
+  bottom: 5px;
+`;
+
+const LeftContent = styled.div`
+  width: 200px;
+  height: 100%;
+  padding: 5px;
+  margin: 0 10px 0 10px;
+  word-break: break-all;
+  color: white;
+  background-color: #444444;
+  border-radius: 10px;
+`;
+
+const ChatRightList = styled.li`
   display: flex;
   padding: 15px 0;
 `;
@@ -45,6 +80,7 @@ const ChatContent = styled.div`
   margin: 0 10px 0 10px;
   word-break: break-all;
   background-color: white;
+  border-radius: 10px;
 `;
 
 const ChatTime = styled.div`
