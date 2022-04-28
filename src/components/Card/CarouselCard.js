@@ -39,7 +39,7 @@ function CarouselCard({ item }) {
             <span>
               <FaStar color="#ffb33c" />
             </span>
-            <Grade>{item.ratingAvg}</Grade>
+            <Grade>{item.ratingAvg && item.ratingAvg.toFixed(1)}</Grade>
             <span>|</span>
             <Count>리뷰({item.contentCnt})</Count>
           </Review>
