@@ -11,6 +11,7 @@ function CarouselMainList(props) {
 const CarouselImgList = styled.li`
   z-index: 1;
   img {
+    width: 1200px;
     @media (max-width: 820px) {
       width: 820px;
     }

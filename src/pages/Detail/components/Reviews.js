@@ -95,6 +95,7 @@ function Reviews() {
           onClick={() => {
             confirmLoggedIn(true);
             setFormMethod({ method: 'POST' });
+            window.scrollTo(0, 300);
           }}
         />
         <ReviewModal
