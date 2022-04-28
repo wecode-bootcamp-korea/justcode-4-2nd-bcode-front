@@ -5,15 +5,25 @@ import {
   FiYoutube,
   FiTwitter,
   FiArrowUp,
+  FiMessageCircle,
 } from 'react-icons/fi';
+import ChatModal from './ChatModal';
+import { useState } from 'react';
 
 function Footer() {
+  const [clickTrue, setClickTrue] = useState(false);
+
   const goToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
+
+  const chatChange = () => {
+    clickTrue ? setClickTrue(false) : setClickTrue(true);
+  };
+
   return (
     <FooterSection>
       <FooterInner>
@@ -57,6 +67,12 @@ function Footer() {
         style={{ strokeWidth: '1' }}
         onClick={goToTop}
       />
+      {clickTrue ? <ChatModal chatChange={chatChange} /> : ''}
+      <FiMessageCircle
+        className="goToChat"
+        style={{ strokeWidth: '1' }}
+        onClick={chatChange}
+      />
     </FooterSection>
   );
 }
@@ -69,6 +85,24 @@ const FooterSection = styled.section`
   width: 100%;
   height: 450px;
   background-color: #f0f0f0;
+  .goToChat {
+    position: fixed;
+    bottom: 130px;
+    right: 60px;
+    font-size: 48px;
+    color: white;
+    background-color: #fbcbde;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      background-color: #ee2e7a;
+    }
+    @media (max-width: 375px) {
+      right: 20px;
+      bottom: 80px;
+      font-size: 34px;
+    }
+  }
   .goToTop {
     position: fixed;
     bottom: 60px;
@@ -82,7 +116,7 @@ const FooterSection = styled.section`
       background-color: #ee2e7a;
     }
     @media (max-width: 375px) {
-      right: 40px;
+      right: 20px;
       bottom: 40px;
       font-size: 34px;
     }
