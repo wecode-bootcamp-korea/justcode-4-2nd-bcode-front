@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Box = styled.div`
   position: absolute;
@@ -28,10 +29,17 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 400px;
+
   color: #ee2c7a;
-  font-size: 40px;
+  font-size: 35px;
+  margin-bottom: 20px;
+
+  .link {
+    text-decoration: none;
+    margin-top: 20px;
+  }
   .close {
-    font-size: 100px;
+    font-size: 70px;
     position: absolute;
     top: 100px;
   }
@@ -49,6 +57,9 @@ function SignInPlzModal({ signInPlzModalOpen, setSignInPlzModalOpen }) {
               onClick={() => setSignInPlzModalOpen(false)}
             />
             <span>로그인을 한 후 이용할 수 있습니다.</span>
+            <Link className="link" to="/login">
+              <span>로그인하러 가기 &rarr;</span>
+            </Link>
           </Modal>
         </Box>
       )}

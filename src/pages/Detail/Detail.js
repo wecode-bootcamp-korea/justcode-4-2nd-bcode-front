@@ -16,7 +16,9 @@ const Wrapper = styled.div`
     width: 1200px;
     margin: 100px 310px;
   }
-  @media (max-width: 820px) {
+  @media (max-width: 375px) {
+    margin-right: 7px;
+    margin-left: 7px;
   }
   .detail {
     display: flex;
@@ -50,9 +52,7 @@ function Detail() {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
   const [reivewObj, setReviewObj] = useState({});
-  const [user_id, setUser_id] = useState(1);
-  const localUserId = localStorage.getItem('userId');
-
+  const [userId, setUserId] = useState();
   const processOnlyItem = res => {
     res.rate = res.reviewSum._avg.rating;
     return res;
@@ -95,38 +95,27 @@ function Detail() {
 
   // get Data
   useEffect(() => {
-    // data fetching
     fetch(`http://localhost:8000/product/detail/${product_id}?limit=5`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: localStorage.getItem('userId'),
       },
     })
       .then(res => res.json())
       .then(res => {
-        setReviews(res.reviews);
-        setItem(processOnlyItem(res));
-        setReviewObj(res.reviewSum);
+        setReviews(res.productDetail.reviews);
+        setItem(processOnlyItem(res.productDetail));
+        setReviewObj(res.productDetail.reviewSum);
+        setUserId(res.userId);
         setLoading(false);
       });
-
-    // verify user fetching
-    fetch('http://localhost:8000/user/verify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: localUserId,
-      },
-    })
-      .then(res => res.json())
-      .then(res => setUser_id(res.userId));
   }, []);
 
   return (
     <Wrapper>
-      <UserContext.Provider value={{ user_id }}>
+      <UserContext.Provider value={{ userId }}>
         {loading ? (
           <div>loading...</div>
         ) : (

@@ -17,7 +17,7 @@ function CartModal(props) {
     })
       .then(res => res.json())
       .then(data => {
-        setCartItem(data);
+        data.message === 'NEED_TO_LOGIN' ? setCartItem([]) : setCartItem(data);
       });
   }, []);
 
@@ -37,16 +37,20 @@ function CartModal(props) {
   };
 
   const deleteAll = () => {
-    setCartItem([]);
-    fetch(`http://localhost:8000/cart/all`, {
-      method: 'DELETE',
-      headers: {
-        'content-Type': 'application/json',
-        authorization: localStorage.getItem('userId'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {});
+    if (!localStorage.getItem('userId') === 'null') {
+      setCartItem([]);
+      fetch(`http://localhost:8000/cart/all`, {
+        method: 'DELETE',
+        headers: {
+          'content-Type': 'application/json',
+          authorization: localStorage.getItem('userId'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        });
+    }
   };
 
   return (
