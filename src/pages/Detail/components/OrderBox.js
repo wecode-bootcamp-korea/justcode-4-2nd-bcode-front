@@ -304,11 +304,11 @@ function OrderBox() {
         )}
       </Price>
       <Rate>
-        {itemRate(Math.round(item.rate)).map(i =>
+        {itemRate(Math.round(item.rate)).map((i, index) =>
           i !== 0 ? (
-            <AiTwotoneStar style={{ color: '#ffb23a' }} />
+            <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
           ) : (
-            <AiTwotoneStar style={{ color: 'silver' }} />
+            <AiTwotoneStar key={index} style={{ color: 'silver' }} />
           )
         )}
         {item.rate && item.rate.toFixed(1)}

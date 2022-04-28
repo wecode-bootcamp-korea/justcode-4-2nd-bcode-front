@@ -184,17 +184,12 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
     <>
       {reviewModalOpen && (
         <Box>
-          <Modal
-            method={formMethod.method}
-            onSubmit={handleSubmit(onSubmit)}
-            encType="multipart/form-data"
-          >
+          <Modal method={formMethod.method} onSubmit={handleSubmit(onSubmit)}>
             <AiOutlineClose className="close" onClick={() => closeModal()} />
             <input
               className="fileInput"
               type="file"
               accept="image/*"
-              multiple="multiple"
               {...register('image', { required: true })}
             />
             {imgPreview && (

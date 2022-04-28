@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ModalContext } from '../../Context';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Box = styled.div`
   position: absolute;
@@ -80,7 +81,16 @@ function CartModal() {
               <div className="continue" onClick={() => setCartModalOpen(false)}>
                 쇼핑 계속하기
               </div>
-              <div className="go">장바구니 가기</div>
+
+              <div className="go">
+                {' '}
+                <Link
+                  to="/cart"
+                  style={{ textDecoration: 'none', color: 'white' }}
+                >
+                  장바구니 가기
+                </Link>
+              </div>
             </BtnBox>
           </Modal>
         </Box>

@@ -110,11 +110,11 @@ function Reviews() {
 
       <Rate>
         <span>고객 평점</span>
-        {itemRate(Math.ceil(reivewObj._avg.rating)).map(i =>
+        {itemRate(Math.ceil(reivewObj._avg.rating)).map((i, index) =>
           i !== 0 ? (
-            <AiTwotoneStar style={{ color: '#ffb23a' }} />
+            <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
           ) : (
-            <AiTwotoneStar style={{ color: 'silver' }} />
+            <AiTwotoneStar key={index} style={{ color: 'silver' }} />
           )
         )}
         &nbsp;

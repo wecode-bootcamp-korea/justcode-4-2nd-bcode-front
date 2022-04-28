@@ -109,11 +109,11 @@ function Review({ review }) {
       </User>
       <Content>
         <div>
-          {itemRate(review.rating).map(i =>
+          {itemRate(review.rating).map((i, index) =>
             i !== 0 ? (
-              <AiTwotoneStar style={{ color: '#ffb23a' }} />
+              <AiTwotoneStar key={index} style={{ color: '#ffb23a' }} />
             ) : (
-              <AiTwotoneStar style={{ color: 'silver' }} />
+              <AiTwotoneStar key={index} style={{ color: 'silver' }} />
             )
           )}
           <span className="date">
