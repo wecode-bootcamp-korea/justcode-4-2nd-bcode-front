@@ -10,8 +10,8 @@ function Card({ item }) {
   const navigate = useNavigate();
 
   const goToDetail = () => {
-    console.log(1);
     navigate(`/detail/${item.id}`);
+    window.scrollTo(0, 0);
   };
   return (
     <Container onClick={goToDetail}>

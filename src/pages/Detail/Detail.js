@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Loading from '../../components/Loading';
 import OrderBox from './components/OrderBox';
 import Reviews from './components/Reviews';
 import { DetailContext, UserContext } from './Context';
@@ -117,7 +118,7 @@ function Detail() {
     <Wrapper>
       <UserContext.Provider value={{ userId }}>
         {loading ? (
-          <div>loading...</div>
+          <Loading />
         ) : (
           <DetailContext.Provider
             value={{ item, itemRate, reviews, reivewObj }}

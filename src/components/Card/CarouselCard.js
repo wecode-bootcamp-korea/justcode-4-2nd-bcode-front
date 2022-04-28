@@ -11,6 +11,7 @@ function CarouselCard({ item }) {
 
   const goToDetail = () => {
     navigate(`/detail/${item.id}`);
+    window.scrollTo(0, 0);
   };
   return (
     <Container onClick={goToDetail}>
