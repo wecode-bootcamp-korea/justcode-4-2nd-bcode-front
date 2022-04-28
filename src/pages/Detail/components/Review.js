@@ -93,7 +93,6 @@ function Review({ review }) {
   const deleteReview = () => {
     fetch(`http://localhost:8000/review/${review.id}`, {
       method: 'DELETE',
-      Authorization: localStorage.getItem('userId'),
     });
   };
 
@@ -101,6 +100,8 @@ function Review({ review }) {
     setFormMethod({ method: 'PATCH', review_id: review.id });
     setReviewModalOpen(true);
   };
+
+  console.log(review);
 
   return (
     <Wrapper>
@@ -138,7 +139,9 @@ function Review({ review }) {
           )}
         </div>
       </Content>
-      {review.image && <img src={review.image} alt="리뷰 이미지" />}
+      {review.image && (
+        <img src={'http://localhost:8000/' + review.image} alt="리뷰 이미지" />
+      )}
     </Wrapper>
   );
 }
