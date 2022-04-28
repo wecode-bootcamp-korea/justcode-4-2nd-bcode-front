@@ -113,6 +113,7 @@ const CarouselSection = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  margin-bottom: 60px;
   overflow: hidden;
   .leftIcons {
     position: absolute;
@@ -124,9 +125,11 @@ const CarouselSection = styled.div`
     border-radius: 50%;
     cursor: pointer;
     z-index: 3;
+    transition: all 0.3s;
     &:hover {
-      color: white;
-      background-color: #9e9d9d;
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
     }
   }
   .RightIcons {
@@ -139,9 +142,11 @@ const CarouselSection = styled.div`
     border-radius: 50%;
     cursor: pointer;
     z-index: 3;
+    transition: all 0.3s;
     &:hover {
-      color: white;
-      background-color: #9e9d9d;
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
     }
   }
 `;

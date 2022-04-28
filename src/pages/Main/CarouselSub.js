@@ -71,6 +71,12 @@ const Container = styled.div`
     border-radius: 50%;
     font-size: 38px;
     cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
   }
   .rightIcons {
     position: absolute;
@@ -80,6 +86,12 @@ const Container = styled.div`
     border-radius: 50%;
     font-size: 38px;
     cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.point};
+      border: 1px solid ${props => props.theme.point};
+    }
   }
 `;
 
