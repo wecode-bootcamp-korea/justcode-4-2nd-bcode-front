@@ -1,62 +1,48 @@
 import styled from 'styled-components';
-import SelectList from '../../List/components/OptionItem';
-import CategoryList from '../../List/components/CategoryItem';
 import Card from '../../../components/Card/Card';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SearchData = () => {
-  const [searchData, setSearchData] = useState();
+const SearchData = ({ data }) => {
+  const [sortData, setSortData] = useState(data);
   const [active, setActive] = useState(types[0]);
-  const navigate = useNavigate();
-
   let urlName = decodeURI(window.location.search);
   urlName = urlName.substr(1);
-  // console.log(urlName);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/product/search?name=${urlName}`, {
-      method: 'GET',
-    })
-      .then(res => res.json())
-      .then(data => {
-        setSearchData(data);
-      });
-  }, []);
-
-  const goToMain = () => {
-    navigate('/');
-  };
-
-  const goToList = e => {
-    navigate(`/list/${e.target.value}`);
-  };
+    setSortData(data);
+  }, [data]);
 
   const reviewTop = () => {
-    const sortedReviews = [searchData.sort((a, b) => b.rating - a.rating)];
-    setSearchData(sortedReviews);
+    const sortedReviews = [data.sort((a, b) => b.rating - a.rating)];
+    setSortData(sortedReviews);
   };
 
   const priceTop = () => {
     const sortedHighPrice = [
-      ...searchData.sort((a, b) => b.price_before - a.price_before),
+      ...data.sort((a, b) => b.price_before - a.price_before),
     ];
-    setSearchData(sortedHighPrice);
+    setSortData(sortedHighPrice);
   };
 
   const priceLow = () => {
     const sortedLowPrice = [
-      ...searchData.sort((a, b) => a.price_after - b.price_after),
+      ...data.sort((a, b) => a.price_after - b.price_after),
     ];
-    setSearchData(sortedLowPrice);
+    setSortData(sortedLowPrice);
   };
 
-  const itemAmount = searchData.length;
+  const itemAmount = data.length;
+
+  const goToDetail = e => {
+    navigate(`/detail/${e}`);
+  };
 
   return (
     <Container>
       <SortNav>
-        <Total>총 {}개</Total>
+        <Total>총 {itemAmount}개</Total>
         <SortListWrapper>
           <SortItem
             active={active === types[0]}
@@ -90,8 +76,15 @@ const SearchData = () => {
         </SortListWrapper>
       </SortNav>
       <ProductList>
-        {searchData.map(item => {
-          return <Card key={item.id} id={item.id} item={item} />;
+        {sortData.map((item, index) => {
+          return (
+            <Card
+              key={index}
+              id={item.id}
+              item={item}
+              onClick={() => goToDetail(item.id)}
+            />
+          );
         })}
       </ProductList>
     </Container>

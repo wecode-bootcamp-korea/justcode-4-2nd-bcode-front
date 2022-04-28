@@ -7,6 +7,7 @@ import { CarouselBtn } from '../../components/Carousel/CarouselBtn';
 function CarouselSub() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const navigate = useNavigate();
   // const navigate = useNavigate();
   // const params = useParams();
   // console.log(params);
@@ -27,10 +28,10 @@ function CarouselSub() {
     setSlideIndex(slideIndex < 3 ? slideIndex + 1 : 3);
   };
 
-  const goToDetail = () => {
-    // navigate(`/detail/${id}`);
+  const goToDetail = id => {
+    navigate(`/detail/${id}`);
+    console.log(1);
   };
-  // const link = `/detail/${id}`;
 
   return (
     <Container>
@@ -42,10 +43,12 @@ function CarouselSub() {
         <SlideWrapper slideIndex={slideIndex}>
           {data.map(item => {
             return (
-              <Slide key={item.id} onClick={goToDetail}>
-                {/* <Link to={link}> */}
-                <Card item={item} index={item.id} />
-                {/* </Link> */}
+              <Slide key={item.id}>
+                <Card
+                  key={item.id}
+                  item={item}
+                  onClick={() => goToDetail(item.id)}
+                />
               </Slide>
             );
           })}
