@@ -44,7 +44,9 @@ const List = () => {
   const itemAmount = categoryData.length;
 
   const reviewTop = () => {
-    const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
+    const sortedReviews = [
+      ...categoryData.sort((a, b) => b.ratingAvg - a.ratingAvg),
+    ];
     setCategoryData(sortedReviews);
   };
 

@@ -135,7 +135,7 @@ const LoginOutBox = styled.div`
   max-width: 1200px;
   width: 60%;
   margin: 0 auto;
-  background: #f4f4f4;
+  background: #eaeaea;
   border: 1px solid #eee;
   @media only screen and (max-width: 1024px) {
     width: 80%;
@@ -158,7 +158,7 @@ const LoginArea = styled.div`
 const H2 = styled.h2`
   margin-bottom: 40px;
   font-size: ${props => props.theme.fontSize.h2};
-  font-weight: 200;
+  font-weight: 400;
   text-align: center;
   color: ${props => props.theme.text};
 `;
