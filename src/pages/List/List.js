@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import OptionItem from './components/OptionItem';
+import CategoryItem from './components/CategoryItem';
 import Card from '../../components/Card/Card';
 import { BiChevronRight } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 
 const List = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [categoryItem, setCategoryItem] = useState([]);
   const [active, setActive] = useState(types[0]);
-  const [isSelected, setIsSelected] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const params = useParams();
@@ -24,8 +24,6 @@ const List = () => {
 
   const goToList = e => {
     navigate(`/list/${e.target.value}`);
-    setIsSelected(e.target.value);
-    setActive(false);
   };
 
   useEffect(() => {
@@ -42,6 +40,8 @@ const List = () => {
         setLoading(false);
       });
   }, [categoryId]);
+
+  const itemAmount = categoryData.length;
 
   const reviewTop = () => {
     const sortedReviews = [...categoryData.sort((a, b) => b.rating - a.rating)];
@@ -61,9 +61,6 @@ const List = () => {
     ];
     setCategoryData(sortedLowPrice);
   };
-
-  const itemAmount = categoryData.length;
-
   return (
     <>
       {loading ? (
@@ -87,98 +84,18 @@ const List = () => {
           </Location>
           <CategoryNav>
             <Title>카테고리</Title>
-            <CategoryListWrapper>
-              <CategoryLink to="/list/1">
-                <Item
-                  active={
-                    active === categoryTypes[0] ||
-                    isSelected === '1' ||
-                    categoryId === '1'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[0]);
-                    setIsSelected(false);
-                  }}
-                >
-                  기초
-                </Item>
-              </CategoryLink>
-              <CategoryLink to="/list/2">
-                <Item
-                  active={
-                    active === categoryTypes[1] ||
-                    isSelected === '2' ||
-                    categoryId === '2'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[1]);
-                    setIsSelected(false);
-                  }}
-                >
-                  메이크업
-                </Item>
-              </CategoryLink>
-              <CategoryLink to="/list/3">
-                <Item
-                  active={
-                    active === categoryTypes[2] ||
-                    isSelected === '3' ||
-                    categoryId === '3'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[2]);
-                    setIsSelected(false);
-                  }}
-                >
-                  바디케어
-                </Item>
-              </CategoryLink>
-              <CategoryLink to="/list/4">
-                <Item
-                  active={
-                    active === categoryTypes[3] ||
-                    isSelected === '4' ||
-                    categoryId === '4'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[3]);
-                    setIsSelected(false);
-                  }}
-                >
-                  미용소품
-                </Item>
-              </CategoryLink>
-              <CategoryLink to="/list/5">
-                <Item
-                  active={
-                    active === categoryTypes[4] ||
-                    isSelected === '5' ||
-                    categoryId === '5'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[4]);
-                    setIsSelected(false);
-                  }}
-                >
-                  건강식품
-                </Item>
-              </CategoryLink>
-              <CategoryLink to="/list/6">
-                <Item
-                  id="6"
-                  active={
-                    active === categoryTypes[5] ||
-                    isSelected === '6' ||
-                    categoryId === '6'
-                  }
-                  onClick={() => {
-                    setActive(categoryTypes[5]);
-                    setIsSelected(false);
-                  }}
-                >
-                  클렌징
-                </Item>
-              </CategoryLink>
+            <CategoryListWrapper onClick={goToList}>
+              {categoryItem.map(item => {
+                return (
+                  <CategoryItem
+                    key={item.id}
+                    index={item.id}
+                    item={item.name}
+                    active={active === item.id}
+                    categoryId={categoryId}
+                  />
+                );
+              })}
             </CategoryListWrapper>
           </CategoryNav>
           <SortNav>
@@ -279,26 +196,6 @@ const CategoryListWrapper = styled.ul`
   justify-content: center;
 `;
 
-const CategoryLink = styled(Link)`
-  flex-grow: 1;
-  width: 200px;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const Item = styled.li`
-  list-style: none;
-  padding: 15px;
-  border: 1px solid lightgray;
-  text-align: center;
-
-  &:hover {
-    color: #f0427d;
-    cursor: pointer;
-  }
-  ${({ active }) => active && `border-color: #f0427d; color: #f0427d;`}
-`;
-
 const SortNav = styled.div`
   max-width: 1200px;
   display: flex;
@@ -341,11 +238,3 @@ const ProductList = styled.div`
   flex-shrink: 1;
 `;
 const types = ['평점순', '낮은가격순', '높은가격순'];
-const categoryTypes = [
-  '기초',
-  '메이크업',
-  '바디케어',
-  '미용소품',
-  '건강식품',
-  '클렌징',
-];

@@ -9,7 +9,7 @@ function Card({ item }) {
     Math.round((1 - item.price_after / item.price_before) * 100, -1) + '%';
   const navigate = useNavigate();
 
-  const goToDetail = () => {
+  const goToDetail = id => {
     navigate(`/detail/${item.id}`);
     window.scrollTo(0, 0);
   };
