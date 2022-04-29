@@ -102,6 +102,9 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 0px 90px;
   margin: 50px;
+  @media (max-width: 470px) {
+    padding: 0 0 0 50px;
+  }
 `;
 const Title = styled.h1`
   font-size: 24px;
@@ -125,6 +128,15 @@ const SlideWrapper = styled.div`
   transition: all 0.5s ease-in-out;
   transform: translateX(${props => props.slideIndex * -600}px);
   z-index: -100;
+  @media (max-width: 1200px) {
+    width: 900px;
+  }
+  @media (max-width: 900px) {
+    width: 600px;
+  }
+  @media (max-width: 630px) {
+    width: 300px;
+  }
 `;
 
 const Slide = styled.div`
