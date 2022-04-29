@@ -29,13 +29,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 568px;
-
   @media (max-width: 820px) {
-    margin-right: 100px;
-    margin-left: 0px;
+    margin-top: 100px;
+    width: 90%;
   }
   @media (max-width: 375px) {
-    width: 100%;
+    width: 90%;
     margin-top: 100px;
   }
 `;
@@ -212,6 +211,7 @@ const ShopNow = styled.button`
   width: 50%;
   @media (max-width: 820px) {
     width: 50%;
+    height: 50px;
     padding: 0;
     font-size: 15px;
   }
@@ -227,6 +227,7 @@ const ShopLater = styled.button`
   @media (max-width: 820px) {
     width: 50%;
     padding: 0;
+    height: 50px;
     font-size: 15px;
   }
 `;

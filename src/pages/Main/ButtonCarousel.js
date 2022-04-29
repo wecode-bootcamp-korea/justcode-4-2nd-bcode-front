@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     font-weight: bold;
     font-size: 24px;
   }
-  @media (min-width: 375px), (max-width: 820px) {
+  @media (max-width: 1200px) {
     width: 100%;
   }
 `;

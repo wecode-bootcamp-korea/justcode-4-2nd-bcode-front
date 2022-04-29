@@ -81,6 +81,9 @@ const FooterSection = styled.section`
   width: 100%;
   height: 450px;
   background-color: #f0f0f0;
+  @media (max-width: 820px) {
+    margin: 0 20px;
+  }
   .goToChat {
     display: flex;
     justify-content: center;
@@ -102,7 +105,7 @@ const FooterSection = styled.section`
     }
     @media (max-width: 375px) {
       right: 20px;
-      bottom: 80px;
+      bottom: 100px;
       font-size: 34px;
     }
   }

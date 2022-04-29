@@ -34,7 +34,7 @@ function ChatModal(props) {
     <>
       <ChatSection>
         <ChatHeader>
-          <img src="image/logo.svg" />
+          <img src="/image/logo.svg" />
           <FiX className="icon" onClick={props.chatChange} />
         </ChatHeader>
         <Wrap>
@@ -68,6 +68,11 @@ const ChatSection = styled.section`
   border: 1px solid #e2e2e5;
   background-color: #fdf2f0;
   z-index: 300;
+
+  @media (max-width: 375px) {
+    width: 320px;
+    left: 0;
+  }
 `;
 
 const ChatHeader = styled.header`
@@ -80,6 +85,9 @@ const ChatHeader = styled.header`
   img {
     margin-left: 50px;
     width: 200px;
+    @media (max-width: 375px) {
+      margin-left: 10px;
+    }
   }
   .icon {
     font-size: 30px;
@@ -91,9 +99,11 @@ const ChatInput = styled.div`
   display: flex;
   align-items: center;
   padding-left: 30px;
-
   position: absolute;
   bottom: 10px;
+  @media (max-width: 375px) {
+    padding-left: 10px;
+  }
 
   .inputBox {
     width: 250px;
@@ -120,6 +130,9 @@ const ChatLists = styled.ul`
   height: 100%;
   overflow: scroll;
   padding: 20px 30px 0 30px;
+  @media (max-width: 375px) {
+    padding: 0px;
+  }
 `;
 
 const Wrap = styled.div`

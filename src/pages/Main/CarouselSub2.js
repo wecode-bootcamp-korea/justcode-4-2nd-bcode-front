@@ -116,6 +116,9 @@ const Section = styled.div`
   width: 1300px;
   display: flex;
   justify-content: space-evenly;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 const ImgLink = styled.a`
@@ -124,10 +127,12 @@ const ImgLink = styled.a`
   overflow: hidden;
   color: inherit;
   text-decoration: none;
-  @media only screen and (max-width: 414px) {
-    margin: 0 auto 50px;
-    width: 90%;
-  } ;
+  @media (max-width: 1200px) {
+    margin-left: 450px;
+  }
+  @media (max-width: 500px) {
+    margin-left: 500px;
+  }
 `;
 const ImgBox = styled.figure`
   width: 100%;
@@ -143,6 +148,7 @@ const ImgBox = styled.figure`
 `;
 const ImgCaption = styled.figcaption`
   color: ${props => props.theme.defaultInput};
+  padding-left: 0px;
   & strong {
     display: inline-block;
     margin-bottom: 20px;
@@ -151,17 +157,31 @@ const ImgCaption = styled.figcaption`
   }
 `;
 const CarouselContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   .leftIcons {
     position: absolute;
-    top: 40%;
-    left: 450px;
-    border: 1px solid;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
+    top: 25%;
+    left: -50px;
     font-size: 28px;
+    color: #9e9d9d;
     cursor: pointer;
     transition: all 0.3s;
+    @media (max-width: 1200px) {
+      top: 35%;
+      left: 200px;
+    }
+    @media (max-width: 980px) {
+      top: 35%;
+      left: 350px;
+    }
+    @media (max-width: 700px) {
+      top: 35%;
+      left: 470px;
+    }
     &:hover {
       background: ${props => props.theme.white};
       color: ${props => props.theme.point};
@@ -170,18 +190,34 @@ const CarouselContainer = styled.div`
   }
   .rightIcons {
     position: absolute;
-    top: 40%;
-    right: 60px;
-    border: 1px solid;
+    top: 25%;
+    right: -50px;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     font-size: 28px;
+    color: #9e9d9d;
     cursor: pointer;
     transition: all 0.3s;
+    @media (max-width: 1200px) {
+      top: 35%;
+      right: 200px;
+    }
+    @media (max-width: 980px) {
+      top: 35%;
+      right: 350px;
+    }
+    @media (max-width: 700px) {
+      top: 35%;
+      right: 470px;
+    }
     &:hover {
       background: ${props => props.theme.white};
       color: ${props => props.theme.point};
       border: 1px solid ${props => props.theme.point};
     }
+  }
+  @media (max-width: 1200px) {
+    margin-top: 70px;
   }
 `;
 
@@ -196,6 +232,12 @@ const SlideWrapper = styled.div`
   display: flex;
   transition: all 0.5s ease-in-out;
   transform: translateX(${props => props.slideIndex * -365}px);
+  @media (max-width: 980px) {
+    width: 500px;
+  }
+  @media (max-width: 700px) {
+    width: 250px;
+  }
 `;
 
 const Slide = styled.div`

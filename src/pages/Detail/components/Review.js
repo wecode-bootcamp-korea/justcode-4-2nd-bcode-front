@@ -30,7 +30,7 @@ const Wrapper = styled.div`
     right: 10px;
     @media (min-width: 375px) and (max-width: 819px) {
       height: 35%;
-      width: 40%;
+      width: 30%;
       bottom: 50px;
     }
   }

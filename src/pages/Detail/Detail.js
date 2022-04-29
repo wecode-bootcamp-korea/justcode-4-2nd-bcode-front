@@ -8,14 +8,14 @@ import { DetailContext, UserContext } from './Context';
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-
-  margin-top: 100px;
   justify-content: center;
-
-  @media (min-width: 1500px) {
-    width: 1200px;
-    margin: 100px 310px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  width: 100%;
+  @media (max-width: 1200px) {
+    width: 100%;
+    margin: 100px 0;
   }
   @media (max-width: 375px) {
     margin-right: 7px;
@@ -23,8 +23,16 @@ const Wrapper = styled.div`
   }
   .detail {
     display: flex;
-    flex-direction: row;
-    width: 100%;
+    width: 1200px;
+    @media (max-width: 1200px) {
+      width: 90%;
+      margin: 0 10px;
+    }
+    @media (max-width: 820px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
     @media (max-width: 375px) {
       flex-direction: column;
     }
@@ -32,12 +40,12 @@ const Wrapper = styled.div`
 `;
 
 const ImgBox = styled.img`
-  margin: 0 70px 0 40px;
+  margin: 0 80px 0 50px;
   width: 40%;
   border-radius: 12px;
   @media (max-width: 820px) {
-    width: 35%;
-    margin: 300px 100px;
+    width: 60%;
+    margin: 50px 30px;
   }
   @media (max-width: 375px) {
     width: 100%;

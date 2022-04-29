@@ -16,7 +16,7 @@ const CarouselImgList = styled.li`
       width: 820px;
     }
     @media (max-width: 375px) {
-      width: 380px;
+      width: 375px;
     }
   }
 `;
