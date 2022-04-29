@@ -15,7 +15,7 @@ const SearchData = ({ data }) => {
   }, [data]);
 
   const reviewTop = () => {
-    const sortedReviews = [data.sort((a, b) => b.rating - a.rating)];
+    const sortedReviews = [...data.sort((a, b) => b.ratingAvg - a.ratingAvg)];
     setSortData(sortedReviews);
   };
 
