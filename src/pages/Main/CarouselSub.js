@@ -27,7 +27,6 @@ function CarouselSub() {
     <Container>
       <Header>
         <Title>모두가 주목하는 베스트 제품</Title>
-        <Update>업데이트 일시: 4월 27일 8:53</Update>
       </Header>
       <FiChevronLeft
         onClick={handleLeftClick}
@@ -67,10 +66,11 @@ const Container = styled.div`
     position: absolute;
     top: 50%;
     left: 10px;
-    border: 1px solid;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     font-size: 38px;
     cursor: pointer;
+    color: #9e9d9d;
     transition: all 0.3s;
     &:hover {
       background: ${props => props.theme.white};
@@ -82,10 +82,11 @@ const Container = styled.div`
     position: absolute;
     top: 50%;
     right: 0px;
-    border: 1px solid;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     font-size: 38px;
     cursor: pointer;
+    color: #9e9d9d;
     transition: all 0.3s;
     &:hover {
       background: ${props => props.theme.white};

@@ -146,9 +146,10 @@ const CarouselContainer = styled.div`
     position: absolute;
     top: 40%;
     left: 450px;
-    border: 1px solid;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     font-size: 28px;
+    color: #9e9d9d;
     cursor: pointer;
     transition: all 0.3s;
     &:hover {
@@ -161,9 +162,10 @@ const CarouselContainer = styled.div`
     position: absolute;
     top: 40%;
     right: 60px;
-    border: 1px solid;
+    border: 1px solid #9e9d9d;
     border-radius: 50%;
     font-size: 28px;
+    color: #9e9d9d;
     cursor: pointer;
     transition: all 0.3s;
     &:hover {
