@@ -118,6 +118,7 @@ const Section = styled.div`
   justify-content: space-evenly;
   @media (max-width: 1200px) {
     flex-direction: column;
+    width: 100%;
   }
 `;
 
@@ -128,12 +129,25 @@ const ImgLink = styled.a`
   color: inherit;
   text-decoration: none;
   @media (max-width: 1200px) {
-    margin-left: 450px;
+    margin-left: 420px;
+  }
+  @media (max-width: 1000px) {
+    margin-left: 320px;
+  }
+  @media (max-width: 800px) {
+    margin-left: 220px;
+  }
+  @media (max-width: 600px) {
+    margin-left: 150px;
   }
   @media (max-width: 500px) {
-    margin-left: 500px;
+    margin-left: 100px;
+  }
+  @media (max-width: 410px) {
+    margin-left: 60px;
   }
 `;
+
 const ImgBox = styled.figure`
   width: 100%;
   background: #f4f4f4;
@@ -172,15 +186,15 @@ const CarouselContainer = styled.div`
     transition: all 0.3s;
     @media (max-width: 1200px) {
       top: 35%;
-      left: 200px;
+      left: 100px;
     }
-    @media (max-width: 980px) {
+    @media (max-width: 470px) {
       top: 35%;
-      left: 350px;
+      left: 80px;
     }
-    @media (max-width: 700px) {
+    @media (max-width: 400px) {
       top: 35%;
-      left: 470px;
+      left: 50px;
     }
     &:hover {
       background: ${props => props.theme.white};
@@ -200,15 +214,15 @@ const CarouselContainer = styled.div`
     transition: all 0.3s;
     @media (max-width: 1200px) {
       top: 35%;
-      right: 200px;
+      right: 100px;
     }
-    @media (max-width: 980px) {
+    @media (max-width: 470px) {
       top: 35%;
-      right: 350px;
+      right: 80px;
     }
-    @media (max-width: 700px) {
+    @media (max-width: 400px) {
       top: 35%;
-      right: 470px;
+      right: 50px;
     }
     &:hover {
       background: ${props => props.theme.white};
