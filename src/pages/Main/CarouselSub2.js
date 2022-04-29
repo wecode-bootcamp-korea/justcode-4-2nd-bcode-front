@@ -63,11 +63,11 @@ function CarouselCard2() {
           />
           <CarouselWrapper>
             <SlideWrapper slideIndex={slideIndex}>
-              {data.map(item => {
+              {data.map((item, index) => {
                 return (
                   <Slide>
                     <CarouselCard
-                      key={item.id}
+                      key={index}
                       item={item}
                       onClick={() => goToDetail(item.id)}
                     />

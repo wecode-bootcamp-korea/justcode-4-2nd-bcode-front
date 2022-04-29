@@ -3,12 +3,32 @@ import { FiX } from 'react-icons/fi';
 import { useRef, useState } from 'react';
 import ChatList from './ChatList';
 
+const socket = new WebSocket(`ws://localhost:8000`);
+
 let arrayKey = 0;
 function ChatModal(props) {
   const [chatText, setChatText] = useState([]);
-
   const textRef = useRef();
   const textArea = useRef();
+
+  socket.addEventListener('open', () => {
+    console.log('Connected to Server ✅');
+  });
+  socket.addEventListener('message', msg => {
+    setChatText([...chatText, { message: msg.data }]);
+
+    setTimeout(() => {
+      textArea.current.scrollTo(
+        0,
+        textArea.current.scrollHeight + textArea.current.clientHeight
+      );
+    }, 0.3);
+  });
+
+  function makeMessage(type, payload) {
+    const msg = { type, payload };
+    return JSON.stringify(msg);
+  }
 
   const pushText = e => {
     if (e.key === 'Enter' || e.type === 'click') {
@@ -18,18 +38,17 @@ function ChatModal(props) {
       };
       arrayKey++;
       setChatText(chatText.concat(result));
+      socket.send(makeMessage('new_message', textRef.current.value));
       textRef.current.value = '';
-
       //동시에 진행되서 한박자 느리게 내려가는걸 방지
       setTimeout(() => {
         textArea.current.scrollTo(
           0,
           textArea.current.scrollHeight + textArea.current.clientHeight
         );
-      }, 0.1);
+      }, 0.3);
     }
   };
-
   return (
     <>
       <ChatSection>
@@ -40,7 +59,14 @@ function ChatModal(props) {
         <Wrap>
           <ChatLists ref={textArea}>
             {chatText.map((text, index) => {
-              return <ChatList key={index} id={text.id} content={text.item} />;
+              return (
+                <ChatList
+                  key={index}
+                  id={text.id}
+                  content={text.item}
+                  message={text.message}
+                />
+              );
             })}
           </ChatLists>
         </Wrap>

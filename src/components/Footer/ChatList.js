@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 const date = new Date();
 const hour = date.getHours();
@@ -5,25 +6,34 @@ const minute = date.getMinutes();
 const seconds = date.getSeconds();
 
 function ChatList(props) {
+  let messageResult = '';
+  let name = '';
+  if (props.message !== undefined) {
+    messageResult = props.message.split(':');
+    name = messageResult[0].split(' ');
+  }
   return (
     <>
-      <ChatRightList>
-        <ChatName>손님1</ChatName>
-        <Wrap>
-          <ChatContent>{props.content}</ChatContent>
-          <ChatTime>
-            {hour}.{minute}.{seconds}
-          </ChatTime>
-        </Wrap>
-      </ChatRightList>
-      <ChatLeftList>
-        <Wrapper>
-          <LeftTime>
-            {hour}.{minute}.{seconds}
-          </LeftTime>
-          <LeftContent>{props.content}</LeftContent>
-        </Wrapper>
-      </ChatLeftList>
+      {props.message === undefined ? (
+        <ChatLeftList>
+          <Wrapper>
+            <LeftTime>
+              {hour}.{minute}.{seconds}
+            </LeftTime>
+            <LeftContent>{props.content}</LeftContent>
+          </Wrapper>
+        </ChatLeftList>
+      ) : (
+        <ChatRightList>
+          <ChatName>{name[1]}</ChatName>
+          <Wrap>
+            <ChatContent>{messageResult[1]}</ChatContent>
+            <ChatTime>
+              {hour}.{minute}.{seconds}
+            </ChatTime>
+          </Wrap>
+        </ChatRightList>
+      )}
     </>
   );
 }
