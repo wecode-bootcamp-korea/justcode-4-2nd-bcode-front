@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import SearchData from './components/SearchData';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Loading from '../../components/Loading';
 
@@ -9,7 +8,6 @@ const Search = () => {
   const [loading, setLoading] = useState(true);
   let urlName = decodeURI(window.location.search);
   urlName = urlName.substr(1);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8000/product/search?name=${urlName}`, {

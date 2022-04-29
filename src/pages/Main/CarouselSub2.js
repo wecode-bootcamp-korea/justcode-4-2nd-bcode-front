@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import { RiArrowRightSLine } from 'react-icons/ri';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CarouselCard from '../../components/Card/CarouselCard';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
 function CarouselCard2() {
   const [data, setData] = useState([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:8000/category/3', { method: 'GET' })
@@ -22,6 +24,11 @@ function CarouselCard2() {
 
   const handleRightClick = () => {
     setSlideIndex(slideIndex < 3 ? slideIndex + 1 : 3);
+  };
+
+  const goToDetail = id => {
+    navigate(`/detail/${id}`);
+    console.log(1);
   };
 
   return (
@@ -58,8 +65,12 @@ function CarouselCard2() {
             <SlideWrapper slideIndex={slideIndex}>
               {data.map(item => {
                 return (
-                  <Slide key={item.id}>
-                    <CarouselCard item={item} />
+                  <Slide>
+                    <CarouselCard
+                      key={item.id}
+                      item={item}
+                      onClick={() => goToDetail(item.id)}
+                    />
                   </Slide>
                 );
               })}

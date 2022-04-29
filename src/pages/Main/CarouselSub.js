@@ -38,7 +38,7 @@ function CarouselSub() {
           {data.map(item => {
             return (
               <Slide key={item.id}>
-                <Card key={item.id} item={item} />
+                <Card item={item} />
               </Slide>
             );
           })}
@@ -116,6 +116,7 @@ const CarouselWrapper = styled.div`
   max-width: 3600px;
   overflow: hidden;
   margin: auto;
+  z-index: -100;
 `;
 
 const SlideWrapper = styled.div`
@@ -123,6 +124,7 @@ const SlideWrapper = styled.div`
   display: flex;
   transition: all 0.5s ease-in-out;
   transform: translateX(${props => props.slideIndex * -600}px);
+  z-index: -100;
 `;
 
 const Slide = styled.div`
@@ -130,8 +132,9 @@ const Slide = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   margin: 0px 30px;
+  cursor: pointer;
+  z-index: -100;
 `;
 
 export default CarouselSub;
