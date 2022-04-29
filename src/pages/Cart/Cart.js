@@ -75,12 +75,12 @@ function Cart() {
       <div>
         <CartListTable>
           <colgroup>
-            <col width="50" />
-            <col width="440" />
-            <col width="100" />
-            <col width="100" />
-            <col width="110" />
-            <col width="100" />
+            <col width="5%" />
+            <col width="50%" />
+            <col width="11%" />
+            <col width="11%" />
+            <col width="12%" />
+            <col width="11%" />
           </colgroup>
           <CartListHead>
             <tr>
@@ -172,11 +172,16 @@ const CartWrap = styled.div`
   margin: 0 auto;
   padding: 80px 100px;
   box-sizing: border-box;
+  @media only screen and (max-width: 820px) {
+    width: 100%;
+    padding: 80px 40px;
+  }
 `;
 
 const CartHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0 0 30px;
   & ol {
     display: flex;
