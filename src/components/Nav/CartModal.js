@@ -37,7 +37,8 @@ function CartModal(props) {
   };
 
   const deleteAll = () => {
-    if (!localStorage.getItem('userId') === 'null') {
+    console.log(1);
+    if (localStorage.getItem('userId') !== 'null') {
       setCartItem([]);
       fetch(`http://localhost:8000/cart/all`, {
         method: 'DELETE',

@@ -1,9 +1,5 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
-const date = new Date();
-const hour = date.getHours();
-const minute = date.getMinutes();
-const seconds = date.getSeconds();
 
 function ChatList(props) {
   let messageResult = '';
@@ -17,9 +13,7 @@ function ChatList(props) {
       {props.message === undefined ? (
         <ChatLeftList>
           <Wrapper>
-            <LeftTime>
-              {hour}.{minute}.{seconds}
-            </LeftTime>
+            <LeftTime>{props.date}</LeftTime>
             <LeftContent>{props.content}</LeftContent>
           </Wrapper>
         </ChatLeftList>
@@ -28,9 +22,7 @@ function ChatList(props) {
           <ChatName>{name[1]}</ChatName>
           <Wrap>
             <ChatContent>{messageResult[1]}</ChatContent>
-            <ChatTime>
-              {hour}.{minute}.{seconds}
-            </ChatTime>
+            <ChatTime>{props.date}</ChatTime>
           </Wrap>
         </ChatRightList>
       )}

@@ -7,16 +7,24 @@ const socket = new WebSocket(`ws://localhost:8000`);
 
 let arrayKey = 0;
 function ChatModal(props) {
+  const date = new Date();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const seconds = date.getSeconds();
+
   const [chatText, setChatText] = useState([]);
   const textRef = useRef();
   const textArea = useRef();
+
+  const nowTime = hour + '.' + minute + '.' + seconds;
 
   socket.addEventListener('open', () => {
     console.log('Connected to Server ✅');
   });
   socket.addEventListener('message', msg => {
-    setChatText([...chatText, { message: msg.data }]);
+    setChatText([...chatText, { message: msg.data, date: nowTime }]);
 
+    //스크롤 밑으로
     setTimeout(() => {
       textArea.current.scrollTo(
         0,
@@ -31,10 +39,14 @@ function ChatModal(props) {
   }
 
   const pushText = e => {
-    if (e.key === 'Enter' || e.type === 'click') {
+    if (
+      (e.key === 'Enter' || e.type === 'click') &&
+      textRef.current.value !== ''
+    ) {
       const result = {
         id: arrayKey,
         item: textRef.current.value,
+        date: nowTime,
       };
       arrayKey++;
       setChatText(chatText.concat(result));
@@ -65,6 +77,7 @@ function ChatModal(props) {
                   id={text.id}
                   content={text.item}
                   message={text.message}
+                  date={text.date}
                 />
               );
             })}
