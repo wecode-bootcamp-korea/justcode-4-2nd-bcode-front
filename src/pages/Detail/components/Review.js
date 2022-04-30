@@ -169,16 +169,16 @@ function Review({ review }) {
           )}
           &nbsp;
           {reviewLikeCount}
-          {userId === review.users.id && (
-            <div className="edit">
-              <AiOutlineEdit
-                style={{ marginRight: '10px' }}
-                onClick={() => updateReview()}
-              />
-              <AiOutlineDelete onClick={() => deleteReview()} />
-            </div>
-          )}
         </div>
+        {userId === review.users.id && (
+          <div className="edit">
+            <AiOutlineEdit
+              style={{ marginRight: '10px' }}
+              onClick={() => updateReview()}
+            />
+            <AiOutlineDelete onClick={() => deleteReview()} />
+          </div>
+        )}
       </Content>
       {review.image && (
         <img src={'http://localhost:8000/' + review.image} alt="리뷰 이미지" />
