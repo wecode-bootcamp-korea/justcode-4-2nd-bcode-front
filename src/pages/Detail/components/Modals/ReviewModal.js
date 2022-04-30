@@ -212,7 +212,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
                 id="rate1"
                 {...register('rating')}
               />
-              <label for="rate1">★</label>
+              <label htmlFor="rate1">★</label>
               <input
                 type="radio"
                 name="reviewStar"
@@ -220,7 +220,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
                 id="rate2"
                 {...register('rating')}
               />
-              <label for="rate2">★</label>
+              <label htmlFor="rate2">★</label>
               <input
                 type="radio"
                 name="reviewStar"
@@ -228,7 +228,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
                 id="rate3"
                 {...register('rating')}
               />
-              <label for="rate3">★</label>
+              <label htmlFor="rate3">★</label>
               <input
                 type="radio"
                 name="reviewStar"
@@ -236,7 +236,7 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
                 id="rate4"
                 {...register('rating')}
               />
-              <label for="rate4">★</label>
+              <label htmlFor="rate4">★</label>
               <input
                 type="radio"
                 name="reviewStar"
@@ -244,10 +244,8 @@ function ReviewModal({ reviewModalOpen, setReviewModalOpen, formMethod }) {
                 id="rate5"
                 {...register('rating')}
               />
-              <label for="rate5">★</label>
-              <span style={{ marginRight: '10px' }} class="text-bold">
-                별점을 선택해주세요
-              </span>
+              <label htmlFor="rate5">★</label>
+              <span style={{ marginRight: '10px' }}>별점을 선택해주세요</span>
             </fieldset>
 
             <input className="submit" type="submit" value="리뷰 작성 완료" />
