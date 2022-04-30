@@ -65,7 +65,7 @@ function CarouselCard2() {
             <SlideWrapper slideIndex={slideIndex}>
               {data.map((item, index) => {
                 return (
-                  <Slide>
+                  <Slide key={index}>
                     <CarouselCard
                       key={index}
                       item={item}

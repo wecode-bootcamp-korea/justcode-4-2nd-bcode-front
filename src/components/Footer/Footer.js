@@ -82,7 +82,7 @@ const FooterSection = styled.section`
   height: 450px;
   background-color: #f0f0f0;
   @media (max-width: 820px) {
-    margin: 0 20px;
+    padding: 0 20px;
   }
   .goToChat {
     display: flex;
