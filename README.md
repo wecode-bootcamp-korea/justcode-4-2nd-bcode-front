@@ -3,7 +3,7 @@
 ## ARUITAUM
 
 <br />
-![시연영상 썸네일](https://github.com/wecode-bootcamp-korea/justcode-4-2nd-bcode-front/blob/develop/public/image/movieCapture.png?raw=true)
+<img width="900" alt="시연영상 썸네일" src="https://github.com/wecode-bootcamp-korea/justcode-4-2nd-bcode-front/blob/develop/public/image/movieCapture.png?raw=true">
 🎬 [ARUITAUM 구현영상 보러 가기](https://youtu.be/An_Ny27okSk)
 
 <br/>
