@@ -7,7 +7,6 @@ const Modal = styled.div`
   position: absolute;
   border: 1px solid black;
   width: 340px;
-  height: 200px;
   z-index: 333;
   background-color: white;
   padding: 20px;
@@ -40,11 +39,6 @@ const Modal = styled.div`
     li {
       margin-top: 10px;
     }
-  }
-
-  @media (max-width: 820px) {
-    width: 200px;
-    height: 200px;
   }
 `;
 
