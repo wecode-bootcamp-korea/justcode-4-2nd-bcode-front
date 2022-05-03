@@ -24,7 +24,7 @@
 
 <br/>
 
-<img width="882" alt="DB 스크린샷" src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/26b065b4-3fa7-427c-8f62-f01cd97b5088/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-05-03_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_11.29.27.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220503%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220503T023037Z&X-Amz-Expires=86400&X-Amz-Signature=e413b7eb479cebd520465cf0e4fea68fbf0a059c02ae059afa461f86f83c13e4&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25E1%2584%2589%25E1%2585%25B3%25E1%2584%258F%25E1%2585%25B3%25E1%2584%2585%25E1%2585%25B5%25E1%2586%25AB%25E1%2584%2589%25E1%2585%25A3%25E1%2586%25BA%25202022-05-03%2520%25E1%2584%258B%25E1%2585%25A9%25E1%2584%258C%25E1%2585%25A5%25E1%2586%25AB%252011.29.27.png%22&x-id=GetObject">
+<img width="882" alt="DB 스크린샷" src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/1bbb61ee-b71a-4a77-b8a0-96cb0ba0ea5e/aruitaumDB.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220503%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220503T030203Z&X-Amz-Expires=86400&X-Amz-Signature=566e9a139c17b31f6594e9bba8feafca220d95311bd69b1754e9536ec4fae809&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22aruitaumDB.PNG.png%22&x-id=GetObject">
 
 <br/>
 
