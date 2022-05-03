@@ -1,4 +1,5 @@
 <img width="950" alt="로고" src="https://raw.githubusercontent.com/wecode-bootcamp-korea/justcode-4-2nd-bcode-front/f3c5bb2422af30bc015ad352686fe2983c99f024/public/image/logo.svg">
+
 ## ARUITAUM
 
 <br />
@@ -14,7 +15,7 @@
 - 아름다운 사람들이 가꾸는 아름다운 공간이라는 뜻의 아리따움 클론 프로젝트
 - 개발에 집중하기 위해서 디자인 / 기획 부분을 클론했습니다.
 - 개발은 초기 세팅부터 전부 직접 구현했으며, 아래 데모 영상에서 보이는 부분은 모두 백엔드와 연결하여 실제 사용할 수 있는 서비스 수준으로 개발한 것입니다.
-- 진행 기간 : 2022.04.18 ~ 2022.05.08 (12일)
+- 진행 기간 : 2022.04.18 ~ 2022.04.29 (12일)
 - [Back-end GitHub 바로가기](https://github.com/wecode-bootcamp-korea/justcode-4-2nd-bcode-back)!
 
 <br/>
