@@ -1,0 +1,22 @@
+[
+  {
+    "id": 3,
+    "image_url": "/image/mainCarouselImg/banner-1.jpg"
+  },
+  {
+    "id": 1,
+    "image_url": "/image/mainCarouselImg/banner-2.jpg"
+  },
+  {
+    "id": 2,
+    "image_url": "/image/mainCarouselImg/banner-3.jpg"
+  },
+  {
+    "id": 3,
+    "image_url": "/image/mainCarouselImg/banner-1.jpg"
+  },
+  {
+    "id": 1,
+    "image_url": "/image/mainCarouselImg/banner-2.jpg"
+  }
+]

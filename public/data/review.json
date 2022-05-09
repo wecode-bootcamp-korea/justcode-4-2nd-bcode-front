@@ -1,0 +1,41 @@
+{
+  "message": "SUCCESS",
+  "reviews": [
+    {
+      "id": 1,
+      "users": {
+        "id": 1,
+        "username": "testuser"
+      },
+      "rating": 5,
+      "content": "좋음",
+      "image": "data/uploads/review1/",
+      "created_at": "2022-04-20T14:40:18.808Z",
+      "updated_at": "2022-04-20T14:40:18.808Z"
+    },
+    {
+      "id": 2,
+      "users": {
+        "id": 2,
+        "username": "testuser2"
+      },
+      "rating": 1,
+      "content": "별로에요",
+      "image": null,
+      "created_at": "2022-04-20T14:40:18.808Z",
+      "updated_at": "2022-04-20T14:40:18.808Z"
+    },
+    {
+      "id": 3,
+      "users": {
+        "id": 3,
+        "username": "testuser3"
+      },
+      "rating": 3,
+      "content": "적당함",
+      "image": null,
+      "created_at": "2022-04-20T14:40:18.808Z",
+      "updated_at": "2022-04-20T14:40:18.808Z"
+    }
+  ]
+}
